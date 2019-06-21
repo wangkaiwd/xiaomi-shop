@@ -3,13 +3,17 @@
     小米首页
     <div class="test">
       hi
+      <mi-icon name="alipay"></mi-icon>
     </div>
   </div>
 </template>
 
 <script>
+  import MiIcon from 'components/icon/MiIcon';
+
   export default {
-    name: 'MiHome'
+    name: 'MiHome',
+    components: { MiIcon }
   };
 </script>
 

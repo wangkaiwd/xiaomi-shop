@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import lazyLoading from 'router/lazyLoading';
 
 Vue.use(Router);
 const routes = [
