@@ -10,6 +10,7 @@
 </template>
 
 <script>
+  // todo 尝试消除v-on webstorm报错提示
   export default {
     name: 'MiIcon',
     inheritAttrs: false, // 默认值为true,是否在根节点上显示传入的没有通过props接收的属性
@@ -21,9 +22,9 @@
 
 <style lang="scss" scoped>
   .mi-icon {
-    display: inline-flex;
+    display: inline-block;
     width: 1em; height: 1em;
-    vertical-align: -0.15em;
+    vertical-align: top;
     fill: currentColor;
     overflow: hidden;
   }

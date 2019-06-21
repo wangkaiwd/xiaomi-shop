@@ -92,9 +92,12 @@ img {
   vertical-align: top;
 }
 
-body {
-  line-height: 1.15;
-  font-size: 14px;
+input {
+  outline: none;
+  border: none;
+  &:focus {
+    border: none;
+  }
 }
 
 /* 设置滚动条的样式 */

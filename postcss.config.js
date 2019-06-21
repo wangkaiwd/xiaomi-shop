@@ -10,7 +10,7 @@ module.exports = {
     // document address: https://github.com/evrone/postcss-px-to-viewport/blob/master/README_CN.md
     'postcss-px-to-viewport': {
       'viewportWidth': 375,
-      'unitPrecision': 2,
+      'unitPrecision': 5,
       'selectorBlackList': [
         '.ignore',
         '.hairlines'

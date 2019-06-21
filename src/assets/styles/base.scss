@@ -1,1 +1,13 @@
 @import "reset";
+
+
+body {
+  line-height: 1;
+  font-size: $font-md;
+}
+button {
+  background-color: $white;
+  &:focus {
+    outline: none;
+  }
+}
