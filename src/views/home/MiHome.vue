@@ -13,7 +13,8 @@
 
   export default {
     name: 'MiHome',
-    components: { MiIcon }
+    components: { MiIcon },
+    methods: {}
   };
 </script>
 
