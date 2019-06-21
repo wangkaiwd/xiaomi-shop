@@ -1,6 +1,6 @@
 {
-  "name": "xiaomi-shop",
-  "short_name": "xiaomi-shop",
+  "name": "vue-cli-demo",
+  "short_name": "vue-cli-demo",
   "icons": [
     {
       "src": "./img/icons/android-chrome-192x192.png",

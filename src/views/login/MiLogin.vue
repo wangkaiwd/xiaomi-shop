@@ -17,22 +17,27 @@
             </span>
           </transition>
           <input
+            @change="errorMsg=''"
             class="mi-login-input-first"
             type="text"
+            v-model="loginConfig[loginWay].firstInput.value"
             :placeholder="loginConfig[loginWay].firstInput.placeholder"
           >
         </div>
         <div class="mi-login-input-second-wrapper">
           <input
+            @change="errorMsg=''"
             class="mi-login-input-second"
             :type="loginConfig[loginWay].secondInput.type"
+            v-model="loginConfig[loginWay].secondInput.value"
             :placeholder="loginConfig[loginWay].secondInput.placeholder"
+            :class="{hasError}"
           >
           <span
             v-if="loginWay === 'phone'"
             class="mi-login-get-code"
             @click="sendCode"
-            :class="{isCountDown}"
+            :class="{isCountDown,hasError}"
           >
             {{loginConfig[loginWay].secondInput.codeText}}
           </span>
@@ -41,8 +46,17 @@
           </span>
         </div>
       </div>
+      <div class="mi-login-input-error" v-if="hasError">
+        <mi-icon name="error"></mi-icon>
+        <span class="mi-login-input-error-text">{{errorMsg}}</span>
+      </div>
       <div class="mi-login-buttons">
-        <button class="mi-login-button-instant">{{loginConfig[loginWay].instantButton}}</button>
+        <button
+          class="mi-login-button-instant"
+          @click="onSubmit"
+        >
+          {{loginConfig[loginWay].instantButton}}
+        </button>
         <button class="mi-login-button-switch" @click="switchLoginWay">
           {{loginConfig[loginWay].switchButton}}
         </button>
@@ -74,17 +88,20 @@
 
 <script>
   import MiIcon from 'components/icon/MiIcon';
+  import regExpConfig from 'helpers/regConfig';
 
   const loginConfig = {
     phone: {
       firstInput: {
         hasPrefix: true,
-        placeholder: '手机号码'
+        placeholder: '手机号码',
+        value: '',
       },
       secondInput: {
         type: 'text',
         placeholder: '短信验证码',
         codeText: '获取验证码',
+        value: ''
       },
       instantButton: '立即登录/注册',
       switchButton: '用户名密码登录'
@@ -92,12 +109,14 @@
     password: {
       firstInput: {
         hasPrefix: false,
-        placeholder: '邮箱/手机号码/小米ID'
+        placeholder: '邮箱/手机号码/小米ID',
+        value: ''
       },
       secondInput: {
         placeholder: '密码',
         iconName: 'eye',
-        type: 'password'
+        type: 'password',
+        value: ''
       },
       instantButton: '登录',
       switchButton: '手机短信登录/注册'
@@ -112,10 +131,15 @@
         loginConfig,
         openEye: false,
         timerId: null,
-        isCountDown: false
+        isCountDown: false,
+        errorMsg: ''
       };
     },
-    computed: {},
+    computed: {
+      hasError () {
+        return this.errorMsg !== '';
+      }
+    },
     methods: {
       switchLoginWay () {
         this.loginWay = this.loginWay === 'phone' ? 'password' : 'phone';
@@ -129,6 +153,8 @@
         }
       },
       sendCode () {
+        const error = this.validatePhone(true);
+        if (error) return;
         let time = 60;
         if (this.timerId) {return;}
         this.isCountDown = true;
@@ -143,6 +169,45 @@
             this.isCountDown = false;
           }
         }, 1000);
+      },
+      onSubmit () {
+        let error = false;
+        if (this.loginWay === 'phone') {
+          error = this.validatePhone();
+        } else {
+          error = this.validatePassword();
+        }
+        if (!error) {
+          // 发起ajax请求
+        }
+      },
+      validatePhone (isGetCode) {
+        const { firstInput, secondInput } = this.loginConfig.phone;
+        if (firstInput.value === '' || firstInput.value === undefined) {
+          this.errorMsg = '请输入手机号';
+          return false;
+        }
+        if (!regExpConfig.mobile.test(firstInput.value)) {
+          this.errorMsg = '手机号格式不正确';
+          return false;
+        }
+        if (!isGetCode && (secondInput.value === '' || secondInput.value === undefined)) {
+          this.errorMsg = '请输入短信验证码';
+          return false;
+        }
+        return true;
+      },
+      validatePassword () {
+        const { firstInput, secondInput } = this.loginConfig.password;
+        if (firstInput.value === '' || firstInput.value === undefined) {
+          this.errorMsg = '请输入用户名';
+          return false;
+        }
+        if (secondInput.value === '' || secondInput.value === undefined) {
+          this.errorMsg = '请输入密码';
+          return false;
+        }
+        return true;
       },
       beforeDestroy () {
         if (this.timerId) {
@@ -169,7 +234,20 @@
     &-input {margin-top: $space-sm;padding: 0 $space-lg;}
     &-input-wrapper {display: flex;flex-direction: column;overflow: hidden;}
     &-input-first-wrapper,
-    &-input-second-wrapper {display: flex;align-items: center;border-bottom: 1px solid $border-color;}
+    &-input-second-wrapper {
+      display: flex;align-items: center;border-bottom: 1px solid $border-color;
+      &.hasError {border-color: $main-color;}
+    }
+    &-input-error {
+      display: flex;
+      align-items: center;
+      line-height: 1.15;
+      padding-top: $space-lg;
+      color: $main-color;
+    }
+    &-input-error-text {
+      margin-left: $space-xs;
+    }
     &-phone-prefix {
       font-size: $font-xl;height: 100%;display: flex;align-items: center;
       justify-content: center;color: $light-text;padding-right: $space-md;

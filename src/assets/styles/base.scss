@@ -1,9 +1,13 @@
 @import "reset";
 
+html {
+  line-height: 1.15; /* 1 */
+  -webkit-text-size-adjust: 100%; /* 2 */
+}
 
 body {
-  line-height: 1;
   font-size: $font-md;
+  background-color: $white;
 }
 button {
   background-color: $white;
