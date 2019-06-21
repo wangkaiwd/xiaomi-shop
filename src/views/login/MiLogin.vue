@@ -11,19 +11,41 @@
     <div class="mi-login-input">
       <div class="mi-login-input-wrapper">
         <div class="mi-login-input-first-wrapper">
-          <span class="mi-login-phone-prefix">
-            +86 <mi-icon class="mi-login-phone-prefix-icon" name="right"></mi-icon>
-          </span>
-          <input class="mi-login-input-first" type="text" placeholder="手机号码">
+          <transition name="slide-left" appear>
+            <span class="mi-login-phone-prefix" v-if="loginConfig[loginWay].firstInput.hasPrefix">
+              +86 <mi-icon class="mi-login-phone-prefix-icon" name="right"></mi-icon>
+            </span>
+          </transition>
+          <input
+            class="mi-login-input-first"
+            type="text"
+            :placeholder="loginConfig[loginWay].firstInput.placeholder"
+          >
         </div>
         <div class="mi-login-input-second-wrapper">
-          <input class="mi-login-input-second" type="text" placeholder="短信验证码">
-          <span class="mi-login-get-code">获取验证码</span>
+          <input
+            class="mi-login-input-second"
+            :type="loginConfig[loginWay].secondInput.type"
+            :placeholder="loginConfig[loginWay].secondInput.placeholder"
+          >
+          <span
+            v-if="loginWay === 'phone'"
+            class="mi-login-get-code"
+            @click="sendCode"
+            :class="{isCountDown}"
+          >
+            {{loginConfig[loginWay].secondInput.codeText}}
+          </span>
+          <span v-else class="mi-login-eye" :class="{openEye}" @click="onClickEye">
+            <mi-icon name="eye"></mi-icon>
+          </span>
         </div>
       </div>
       <div class="mi-login-buttons">
-        <button class="mi-login-button-instant">立即登录/注册</button>
-        <button class="mi-login-button-switch">用户名密码登录</button>
+        <button class="mi-login-button-instant">{{loginConfig[loginWay].instantButton}}</button>
+        <button class="mi-login-button-switch" @click="switchLoginWay">
+          {{loginConfig[loginWay].switchButton}}
+        </button>
       </div>
     </div>
     <div class="mi-login-mode">
@@ -53,21 +75,82 @@
 <script>
   import MiIcon from 'components/icon/MiIcon';
 
+  const loginConfig = {
+    phone: {
+      firstInput: {
+        hasPrefix: true,
+        placeholder: '手机号码'
+      },
+      secondInput: {
+        type: 'text',
+        placeholder: '短信验证码',
+        codeText: '获取验证码',
+      },
+      instantButton: '立即登录/注册',
+      switchButton: '用户名密码登录'
+    },
+    password: {
+      firstInput: {
+        hasPrefix: false,
+        placeholder: '邮箱/手机号码/小米ID'
+      },
+      secondInput: {
+        placeholder: '密码',
+        iconName: 'eye',
+        type: 'password'
+      },
+      instantButton: '登录',
+      switchButton: '手机短信登录/注册'
+    }
+  };
   export default {
     name: 'MiLogin',
     components: { MiIcon },
     data () {
       return {
-        loginWay: 'phone'
+        loginWay: 'phone',
+        loginConfig,
+        openEye: false,
+        timerId: null,
+        isCountDown: false
       };
     },
-    computed: {
-      instantText () {
-
+    computed: {},
+    methods: {
+      switchLoginWay () {
+        this.loginWay = this.loginWay === 'phone' ? 'password' : 'phone';
       },
-      switchText () {
-
+      onClickEye () {
+        this.openEye = !this.openEye;
+        if (this.openEye) {
+          this.loginConfig[this.loginWay].secondInput.type = 'text';
+        } else {
+          this.loginConfig[this.loginWay].secondInput.type = 'password';
+        }
       },
+      sendCode () {
+        let time = 60;
+        if (this.timerId) {return;}
+        this.isCountDown = true;
+        this.timerId = setInterval(() => {
+          time--;
+          if (this.loginWay === 'phone') {
+            this.loginConfig.phone.secondInput.codeText = `重新发送(${time})`;
+          }
+          if (time <= 0) {
+            this.loginConfig.phone.secondInput.codeText = '重新发送';
+            this.timerId = null;
+            this.isCountDown = false;
+          }
+        }, 1000);
+      },
+      beforeDestroy () {
+        if (this.timerId) {
+          clearInterval(this.timerId);
+          this.timerId = null;
+          this.isCountDown = false;
+        }
+      }
     }
   };
 </script>
@@ -84,15 +167,41 @@
     &-logo {font-size: 48px;color: $main-color;margin-bottom: $space-lg;}
     &-title {font-size: $font-xl;}
     &-input {margin-top: $space-sm;padding: 0 $space-lg;}
-    &-input-wrapper {display: flex;flex-direction: column;}
+    &-input-wrapper {display: flex;flex-direction: column;overflow: hidden;}
     &-input-first-wrapper,
     &-input-second-wrapper {display: flex;align-items: center;border-bottom: 1px solid $border-color;}
     &-phone-prefix {
       font-size: $font-xl;height: 100%;display: flex;align-items: center;
       justify-content: center;color: $light-text;padding-right: $space-md;
+      /*&.slide-left-enter,
+      &.slide-left-leave-to {
+        transform: translateX(-100%);
+      }
+      &.slide-left-enter-active,
+      &.slide-left-leave-active {
+        transition: all .4s;
+      }*/
+      /*先去掉结束时的动画*/
+      &.slide-left-enter {
+        transform: translateX(-100%);
+      }
+      &.slide-left-enter-active {
+        transition: all .4s;
+      }
     }
     &-phone-prefix-icon {font-size: $font-lg;}
-    &-get-code {color: $blue;}
+    &-get-code {
+      color: $blue;
+      &.isCountDown {
+        color: $light-text;
+      }
+    }
+    &-eye {
+      color: #4d4d4d; font-size: $space-xl;
+      &.openEye {
+        color: $main-color;
+      }
+    }
     &-input-first,
     &-input-second {
       &::placeholder {color: $light-text;}
