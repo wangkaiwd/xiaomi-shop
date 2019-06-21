@@ -18,5 +18,6 @@
 <style lang="scss" scoped>
   #app {
     height: 100vh;
+    overflow: auto;
   }
 </style>
