@@ -8,7 +8,7 @@
         小米账号登录
       </h3>
     </div>
-    <div class="mi-login-input">
+    <!--<div class="mi-login-input">
       <div class="mi-login-input-wrapper">
         <div class="mi-login-input-first-wrapper">
           <transition name="slide-left" appear>
@@ -61,7 +61,17 @@
           {{loginConfig[loginWay].switchButton}}
         </button>
       </div>
-    </div>
+    </div>-->
+    <phone-login
+      v-if="isPhoneLogin"
+      @loginToggle="loginToggle"
+    >
+    </phone-login>
+    <password-login
+      v-else
+      @loginToggle="loginToggle"
+    >
+    </password-login>
     <div class="mi-login-mode">
       <div class="mi-login-mode-text">
         <span class="mi-login-line-left"></span>
@@ -87,8 +97,16 @@
 </template>
 
 <script>
+  /*
+  * 写业务和组件目前的一个心得：
+  *   1. 类名不必要都加前缀，感觉看起来会不是很清晰
+  *   2. 要通过各种并不会犯错的小技巧来进行降低工作量
+  *   3. 其实这里的手机登录和密码登录应该进行拆分组件
+  * */
   import MiIcon from 'components/icon/MiIcon';
+  import PhoneLogin from './PhoneLogin';
   import regExpConfig from 'helpers/regConfig';
+  import PasswordLogin from './PasswordLogin';
 
   const loginConfig = {
     phone: {
@@ -124,97 +142,16 @@
   };
   export default {
     name: 'MiLogin',
-    components: { MiIcon },
+    components: { MiIcon, PhoneLogin, PasswordLogin },
     data () {
       return {
-        loginWay: 'phone',
-        loginConfig,
-        openEye: false,
-        timerId: null,
-        isCountDown: false,
-        errorMsg: ''
+        isPhoneLogin: true
       };
     },
-    computed: {
-      hasError () {
-        return this.errorMsg !== '';
-      }
-    },
+    computed: {},
     methods: {
-      switchLoginWay () {
-        this.loginWay = this.loginWay === 'phone' ? 'password' : 'phone';
-      },
-      onClickEye () {
-        this.openEye = !this.openEye;
-        if (this.openEye) {
-          this.loginConfig[this.loginWay].secondInput.type = 'text';
-        } else {
-          this.loginConfig[this.loginWay].secondInput.type = 'password';
-        }
-      },
-      sendCode () {
-        const error = this.validatePhone(true);
-        if (error) return;
-        let time = 60;
-        if (this.timerId) {return;}
-        this.isCountDown = true;
-        this.timerId = setInterval(() => {
-          time--;
-          if (this.loginWay === 'phone') {
-            this.loginConfig.phone.secondInput.codeText = `重新发送(${time})`;
-          }
-          if (time <= 0) {
-            this.loginConfig.phone.secondInput.codeText = '重新发送';
-            this.timerId = null;
-            this.isCountDown = false;
-          }
-        }, 1000);
-      },
-      onSubmit () {
-        let error = false;
-        if (this.loginWay === 'phone') {
-          error = this.validatePhone();
-        } else {
-          error = this.validatePassword();
-        }
-        if (!error) {
-          // 发起ajax请求
-        }
-      },
-      validatePhone (isGetCode) {
-        const { firstInput, secondInput } = this.loginConfig.phone;
-        if (firstInput.value === '' || firstInput.value === undefined) {
-          this.errorMsg = '请输入手机号';
-          return false;
-        }
-        if (!regExpConfig.mobile.test(firstInput.value)) {
-          this.errorMsg = '手机号格式不正确';
-          return false;
-        }
-        if (!isGetCode && (secondInput.value === '' || secondInput.value === undefined)) {
-          this.errorMsg = '请输入短信验证码';
-          return false;
-        }
-        return true;
-      },
-      validatePassword () {
-        const { firstInput, secondInput } = this.loginConfig.password;
-        if (firstInput.value === '' || firstInput.value === undefined) {
-          this.errorMsg = '请输入用户名';
-          return false;
-        }
-        if (secondInput.value === '' || secondInput.value === undefined) {
-          this.errorMsg = '请输入密码';
-          return false;
-        }
-        return true;
-      },
-      beforeDestroy () {
-        if (this.timerId) {
-          clearInterval(this.timerId);
-          this.timerId = null;
-          this.isCountDown = false;
-        }
+      loginToggle (status) {
+        this.isPhoneLogin = status;
       }
     }
   };
@@ -231,7 +168,7 @@
     }
     &-logo {font-size: 48px;color: $main-color;margin-bottom: $space-lg;}
     &-title {font-size: $font-xl;}
-    &-input {margin-top: $space-sm;padding: 0 $space-lg;}
+    /*&-input {margin-top: $space-sm;padding: 0 $space-lg;}
     &-input-wrapper {display: flex;flex-direction: column;overflow: hidden;}
     &-input-first-wrapper,
     &-input-second-wrapper {
@@ -251,15 +188,15 @@
     &-phone-prefix {
       font-size: $font-xl;height: 100%;display: flex;align-items: center;
       justify-content: center;color: $light-text;padding-right: $space-md;
-      /*&.slide-left-enter,
+      !*&.slide-left-enter,
       &.slide-left-leave-to {
         transform: translateX(-100%);
       }
       &.slide-left-enter-active,
       &.slide-left-leave-active {
         transition: all .4s;
-      }*/
-      /*先去掉结束时的动画*/
+      }*!
+      !*先去掉结束时的动画*!
       &.slide-left-enter {
         transform: translateX(-100%);
       }
@@ -292,7 +229,7 @@
       border: 1px solid $border-color;border-radius: $border-radius-md;
     }
     &-button-instant {background-color: $main-color;color: $white;}
-    &-button-switch {background-color: $white;}
+    &-button-switch {background-color: $white;}*/
     &-mode {padding: 0 $space-lg;}
     &-mode-text {padding-top: 52px;display: flex;align-items: center;}
     &-line-left,
