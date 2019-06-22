@@ -4,74 +4,10 @@
       <div class="mi-login-logo">
         <mi-icon name="logo"></mi-icon>
       </div>
-      <h3 class="mi-login-title">
-        小米账号登录
-      </h3>
+      <h3 class="mi-login-title">小米账号登录</h3>
     </div>
-    <!--<div class="mi-login-input">
-      <div class="mi-login-input-wrapper">
-        <div class="mi-login-input-first-wrapper">
-          <transition name="slide-left" appear>
-            <span class="mi-login-phone-prefix" v-if="loginConfig[loginWay].firstInput.hasPrefix">
-              +86 <mi-icon class="mi-login-phone-prefix-icon" name="right"></mi-icon>
-            </span>
-          </transition>
-          <input
-            @change="errorMsg=''"
-            class="mi-login-input-first"
-            type="text"
-            v-model="loginConfig[loginWay].firstInput.value"
-            :placeholder="loginConfig[loginWay].firstInput.placeholder"
-          >
-        </div>
-        <div class="mi-login-input-second-wrapper">
-          <input
-            @change="errorMsg=''"
-            class="mi-login-input-second"
-            :type="loginConfig[loginWay].secondInput.type"
-            v-model="loginConfig[loginWay].secondInput.value"
-            :placeholder="loginConfig[loginWay].secondInput.placeholder"
-            :class="{hasError}"
-          >
-          <span
-            v-if="loginWay === 'phone'"
-            class="mi-login-get-code"
-            @click="sendCode"
-            :class="{isCountDown,hasError}"
-          >
-            {{loginConfig[loginWay].secondInput.codeText}}
-          </span>
-          <span v-else class="mi-login-eye" :class="{openEye}" @click="onClickEye">
-            <mi-icon name="eye"></mi-icon>
-          </span>
-        </div>
-      </div>
-      <div class="mi-login-input-error" v-if="hasError">
-        <mi-icon name="error"></mi-icon>
-        <span class="mi-login-input-error-text">{{errorMsg}}</span>
-      </div>
-      <div class="mi-login-buttons">
-        <button
-          class="mi-login-button-instant"
-          @click="onSubmit"
-        >
-          {{loginConfig[loginWay].instantButton}}
-        </button>
-        <button class="mi-login-button-switch" @click="switchLoginWay">
-          {{loginConfig[loginWay].switchButton}}
-        </button>
-      </div>
-    </div>-->
-    <phone-login
-      v-if="isPhoneLogin"
-      @loginToggle="loginToggle"
-    >
-    </phone-login>
-    <password-login
-      v-else
-      @loginToggle="loginToggle"
-    >
-    </password-login>
+    <phone-login v-if="isPhoneLogin" @loginToggle="loginToggle"></phone-login>
+    <password-login v-else @loginToggle="loginToggle"></password-login>
     <div class="mi-login-mode">
       <div class="mi-login-mode-text">
         <span class="mi-login-line-left"></span>
@@ -105,41 +41,8 @@
   * */
   import MiIcon from 'components/icon/MiIcon';
   import PhoneLogin from './PhoneLogin';
-  import regExpConfig from 'helpers/regConfig';
   import PasswordLogin from './PasswordLogin';
 
-  const loginConfig = {
-    phone: {
-      firstInput: {
-        hasPrefix: true,
-        placeholder: '手机号码',
-        value: '',
-      },
-      secondInput: {
-        type: 'text',
-        placeholder: '短信验证码',
-        codeText: '获取验证码',
-        value: ''
-      },
-      instantButton: '立即登录/注册',
-      switchButton: '用户名密码登录'
-    },
-    password: {
-      firstInput: {
-        hasPrefix: false,
-        placeholder: '邮箱/手机号码/小米ID',
-        value: ''
-      },
-      secondInput: {
-        placeholder: '密码',
-        iconName: 'eye',
-        type: 'password',
-        value: ''
-      },
-      instantButton: '登录',
-      switchButton: '手机短信登录/注册'
-    }
-  };
   export default {
     name: 'MiLogin',
     components: { MiIcon, PhoneLogin, PasswordLogin },
@@ -168,68 +71,6 @@
     }
     &-logo {font-size: 48px;color: $main-color;margin-bottom: $space-lg;}
     &-title {font-size: $font-xl;}
-    /*&-input {margin-top: $space-sm;padding: 0 $space-lg;}
-    &-input-wrapper {display: flex;flex-direction: column;overflow: hidden;}
-    &-input-first-wrapper,
-    &-input-second-wrapper {
-      display: flex;align-items: center;border-bottom: 1px solid $border-color;
-      &.hasError {border-color: $main-color;}
-    }
-    &-input-error {
-      display: flex;
-      align-items: center;
-      line-height: 1.15;
-      padding-top: $space-lg;
-      color: $main-color;
-    }
-    &-input-error-text {
-      margin-left: $space-xs;
-    }
-    &-phone-prefix {
-      font-size: $font-xl;height: 100%;display: flex;align-items: center;
-      justify-content: center;color: $light-text;padding-right: $space-md;
-      !*&.slide-left-enter,
-      &.slide-left-leave-to {
-        transform: translateX(-100%);
-      }
-      &.slide-left-enter-active,
-      &.slide-left-leave-active {
-        transition: all .4s;
-      }*!
-      !*先去掉结束时的动画*!
-      &.slide-left-enter {
-        transform: translateX(-100%);
-      }
-      &.slide-left-enter-active {
-        transition: all .4s;
-      }
-    }
-    &-phone-prefix-icon {font-size: $font-lg;}
-    &-get-code {
-      color: $blue;
-      &.isCountDown {
-        color: $light-text;
-      }
-    }
-    &-eye {
-      color: #4d4d4d; font-size: $space-xl;
-      &.openEye {
-        color: $main-color;
-      }
-    }
-    &-input-first,
-    &-input-second {
-      &::placeholder {color: $light-text;}
-      flex: 1;padding: $space-lg 0;font-size: $font-xl;
-    }
-    &-buttons {display: flex;flex-direction: column;}
-    &-button-instant,
-    &-button-switch {
-      margin-top: $space-xxl;font-size: $font-xl;width: 100%;padding: $space-sm 0;
-      border: 1px solid $border-color;border-radius: $border-radius-md;
-    }
-    &-button-instant {background-color: $main-color;color: $white;}
-    &-button-switch {background-color: $white;}*/
     &-mode {padding: 0 $space-lg;}
     &-mode-text {padding-top: 52px;display: flex;align-items: center;}
     &-line-left,
