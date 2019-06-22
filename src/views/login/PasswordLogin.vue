@@ -5,10 +5,11 @@
         <input
           type="text"
           placeholder="邮箱/手机号码/小米ID"
+          v-model="username"
         >
       </div>
       <div class="input-wrapper">
-        <input :type="passwordType" placeholder="密码">
+        <input v-model="password" :type="passwordType" placeholder="密码">
         <span class="eye" :class="{isEyeOpen}" @click="onClickEye">
             <mi-icon name="eye"></mi-icon>
           </span>
@@ -34,9 +35,8 @@
     props: {},
     data () {
       return {
-        phoneNo: '',
-        codeNo: '',
-        codeText: '获取验证码',
+        username: '',
+        password: '',
         isEyeOpen: false
       };
     },

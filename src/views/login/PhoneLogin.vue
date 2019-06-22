@@ -10,10 +10,11 @@
         <input
           type="text"
           placeholder="手机号码"
+          v-model="phoneNo"
         >
       </div>
       <div class="input-wrapper">
-        <input type="text" placeholder="手机号码">
+        <input type="text" v-model="codeNo" placeholder="短信验证码">
         <span
           class="get-code"
           @click="getCode"
