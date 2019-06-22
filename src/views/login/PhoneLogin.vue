@@ -14,7 +14,11 @@
       </div>
       <div class="input-wrapper">
         <input type="text" placeholder="手机号码">
-        <span class="get-code">
+        <span
+          class="get-code"
+          @click="getCode"
+          :class="{isCountDown}"
+        >
           {{codeText}}
         </span>
       </div>
@@ -42,12 +46,42 @@
         phoneNo: '',
         codeNo: '',
         codeText: '获取验证码',
+        timerId: null,
+        isCountDown: false,
+        time: 60
       };
     },
     methods: {
       loginToggle () {
         this.$emit('loginToggle', false);
+      },
+      getCode () {
+        // 这里可以通过setTimeout来模拟setInterval
+        if (this.timerId) return;
+        this.time = 60;
+        this.countDownStart();
+        this.timerId = setInterval(() => {
+          if (this.time <= 0) {
+            this.countDownEnd();
+            return;
+          }
+          this.countDownStart();
+        }, 1000);
+      },
+      countDownEnd () {
+        clearInterval(this.timerId);
+        this.timerId = null;
+        this.codeText = '重新发送';
+        this.isCountDown = false;
+      },
+      countDownStart () {
+        this.time--;
+        this.codeText = `重新发送(${this.time})`;
+        this.isCountDown = true;
       }
+    },
+    beforeDestroy () {
+      this.countDownEnd();
     }
   };
 </script>
@@ -73,6 +107,9 @@
     }
     .prefix-icon {font-size: $font-lg;}
     .get-code {
+      display: inline-block;
+      vertical-align: top;
+      padding: $space-xs;
       color: $blue;
       &.isCountDown {color: $light-text;}
     }

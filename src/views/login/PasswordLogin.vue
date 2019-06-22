@@ -8,8 +8,8 @@
         >
       </div>
       <div class="input-wrapper">
-        <input type="text" placeholder="密码">
-        <span class="eye">
+        <input :type="passwordType" placeholder="密码">
+        <span class="eye" :class="{isEyeOpen}" @click="onClickEye">
             <mi-icon name="eye"></mi-icon>
           </span>
       </div>
@@ -36,12 +36,21 @@
       return {
         phoneNo: '',
         codeNo: '',
-        codeText: '获取验证码'
+        codeText: '获取验证码',
+        isEyeOpen: false
       };
+    },
+    computed: {
+      passwordType () {
+        return this.isEyeOpen ? 'text' : 'password';
+      }
     },
     methods: {
       loginToggle () {
         this.$emit('loginToggle', true);
+      },
+      onClickEye () {
+        this.isEyeOpen = !this.isEyeOpen;
       }
     }
   };
@@ -84,8 +93,10 @@
       margin-left: $space-xs;
     }
     .eye {
+      display: inline-block;padding: $space-xs;
+      vertical-align: top;
       color: #4d4d4d; font-size: $space-xl;
-      &.openEye {
+      &.isEyeOpen {
         color: $main-color;
       }
     }
