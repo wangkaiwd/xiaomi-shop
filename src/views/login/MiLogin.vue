@@ -20,7 +20,7 @@
         <mi-icon name="wechat"></mi-icon>
       </div>
     </div>
-    <div class="mi-login-footer">
+    <div class="mi-login-footer" ref="footer" :style="{top: `${footerTop}px`}">
       <ul class="mi-login-footer-text">
         <li>简体</li>
         <li>繁体</li>
@@ -48,13 +48,22 @@
     components: { MiIcon, PhoneLogin, PasswordLogin },
     data () {
       return {
-        isPhoneLogin: true
+        isPhoneLogin: true,
+        footerTop: 0
       };
     },
     computed: {},
+    mounted () {
+      this.calculateTop();
+    },
     methods: {
       loginToggle (status) {
         this.isPhoneLogin = status;
+      },
+      calculateTop () {
+        const htmlHeight = document.documentElement.offsetHeight;
+        const footerHeight = this.$refs.footer.offsetHeight;
+        this.footerTop = htmlHeight - footerHeight;
       }
     }
   };
@@ -62,6 +71,9 @@
 
 <style lang="scss" scoped>
   .mi-login {
+    height: 100%;
+    overflow: auto;
+    position: relative;
     &-header {
       display: flex;
       flex-direction: column;
@@ -84,8 +96,9 @@
       svg:last-child {color: #00be00;}
     }
     &-footer {
-      position: fixed;bottom: 0;left: 0;
+      position: absolute;bottom: 0;left: 0;
       width: 100%;height: 90px;
+      background-color: $white;
     }
     &-footer-text {
       display: flex;justify-content: center;

@@ -5,6 +5,11 @@ import router from './router/router';
 import store from './store/store';
 import 'styles/base.scss';
 
+if (process.env.NODE_ENV === 'development') {
+  const VConsole = require('vconsole');
+  const vConsole = new VConsole();
+}
+
 Vue.config.productionTip = false;
 
 new Vue({

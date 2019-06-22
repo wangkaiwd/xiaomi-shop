@@ -48,7 +48,7 @@
         codeText: '获取验证码',
         timerId: null,
         isCountDown: false,
-        time: 60
+        time: 60,
       };
     },
     methods: {
