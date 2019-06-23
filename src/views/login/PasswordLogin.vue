@@ -1,26 +1,32 @@
 <template>
   <div class="password-login">
     <div class="input">
-      <div class="input-wrapper">
+      <div class="input-wrapper" :class="{hasError:errors.username}">
         <input
+          @input="errors={}"
           type="text"
           placeholder="邮箱/手机号码/小米ID"
-          v-model="username"
+          v-model="formValues.username"
         >
       </div>
-      <div class="input-wrapper">
-        <input v-model="password" :type="passwordType" placeholder="密码">
+      <div class="input-wrapper" :class="{hasError:errors.password}">
+        <input
+          @input="errors={}"
+          v-model="formValues.password"
+          :type="passwordType"
+          placeholder="密码"
+        >
         <span class="eye" :class="{isEyeOpen}" @click="onClickEye">
             <mi-icon name="eye"></mi-icon>
           </span>
       </div>
     </div>
-    <div class="input-error">
+    <div class="input-error" v-if="hasError">
       <mi-icon name="error"></mi-icon>
-      <span class="error-text">输入错误</span>
+      <span class="error-text">{{errorMsg}}</span>
     </div>
     <div class="buttons">
-      <button>登录</button>
+      <button @click="onSubmit">登录</button>
       <button @click="loginToggle">手机短信登录/注册</button>
     </div>
   </div>
@@ -28,21 +34,40 @@
 
 <script>
   import MiIcon from 'components/icon/MiIcon';
+  import validator, { noError } from 'helpers/validator';
 
+  const constraints = [
+    { key: 'username', required: true, message: '请输入账号' },
+    { key: 'password', required: true, message: '请输入密码' }
+  ];
   export default {
     name: 'PhoneLogin',
     components: { MiIcon },
     props: {},
     data () {
       return {
+        formValues: {
+          username: '',
+          password: '',
+        },
         username: '',
         password: '',
-        isEyeOpen: false
+        isEyeOpen: false,
+        errors: {}
       };
     },
     computed: {
       passwordType () {
         return this.isEyeOpen ? 'text' : 'password';
+      },
+      hasError () {
+        return this.errorMsg !== '';
+      },
+      errorMsg () {
+        if (Object.values(this.errors)[0]) {
+          return Object.values(this.errors)[0][0];
+        }
+        return '';
       }
     },
     methods: {
@@ -51,6 +76,11 @@
       },
       onClickEye () {
         this.isEyeOpen = !this.isEyeOpen;
+      },
+      onSubmit () {
+        this.errors = validator(this.formValues, constraints, true);
+        console.log('errors', this.errors);
+        if (!noError(this.errors)) {return;}
       }
     }
   };
