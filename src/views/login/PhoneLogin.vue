@@ -1,20 +1,26 @@
 <template>
   <div class="phone-login">
     <div class="input">
-      <div class="input-wrapper">
+      <div class="input-wrapper" :class="{hasError:errors.phoneNo}">
         <transition name="slide-left" appear>
           <span class="phone-prefix">
             +86 <mi-icon class="prefix-icon" name="right"></mi-icon>
           </span>
         </transition>
         <input
+          @input="errors={}"
           type="text"
           placeholder="手机号码"
-          v-model="phoneNo"
+          v-model="formValues.phoneNo"
         >
       </div>
-      <div class="input-wrapper">
-        <input type="text" v-model="codeNo" placeholder="短信验证码">
+      <div class="input-wrapper" :class="{hasError:errors.codeNo}">
+        <input
+          type="text"
+          @input="errors={}"
+          v-model="formValues.codeNo"
+          placeholder="短信验证码"
+        >
         <span
           class="get-code"
           @click="getCode"
@@ -24,9 +30,9 @@
         </span>
       </div>
     </div>
-    <div class="input-error">
+    <div class="input-error" v-if="hasError">
       <mi-icon name="error"></mi-icon>
-      <span class="error-text">输入错误</span>
+      <span class="error-text">{{errorMsg}}</span>
     </div>
     <div class="buttons">
       <button @click="onSubmit">立即登录/注册</button>
@@ -37,27 +43,50 @@
 
 <script>
   import MiIcon from 'components/icon/MiIcon';
-  import validator from 'helpers/validator';
+  import validator, { noError } from 'helpers/validator';
 
+  const constraints = [
+    { key: 'phoneNo', required: true, message: '请输入手机号' },
+    { key: 'phoneNo', pattern: 'phone', message: '手机号格式不正确' },
+    { key: 'codeNo', required: true, message: '请输入验证码' },
+  ];
   export default {
     name: 'PhoneLogin',
     components: { MiIcon },
     props: {},
     data () {
       return {
-        phoneNo: '',
-        codeNo: '',
+        formValues: {
+          phoneNo: '',
+          codeNo: '',
+        },
         codeText: '获取验证码',
         timerId: null,
         isCountDown: false,
         time: 60,
+        errors: {}
       };
+    },
+    computed: {
+      hasError () {
+        return this.errorMsg !== '';
+      },
+      errorMsg () {
+        if (Object.values(this.errors)[0]) {
+          return Object.values(this.errors)[0][0];
+        }
+        return '';
+      }
     },
     methods: {
       loginToggle () {
         this.$emit('loginToggle', false);
       },
+
       getCode () {
+        const codeConstraints = constraints.filter(constraint => constraint.key === 'phoneNo');
+        this.errors = validator(this.formValues, codeConstraints, true);
+        if (!noError(this.errors)) {return;}
         // 这里可以通过setTimeout来模拟setInterval
         if (this.timerId) return;
         this.time = 60;
@@ -82,20 +111,10 @@
         this.isCountDown = true;
       },
       onSubmit () {
-        console.log('submit');
-        const constraints = {
-          phoneNo: [
-            { required: true, message: '请输入手机号' },
-            { pattern: 'phone', message: '手机号格式不正确' }
-          ],
-          codeNo: [
-            { required: true, message: '请输入验证码' },
-            { minLength: 4, message: '最小长度为4' }
-          ]
-        };
-        const formValues = { phoneNo: this.phoneNo, codeNo: this.codeNo };
-        const errors = validator(formValues, constraints);
-        console.log('errors', errors);
+        this.errors = validator(this.formValues, constraints, true);
+        if (!noError(this.errors)) {
+          return;
+        }
       }
     },
     beforeDestroy () {
