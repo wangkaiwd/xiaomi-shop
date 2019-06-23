@@ -1,4 +1,5 @@
 const path = require('path');
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const resolve = dir => path.resolve(__dirname, `src/${dir}/`);
 const argv = process.argv;
 const mode = argv[argv.indexOf('--project-mode') + 1];
@@ -68,5 +69,10 @@ module.exports = {
     iconPaths: {
       favicon32: 'favicon.ico'
     }
+  },
+  configureWebpack: {
+    plugins: [
+      new HardSourceWebpackPlugin()
+    ]
   }
 };

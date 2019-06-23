@@ -21,6 +21,7 @@
     "@vue/cli-service": "^3.8.0",
     "cssnano": "^4.1.10",
     "cssnano-preset-advanced": "^4.0.7",
+    "hard-source-webpack-plugin": "^0.13.1",
     "postcss-aspect-ratio-mini": "^1.0.1",
     "postcss-cssnext": "^3.1.0",
     "postcss-import": "^12.0.1",

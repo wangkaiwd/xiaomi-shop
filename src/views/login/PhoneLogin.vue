@@ -29,7 +29,7 @@
       <span class="error-text">输入错误</span>
     </div>
     <div class="buttons">
-      <button>立即登录/注册</button>
+      <button @click="onSubmit">立即登录/注册</button>
       <button @click="loginToggle">用户名密码登录</button>
     </div>
   </div>
@@ -37,6 +37,7 @@
 
 <script>
   import MiIcon from 'components/icon/MiIcon';
+  import validator from 'helpers/validator';
 
   export default {
     name: 'PhoneLogin',
@@ -79,6 +80,22 @@
         this.time--;
         this.codeText = `重新发送(${this.time})`;
         this.isCountDown = true;
+      },
+      onSubmit () {
+        console.log('submit');
+        const constraints = {
+          phoneNo: [
+            { required: true, message: '请输入手机号' },
+            { pattern: 'phone', message: '手机号格式不正确' }
+          ],
+          codeNo: [
+            { required: true, message: '请输入验证码' },
+            { minLength: 4, message: '最小长度为4' }
+          ]
+        };
+        const formValues = { phoneNo: this.phoneNo, codeNo: this.codeNo };
+        const errors = validator(formValues, constraints);
+        console.log('errors', errors);
       }
     },
     beforeDestroy () {
