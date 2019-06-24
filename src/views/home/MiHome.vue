@@ -27,7 +27,7 @@
       </transition>
     </mui-content>
     <mui-footer class="mi-footer">
-      <footer-nav></footer-nav>
+      <footer-nav :footer-nav="footerNav"></footer-nav>
     </mui-footer>
   </mui-layout>
 </template>
@@ -36,18 +36,15 @@
   import MiIcon from 'components/icon/MiIcon';
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
+  import { footerNav, headerNav } from '@/config/navConfig';
 
-  const headerNav = [
-    { key: '/index', title: '手机', exact: true },
-    { key: '/index/computer', title: '电脑' },
-    { key: '/index/video', title: '电视' },
-  ];
   export default {
     name: 'MiHome',
     components: { MiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside, FooterNav },
     data () {
       return {
         headerNav,
+        footerNav,
         reverse: false
       };
     },
