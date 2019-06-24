@@ -7,7 +7,7 @@
           <mi-icon class="search-icon" name="search"></mi-icon>
           <span>搜索商品名称</span>
         </div>
-        <mi-icon class="mine-icon" name="mine"></mi-icon>
+        <mi-icon class="mine-icon" @click="router.push('/login')" name="mine"></mi-icon>
       </div>
       <div class="header-nav">
         <ul class="nav-wrapper">
