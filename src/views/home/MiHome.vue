@@ -7,7 +7,7 @@
       <div class="header-nav">
         <ul class="nav-wrapper">
           <li
-            v-for="nav in navConfig"
+            v-for="nav in headerNav"
             :key="nav.key"
           >
             <router-link
@@ -26,32 +26,35 @@
         <router-view class="category"></router-view>
       </transition>
     </mui-content>
-    <mui-footer class="mi-footer">footer</mui-footer>
+    <mui-footer class="mi-footer">
+      <footer-nav></footer-nav>
+    </mui-footer>
   </mui-layout>
 </template>
 
 <script>
   import MiIcon from 'components/icon/MiIcon';
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
+  import FooterNav from 'components/footerNav/FooterNav';
 
-  const navConfig = [
+  const headerNav = [
     { key: '/index', title: '手机', exact: true },
     { key: '/index/computer', title: '电脑' },
     { key: '/index/video', title: '电视' },
   ];
   export default {
     name: 'MiHome',
-    components: { MiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside },
+    components: { MiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside, FooterNav },
     data () {
       return {
-        navConfig,
+        headerNav,
         reverse: false
       };
     },
     watch: {
       '$route.path' (newVal, oldVal) {
-        const prevIndex = navConfig.findIndex(nav => nav.key === oldVal);
-        const nextIndex = navConfig.findIndex(nav => nav.key === newVal);
+        const prevIndex = headerNav.findIndex(nav => nav.key === oldVal);
+        const nextIndex = headerNav.findIndex(nav => nav.key === newVal);
         this.reverse = nextIndex < prevIndex;
       }
     },

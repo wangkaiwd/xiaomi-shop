@@ -33,5 +33,9 @@
     &.mui-layout-hasAside {
       flex-direction: row;
     }
+    & & {
+      height: auto;
+      flex: 1;
+    }
   }
 </style>
