@@ -34,7 +34,9 @@
       </div>
     </mui-header>
     <mui-content class="mi-content">
-      <router-view class="category"></router-view>
+      <transition name="slide">
+        <router-view class="category"></router-view>
+      </transition>
     </mui-content>
     <mui-footer class="mi-footer">footer</mui-footer>
   </mui-layout>
@@ -74,7 +76,27 @@
         }
       }
     }
+    .category {
+      height: 100%;
+      &.slide-enter {
+        transform: translateX(-100%);
+      }
+      &.slide-enter-active,
+      &.slide-leave-active {
+        transition: all 250ms;
+      }
+      &.slide-leave-active {
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+      }
+      &.slide-leave-to {
+        transform: translateX(100%);
+      }
+    }
     .mui-content {
+      position: relative;
       overflow: auto;
     }
   }

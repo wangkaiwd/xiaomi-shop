@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mi-video">
     video
   </div>
 </template>
@@ -10,6 +10,8 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .mi-video {
+    background-color: green;
+  }
 </style>

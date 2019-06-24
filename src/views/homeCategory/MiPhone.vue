@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mi-phone">
     phone
   </div>
 </template>
@@ -10,6 +10,8 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .mi-phone {
+    background-color: yellow;
+  }
 </style>
