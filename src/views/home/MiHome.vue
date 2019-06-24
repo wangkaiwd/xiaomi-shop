@@ -6,35 +6,23 @@
       </div>
       <div class="header-nav">
         <ul class="nav-wrapper">
-          <li>
-            <router-link to="/index" :exact="true" active-class="active">手机</router-link>
-          </li>
-          <li>
-            <router-link to="/index/computer" active-class="active">电脑</router-link>
-          </li>
-          <li>
-            <router-link to="/index/video" active-class="active">电视</router-link>
-          </li>
-          <li>
-            <router-link to="/login" active-class="active">内容4</router-link>
-          </li>
-          <li>
-            <router-link to="/login" active-class="active">内容5</router-link>
-          </li>
-          <li>
-            <router-link to="/login" active-class="active">内容6</router-link>
-          </li>
-          <li>
-            <router-link to="/login" active-class="active">内容7</router-link>
-          </li>
-          <li>
-            <router-link to="/login" active-class="active">内容8</router-link>
+          <li
+            v-for="nav in navConfig"
+            :key="nav.key"
+          >
+            <router-link
+              :to="nav.key"
+              :exact="nav.exact"
+              :active-class="nav.activeClass || 'active'"
+            >
+              {{nav.title}}
+            </router-link>
           </li>
         </ul>
       </div>
     </mui-header>
     <mui-content class="mi-content">
-      <transition name="slide">
+      <transition :name="reverse?'slide-reverse':'slide'">
         <router-view class="category"></router-view>
       </transition>
     </mui-content>
@@ -46,9 +34,27 @@
   import MiIcon from 'components/icon/MiIcon';
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
 
+  const navConfig = [
+    { key: '/index', title: '手机', exact: true },
+    { key: '/index/computer', title: '电脑' },
+    { key: '/index/video', title: '电视' },
+  ];
   export default {
     name: 'MiHome',
     components: { MiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside },
+    data () {
+      return {
+        navConfig,
+        reverse: false
+      };
+    },
+    watch: {
+      '$route.path' (newVal, oldVal) {
+        const prevIndex = navConfig.findIndex(nav => nav.key === oldVal);
+        const nextIndex = navConfig.findIndex(nav => nav.key === newVal);
+        this.reverse = nextIndex < prevIndex;
+      }
+    },
     methods: {}
   };
 </script>
@@ -79,6 +85,9 @@
     .category {
       height: 100%;
       &.slide-enter {
+        transform: translateX(100%);
+      }
+      &.slide-reverse-enter {
         transform: translateX(-100%);
       }
       &.slide-enter-active,
@@ -91,13 +100,27 @@
         width: 100%;
         position: absolute;
       }
+      &.slide-reverse-enter-active,
+      &.slide-reverse-leave-active {
+        transition: all 250ms;
+      }
+      &.slide-reverse-leave-active {
+        top: 0;
+        left: 0;
+        width: 100%;
+        position: absolute;
+      }
       &.slide-leave-to {
+        transform: translateX(-100%);
+      }
+      &.slide-reverse-leave-to {
         transform: translateX(100%);
       }
     }
     .mui-content {
       position: relative;
-      overflow: auto;
+      overflow-y: auto;
+      overflow-x: hidden;
     }
   }
 </style>
