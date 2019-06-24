@@ -54,10 +54,11 @@
 <style lang="scss" scoped>
   .mi-home {
     .nav-wrapper {
-      background-color: pink;
+      background-color: $bgc-color;
       display: flex;
       width: 100%;
       overflow: auto;
+      color: $text-color;
       li {
         padding: 0 13px;flex-shrink: 0;
         a {
@@ -65,9 +66,10 @@
           display: inline-block;
           vertical-align: top;
           line-height: 30px;
+          &.active {color: $main-color;}
           &.active:after {
             position: absolute;content: '';bottom: 0;left: 0;
-            width: 100%;height: 2px;background: blue;
+            width: 100%;height: 2px;background: $main-color;
           }
         }
       }
