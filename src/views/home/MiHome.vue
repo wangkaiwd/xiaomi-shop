@@ -2,7 +2,12 @@
   <mui-layout class="mi-home">
     <mui-header class="mi-header">
       <div class="header-top">
-        search
+        <mi-icon class="logo-icon" name="logo"></mi-icon>
+        <div class="search">
+          <mi-icon class="search-icon" name="search"></mi-icon>
+          <span>搜索商品名称</span>
+        </div>
+        <mi-icon class="mine-icon" name="mine"></mi-icon>
       </div>
       <div class="header-nav">
         <ul class="nav-wrapper">
@@ -61,6 +66,35 @@
 
 <style lang="scss" scoped>
   .mi-home {
+    .header-top {
+      height: 42px;
+      display: flex;
+      align-items: center;
+      background-color: $bgc-color;
+      color: $text-color;
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2);
+      .logo-icon,
+      .mine-icon {
+        margin: 0 $space-md;
+        font-size: 24px;
+      }
+      .logo-icon {
+        color: $main-color;
+      }
+    }
+    .search {
+      display: flex;
+      align-items: center;
+      flex: 1;
+      padding: 8px $space-sm;
+      background-color: $white;
+      font-size: $font-lg;
+      border-radius: $border-radius-sm;
+      color: rgba(0, 0, 0, .3);
+    }
+    .search-icon {
+      margin-right: $space-sm;
+    }
     .nav-wrapper {
       background-color: $bgc-color;
       display: flex;

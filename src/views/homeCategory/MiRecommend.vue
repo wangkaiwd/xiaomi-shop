@@ -12,6 +12,6 @@
 
 <style lang="scss" scoped>
   .mi-recommend {
-    background-color: orange;
+    background-color: skyblue;
   }
 </style>
