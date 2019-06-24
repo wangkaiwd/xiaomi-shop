@@ -10,6 +10,8 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .mui-footer {
+    min-height: 40px;
+  }
 </style>

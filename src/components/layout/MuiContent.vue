@@ -1,5 +1,7 @@
 <template>
-
+  <div class="mui-content">
+    <slot></slot>
+  </div>
 </template>
 
 <script>
@@ -8,6 +10,8 @@
   };
 </script>
 
-<style scoped>
-
+<style lang="scss" scoped>
+  .mui-content {
+    flex: 1;
+  }
 </style>
