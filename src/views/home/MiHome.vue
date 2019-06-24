@@ -1,10 +1,6 @@
 <template>
   <div class="mi-home">
-    小米首页
-    <div class="test">
-      hi
-      <mi-icon name="alipay"></mi-icon>
-    </div>
+
   </div>
 </template>
 
@@ -19,9 +15,14 @@
 </script>
 
 <style lang="scss" scoped>
-  .test {
-    height: 40px;
-    width: 40px;
-    background-color: pink;
+  .mi-home {
+    display: flex;
+    flex-direction: column;
+    .footer-menu {
+      height: 52px;
+    }
+    .main-wrapper {
+      flex: 1;
+    }
   }
 </style>
