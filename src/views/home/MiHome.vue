@@ -44,6 +44,7 @@
               <li
                 v-for="nav in headerNav"
                 :key="nav.key"
+                @click="onClickTag(nav.path)"
               >
                 <span :class="activeTab(nav.path)">{{nav.title}}</span>
               </li>
@@ -55,6 +56,9 @@
     <mui-content class="mi-content">
       <transition :name="reverse?'slide-reverse':'slide'">
         <router-view class="category"></router-view>
+      </transition>
+      <transition name="fade">
+        <div class="mask" @click="visible=false" v-if="visible"></div>
       </transition>
     </mui-content>
     <mui-footer class="mi-footer">
@@ -95,6 +99,10 @@
           return 'active';
         }
         return '';
+      },
+      onClickTag (path) {
+        this.visible = false;
+        this.$router.push(path);
       }
     }
   };
@@ -196,6 +204,22 @@
         transition: max-height 250ms;
       }
     }
+    .mask {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background-color: rgba(0, 0, 0, .2);
+      bottom: 0;
+      &.fade-enter,
+      &.fade-leave-to {
+        opacity: 0;
+      }
+      &.fade-enter-active,
+      &.fade-leave-active {
+        transition: opacity 250ms;
+      }
+    }
     .search {
       display: flex;
       align-items: center;
@@ -271,7 +295,7 @@
         transform: translateX(100%);
       }
     }
-    .mui-content {
+    .mi-content {
       position: relative;
       overflow-y: auto;
       overflow-x: hidden;
