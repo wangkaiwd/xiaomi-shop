@@ -115,6 +115,7 @@
         if (!noError(this.errors)) {
           return;
         }
+        this.$router.push('/index');
       }
     },
     beforeDestroy () {

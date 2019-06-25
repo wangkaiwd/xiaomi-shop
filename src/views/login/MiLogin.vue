@@ -74,6 +74,7 @@
     height: 100%;
     overflow: auto;
     position: relative;
+    background-color: $white;
     &-header {
       display: flex;
       flex-direction: column;

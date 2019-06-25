@@ -79,8 +79,8 @@
       },
       onSubmit () {
         this.errors = validator(this.formValues, constraints, true);
-        console.log('errors', this.errors);
         if (!noError(this.errors)) {return;}
+        this.$router.push('/index');
       }
     }
   };
