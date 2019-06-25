@@ -7,7 +7,7 @@
           <mi-icon class="search-icon" name="search"></mi-icon>
           <span>搜索商品名称</span>
         </div>
-        <mi-icon class="mine-icon" @click="router.push('/login')" name="mine"></mi-icon>
+        <mi-icon class="mine-icon" @click="$router.push('/login')" name="mine"></mi-icon>
       </div>
       <div class="header-nav">
         <ul class="nav-wrapper">
@@ -24,22 +24,32 @@
             </router-link>
           </li>
         </ul>
-        <div class="dialog">
-          <div class="all">全部</div>
-          <ul>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-            <li><span>tag1</span></li>
-          </ul>
-          <!--<span class="dialog-icon">
-            <mi-icon name="down"></mi-icon>
-          </span>-->
+        <div class="dialog-icon-placeholder">
+          <span
+            class="dialog-icon"
+            @click="visible = !visible"
+          >
+            <mi-icon
+              class="down-icon"
+              :class="{'dialog-show':visible}"
+              name="down"
+            >
+            </mi-icon>
+          </span>
         </div>
+        <transition name="height">
+          <div class="dialog" v-if="visible">
+            <div class="all">全部</div>
+            <ul>
+              <li
+                v-for="nav in headerNav"
+                :key="nav.key"
+              >
+                <span :class="activeTab(nav.path)">{{nav.title}}</span>
+              </li>
+            </ul>
+          </div>
+        </transition>
       </div>
     </mui-header>
     <mui-content class="mi-content">
@@ -67,7 +77,7 @@
         headerNav,
         footerNav,
         reverse: false,
-
+        visible: false
       };
     },
     watch: {
@@ -79,7 +89,14 @@
     },
     mounted () {
     },
-    methods: {}
+    methods: {
+      activeTab (path) {
+        if (path === this.$route.fullPath) {
+          return 'active';
+        }
+        return '';
+      }
+    }
   };
 </script>
 
@@ -102,16 +119,50 @@
         color: $main-color;
       }
     }
+    .dialog-icon-placeholder {
+      width: 34px;
+      height: 28px;
+      background-color: $bgc-color;
+    }
+    .dialog-icon {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: 34px;
+      height: 28px;
+      line-height: 28px;
+      text-align: center;
+      background-color: $bgc-color;
+      color: $light-text;
+      z-index: 2;
+      .down-icon {
+        transition: transform 250ms;
+      }
+      .dialog-show {
+        transform: rotate(180deg);
+      }
+    }
     .dialog {
       position: absolute;top: 0;left: 0;width: 100%;
       background-color: $bgc-color;
       z-index: 1;
       padding: 0 $space-md;
+      max-height: 200px;
+      overflow: hidden;
+      .all {
+        margin-top: $space-md;
+        font-size: $font-lg;
+        color: #3c3c3c;
+      }
       ul {
         display: flex;
         flex-wrap: wrap;
         margin-bottom: $space-md;
         margin-left: -$space-md;
+        overflow: auto;
       }
       li {
         margin-top: $space-md;
@@ -120,6 +171,7 @@
         text-align: center;
         padding-left: $space-md;
         span {
+          font-size: $font-md;
           display: inline-block;
           vertical-align: top;
           line-height: 28px;
@@ -129,6 +181,19 @@
           width: 100%;
           color: $text-color;
         }
+        span.active {
+          background-color: #fde0d5;
+          border-color: #ff6700;
+          color: #ff6700;
+        }
+      }
+      &.height-enter,
+      &.height-leave-to {
+        max-height: 0;
+      }
+      &.height-enter-active,
+      &.height-leave-active {
+        transition: max-height 250ms;
       }
     }
     .search {
@@ -148,20 +213,11 @@
       position: relative;
       display: flex;
     }
-    .dialog-icon {
-      height: 100%;
-      font-size: $font-sm;
-      color: $light-text;
-      display: flex;
-      align-items: center;
-      padding: 0 $space-sm;
-    }
     .nav-wrapper {
       display: flex;
       flex: 1;
       overflow: auto;
       color: $text-color;
-      margin-right: $space-sm;
       li {
         padding: 0 13px;flex-shrink: 0;
         a {
