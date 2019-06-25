@@ -16,7 +16,7 @@
             :key="nav.key"
           >
             <router-link
-              :to="nav.key"
+              :to="nav.path"
               :exact="nav.exact"
               :active-class="nav.activeClass || 'active'"
             >
@@ -24,6 +24,9 @@
             </router-link>
           </li>
         </ul>
+        <div class="dialog">
+          <mi-icon name="down"></mi-icon>
+        </div>
       </div>
     </mui-header>
     <mui-content class="mi-content">
@@ -50,15 +53,18 @@
       return {
         headerNav,
         footerNav,
-        reverse: false
+        reverse: false,
+
       };
     },
     watch: {
-      '$route.path' (newVal, oldVal) {
-        const prevIndex = headerNav.findIndex(nav => nav.key === oldVal);
-        const nextIndex = headerNav.findIndex(nav => nav.key === newVal);
+      '$route.fullPath' (newVal, oldVal) {
+        const prevIndex = headerNav.findIndex(nav => nav.path === oldVal);
+        const nextIndex = headerNav.findIndex(nav => nav.path === newVal);
         this.reverse = nextIndex < prevIndex;
       }
+    },
+    mounted () {
     },
     methods: {}
   };
@@ -95,10 +101,21 @@
     .search-icon {
       margin-right: $space-sm;
     }
+    .header-nav {
+      display: flex;
+    }
+    .dialog {
+      background-color: $bgc-color;
+      font-size: $font-sm;
+      color: $light-text;
+      display: flex;
+      align-items: center;
+      padding: 0 $space-md;
+    }
     .nav-wrapper {
       background-color: $bgc-color;
       display: flex;
-      width: 100%;
+      flex: 1;
       overflow: auto;
       color: $text-color;
       li {
@@ -109,19 +126,22 @@
           vertical-align: top;
           line-height: 30px;
           &.active {color: $main-color;}
-          &.active:after {
-            position: absolute;content: '';bottom: 0;left: 0;
+          &.active::after {
+            content: '';
+            position: absolute;bottom: 0;left: 0;
             width: 100%;height: 2px;background: $main-color;
           }
         }
       }
     }
     .category {
-      height: 100%;
+      min-height: 100%;
       &.slide-enter {
         transform: translateX(100%);
+        opacity: 0;
       }
       &.slide-reverse-enter {
+        opacity: 0;
         transform: translateX(-100%);
       }
       &.slide-enter-active,
