@@ -55,7 +55,7 @@
     </mui-header>
     <mui-content class="mi-content">
       <transition :name="reverse?'slide-reverse':'slide'">
-        <router-view class="category"></router-view>
+        <router-view class="category" :style="randomColor()"></router-view>
       </transition>
       <transition name="fade">
         <div class="mask" @click="visible=false" v-if="visible"></div>
@@ -100,11 +100,21 @@
         }
         return '';
       },
+      randomColor () {
+        const getRandomRgb = () => {
+          return Array.apply(null, { length: 3 }).map(item => Math.random() * 255).join(',');
+        };
+        return {
+          backgroundColor: `rgba(${getRandomRgb()})`,
+          color: '#fff',
+          fontSize: '20px'
+        };
+      },
       onClickTag (path) {
         this.visible = false;
         this.$router.push(path);
       }
-    }
+    },
   };
 </script>
 
@@ -137,7 +147,7 @@
         content: '';
         top: 0;
         right: 100%;
-        width: 40px;
+        width: 20px;
         height: 100%;
         background: linear-gradient(to right, rgba(255, 255, 255, 0.002), $bgc-color);
       }
