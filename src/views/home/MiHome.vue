@@ -128,9 +128,19 @@
       }
     }
     .dialog-icon-placeholder {
+      position: relative;
       width: 34px;
       height: 28px;
       background-color: $bgc-color;
+      &::before {
+        position: absolute;
+        content: '';
+        top: 0;
+        right: 100%;
+        width: 40px;
+        height: 100%;
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.002), $bgc-color);
+      }
     }
     .dialog-icon {
       display: flex;
@@ -240,8 +250,8 @@
     .nav-wrapper {
       display: flex;
       flex: 1;
-      overflow: auto;
       color: $text-color;
+      overflow: auto;
       li {
         padding: 0 13px;flex-shrink: 0;
         a {
