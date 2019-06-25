@@ -25,7 +25,20 @@
           </li>
         </ul>
         <div class="dialog">
-          <mi-icon name="down"></mi-icon>
+          <div class="all">全部</div>
+          <ul>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+            <li><span>tag1</span></li>
+          </ul>
+          <!--<span class="dialog-icon">
+            <mi-icon name="down"></mi-icon>
+          </span>-->
         </div>
       </div>
     </mui-header>
@@ -72,13 +85,14 @@
 
 <style lang="scss" scoped>
   .mi-home {
+    .mi-header {
+      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2);
+    }
     .header-top {
       height: 42px;
       display: flex;
       align-items: center;
-      background-color: $bgc-color;
       color: $text-color;
-      box-shadow: 0 2px 4px -1px rgba(0, 0, 0, .2);
       .logo-icon,
       .mine-icon {
         margin: 0 $space-md;
@@ -86,6 +100,35 @@
       }
       .logo-icon {
         color: $main-color;
+      }
+    }
+    .dialog {
+      position: absolute;top: 0;left: 0;width: 100%;
+      background-color: $bgc-color;
+      z-index: 1;
+      padding: 0 $space-md;
+      ul {
+        display: flex;
+        flex-wrap: wrap;
+        margin-bottom: $space-md;
+        margin-left: -$space-md;
+      }
+      li {
+        margin-top: $space-md;
+        flex-shrink: 0;
+        width: 25%;
+        text-align: center;
+        padding-left: $space-md;
+        span {
+          display: inline-block;
+          vertical-align: top;
+          line-height: 28px;
+          border: 1px solid $border-color;
+          background-color: $white;
+          border-radius: $border-radius-sm;
+          width: 100%;
+          color: $text-color;
+        }
       }
     }
     .search {
@@ -102,22 +145,23 @@
       margin-right: $space-sm;
     }
     .header-nav {
+      position: relative;
       display: flex;
     }
-    .dialog {
-      background-color: $bgc-color;
+    .dialog-icon {
+      height: 100%;
       font-size: $font-sm;
       color: $light-text;
       display: flex;
       align-items: center;
-      padding: 0 $space-md;
+      padding: 0 $space-sm;
     }
     .nav-wrapper {
-      background-color: $bgc-color;
       display: flex;
       flex: 1;
       overflow: auto;
       color: $text-color;
+      margin-right: $space-sm;
       li {
         padding: 0 13px;flex-shrink: 0;
         a {

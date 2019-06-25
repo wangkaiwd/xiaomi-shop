@@ -8,6 +8,7 @@ html {
 body {
   font-size: $font-md;
   background-color: $white;
+  background-color: $bgc-color;
 }
 button {
   background-color: $white;
@@ -22,3 +23,28 @@ a {
     outline: none;
   }
 }
+
+// 滚动条样式处理
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 12px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 0;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 0, 0, .5);
+  border-radius: 10px;
+  border: 2px solid #fff;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 10px;
+  background-color: #fff;
+}
+
