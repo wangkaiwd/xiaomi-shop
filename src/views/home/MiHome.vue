@@ -118,9 +118,15 @@
       },
       onClickHeaderNav (i) {
         const element = this.$refs.navWrapper;
+        let sum = 0;
+        for (let j = 0; j < element.children.length; j++) {
+          sum += element.children[j].offsetWidth;
+        }
+        const maxScrollLeft = sum - element.offsetWidth;
         const { left, width } = element.children[i].getBoundingClientRect();
-        const to = left - element.offsetWidth / 2 + width / 2 + element.scrollLeft;
-        scrollTo(to, element);
+        const distance = left - element.offsetWidth / 2 + width / 2;
+        const to = distance + element.scrollLeft;
+        scrollTo(to, element, maxScrollLeft, element.children[i]);
       }
     },
   };

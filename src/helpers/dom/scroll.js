@@ -2,23 +2,41 @@
  * Created by wangkai on 2019-06-26
  */
 
-const scrollTo = (to, element) => {
-  if (element.timerId) {
-    clearInterval(element.timerId);
-    element.timerId = null;
-    return;
+/**
+ * @description 元素滚动动画
+ * @param {number} to
+ * @param {Vue | Element | Vue[] | Element[]|HTMLElement} element
+ * @param {number} maxScrollLeft
+ * @param {Object} operator
+ */
+const scrollTo = (to, element, maxScrollLeft, operator) => {
+  const clearTimer = () => {
+    clearInterval(operator.timerId);
+    operator.timerId = null;
+  };
+  if (operator.timerId) {
+    return clearTimer();
   }
-  element.timerId = null;
+  operator.timerId = null;
   const rate = 10;
-  element.timerId = setInterval(() => {
+  const { left, width } = operator.getBoundingClientRect();
+  const distance = left - element.offsetWidth / 2 + width / 2;
+  operator.timerId = setInterval(() => {
     const perTick = (to - element.scrollLeft) / rate;
-    // 正向考虑，perTick > 0
-    if (Math.abs(to - element.scrollLeft) < rate) {
-      clearInterval(element.timerId);
-      element.timerId = null;
+    if (distance <= 0 && element.scrollLeft <= 0) {
+      element.scrollLeft = 0;
+      return clearTimer();
+    }
+    if (distance >= 0 && element.scrollLeft >= maxScrollLeft) {
+      element.scrollLeft = maxScrollLeft;
+      return clearTimer();
+    }
+    if (Math.abs(perTick) < rate) {
+      clearTimer();
       element.scrollLeft = to;
       return;
     }
+    console.log('perTick', perTick);
     element.scrollLeft = element.scrollLeft + perTick;
   }, 10);
 };
