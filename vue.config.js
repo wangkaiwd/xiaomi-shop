@@ -1,4 +1,5 @@
 const path = require('path');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const resolve = dir => path.resolve(__dirname, `src/${dir}/`);
 const argv = process.argv;
@@ -66,13 +67,31 @@ module.exports = {
     }
   },
   pwa: {
+    // 设置favicon图标路径
     iconPaths: {
-      favicon32: 'favicon.ico'
+      favicon32: 'favicon.ico',
+      favicon16: 'favicon.ico',
+      appleTouchIcon: 'favicon.ico',
+      maskIcon: 'favicon.ico',
+      msTileImage: 'favicon.ico'
     }
   },
   configureWebpack: {
     plugins: [
       new HardSourceWebpackPlugin()
-    ]
+    ],
+    optimization: { // 移除打包后的console.log
+      minimizer: [
+        new UglifyJsPlugin({
+          uglifyOptions: {
+            compress: {
+              warnings: false,
+              drop_console: isPro, //console
+              drop_debugger: false // pure_funcs: ['console.log']移除
+            }
+          }
+        })
+      ]
+    },
   }
 };
