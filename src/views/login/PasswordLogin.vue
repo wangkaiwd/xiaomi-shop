@@ -17,12 +17,12 @@
           placeholder="密码"
         >
         <span class="eye" :class="{isEyeOpen}" @click="onClickEye">
-            <mi-icon name="eye"></mi-icon>
+            <mui-icon name="eye"></mui-icon>
           </span>
       </div>
     </div>
     <div class="input-error" v-if="hasError">
-      <mi-icon name="error"></mi-icon>
+      <mui-icon name="error"></mui-icon>
       <span class="error-text">{{errorMsg}}</span>
     </div>
     <div class="buttons">
@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import MiIcon from 'components/icon/MiIcon';
+  import MuiIcon from 'components/icon/MuiIcon';
   import validator, { noError } from 'helpers/validator';
 
   const constraints = [
@@ -42,7 +42,7 @@
   ];
   export default {
     name: 'PhoneLogin',
-    components: { MiIcon },
+    components: { MuiIcon },
     props: {},
     data () {
       return {

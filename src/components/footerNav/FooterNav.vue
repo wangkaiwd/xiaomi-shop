@@ -14,7 +14,7 @@
 </template>
 
 <script>
-  import MiIcon from 'components/icon/MiIcon';
+  import MiIcon from 'components/icon/MuiIcon';
 
   const footerNav = [
     { key: '/index', title: '首页', icon: 'home' },

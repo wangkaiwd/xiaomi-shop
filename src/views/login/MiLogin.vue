@@ -2,7 +2,7 @@
   <div class="mi-login">
     <div class="mi-login-header">
       <div class="mi-login-logo">
-        <mi-icon name="logo"></mi-icon>
+        <mui-icon name="logo"></mui-icon>
       </div>
       <h3 class="mi-login-title">小米账号登录</h3>
     </div>
@@ -15,9 +15,9 @@
         <span class="mi-login-line-right"></span>
       </div>
       <div class="mi-login-mode-icons">
-        <mi-icon name="sina"></mi-icon>
-        <mi-icon name="alipay"></mi-icon>
-        <mi-icon name="wechat"></mi-icon>
+        <mui-icon name="sina"></mui-icon>
+        <mui-icon name="alipay"></mui-icon>
+        <mui-icon name="wechat"></mui-icon>
       </div>
     </div>
     <div class="mi-login-footer" ref="footer" :style="{top: `${footerTop}px`}">
@@ -39,13 +39,13 @@
   *   2. 要通过各种并不会犯错的小技巧来进行降低工作量
   *   3. 其实这里的手机登录和密码登录应该进行拆分组件
   * */
-  import MiIcon from 'components/icon/MiIcon';
+  import MuiIcon from 'components/icon/MuiIcon';
   import PhoneLogin from './PhoneLogin';
   import PasswordLogin from './PasswordLogin';
 
   export default {
     name: 'MiLogin',
-    components: { MiIcon, PhoneLogin, PasswordLogin },
+    components: { MuiIcon, PhoneLogin, PasswordLogin },
     data () {
       return {
         isPhoneLogin: true,

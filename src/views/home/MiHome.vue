@@ -2,12 +2,12 @@
   <mui-layout class="mi-home">
     <mui-header class="mi-header">
       <div class="header-top">
-        <mi-icon class="logo-icon" name="logo"></mi-icon>
+        <mui-icon class="logo-icon" name="logo"></mui-icon>
         <div class="search">
-          <mi-icon class="search-icon" name="search"></mi-icon>
+          <mui-icon class="search-icon" name="search"></mui-icon>
           <span>搜索商品名称</span>
         </div>
-        <mi-icon class="mine-icon" @click="$router.push('/login')" name="mine"></mi-icon>
+        <mui-icon class="mine-icon" @click="$router.push('/login')" name="mine"></mui-icon>
       </div>
       <div class="header-nav">
         <ul class="nav-wrapper" ref="navWrapper">
@@ -30,12 +30,12 @@
             class="dialog-icon"
             @click="visible = !visible"
           >
-            <mi-icon
+            <mui-icon
               class="down-icon"
               :class="{'dialog-show':visible}"
               name="down"
             >
-            </mi-icon>
+            </mui-icon>
           </span>
         </div>
         <transition name="height">
@@ -69,7 +69,7 @@
 </template>
 
 <script>
-  import MiIcon from 'components/icon/MiIcon';
+  import MuiIcon from 'components/icon/MuiIcon';
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav, headerNav } from '@/config/navConfig';
@@ -77,7 +77,7 @@
 
   export default {
     name: 'MiHome',
-    components: { MiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside, FooterNav },
+    components: { MuiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside, FooterNav },
     data () {
       return {
         headerNav,

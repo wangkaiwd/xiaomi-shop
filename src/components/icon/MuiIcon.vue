@@ -1,6 +1,6 @@
 <template>
   <svg
-    class="mi-icon"
+    class="mui-icon"
     aria-hidden="true"
     v-bind="$attrs"
     v-on="$listeners"
@@ -21,7 +21,7 @@
 </script>
 
 <style lang="scss" scoped>
-  .mi-icon {
+  .mui-icon {
     display: inline-block;
     width: 1em; height: 1em;
     vertical-align: top;

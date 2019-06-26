@@ -4,7 +4,7 @@
       <div class="input-wrapper" :class="{hasError:errors.phoneNo}">
         <transition name="slide-left" appear>
           <span class="phone-prefix">
-            +86 <mi-icon class="prefix-icon" name="right"></mi-icon>
+            +86 <mui-icon class="prefix-icon" name="right"></mui-icon>
           </span>
         </transition>
         <input
@@ -31,7 +31,7 @@
       </div>
     </div>
     <div class="input-error" v-if="hasError">
-      <mi-icon name="error"></mi-icon>
+      <mui-icon name="error"></mui-icon>
       <span class="error-text">{{errorMsg}}</span>
     </div>
     <div class="buttons">
@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import MiIcon from 'components/icon/MiIcon';
+  import MuiIcon from 'components/icon/MuiIcon';
   import validator, { noError } from 'helpers/validator';
 
   const constraints = [
@@ -52,7 +52,7 @@
   ];
   export default {
     name: 'PhoneLogin',
-    components: { MiIcon },
+    components: { MuiIcon },
     props: {},
     data () {
       return {
