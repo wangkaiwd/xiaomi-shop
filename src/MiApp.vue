@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <top-header :visible.sync="visible"></top-header>
+    <top-header></top-header>
     <router-view/>
   </div>
 </template>
@@ -14,9 +14,7 @@
     name: 'MiApp',
     components: { MiHome, MiIcon, TopHeader },
     data () {
-      return {
-        visible: false
-      };
+      return {};
     },
   };
 </script>

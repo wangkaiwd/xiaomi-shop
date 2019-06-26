@@ -7,14 +7,14 @@
       active-class="active"
       :to="nav.key"
     >
-      <mi-icon class="footer-nav-icon" :name="nav.icon"></mi-icon>
+      <mui-icon class="footer-nav-icon" :name="nav.icon"></mui-icon>
       <span>{{nav.title}}</span>
     </router-link>
   </ul>
 </template>
 
 <script>
-  import MiIcon from 'components/icon/MuiIcon';
+  import MuiIcon from 'components/icon/MuiIcon';
 
   const footerNav = [
     { key: '/index', title: '首页', icon: 'home' },
@@ -24,7 +24,7 @@
   ];
   export default {
     name: 'FooterNav',
-    components: { MiIcon },
+    components: { MuiIcon },
     props: {
       footerNav: {
         type: Array,

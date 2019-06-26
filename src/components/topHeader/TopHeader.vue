@@ -1,11 +1,11 @@
 <template>
   <transition name="slide">
     <div class="mui-top-header" v-if="visible">
-      <span>
+      <span @click="$router.go(-1)">
         <mi-icon name="left"></mi-icon>
       </span>
-      <h3 class="mui-top-header-text">分类</h3>
-      <span>
+      <h3 class="mui-top-header-text">{{title}}</h3>
+      <span @click="$router.push('/search')">
         <mi-icon name="search"></mi-icon>
       </span>
     </div>
@@ -18,21 +18,30 @@
   export default {
     name: 'TopHeader',
     components: { MiIcon },
-    props: {
-      visible: {
-        type: Boolean,
-        default: false
+    props: {},
+    data () {
+      return {};
+    },
+    computed: {
+      visible () {
+        return this.$route.meta.showHeader;
+      },
+      title () {
+        console.log('route', this.$route.meta);
+        return this.$route.meta.title;
       }
     },
-    watch: {
-      '$route.path' (newVal) {
-        if (newVal === '/category' || newVal === '/shopCart') {
-          this.$emit('update:visible', true);
-        } else {
-          this.$emit('update:visible', false);
-        }
-      }
-    },
+    // watch: {
+    //   '$route.path' (newVal) {
+    //     if (newVal === '/category' || newVal === '/shopCart') {
+    //       this.$emit('update:visible', true);
+    //       this.title = this.$route.meta.title;
+    //     } else {
+    //       this.$emit('update:visible', false);
+    //       this.title = '';
+    //     }
+    //   }
+    // },
     mounted () {
       document.body.appendChild(this.$el);
     },

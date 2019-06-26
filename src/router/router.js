@@ -61,12 +61,26 @@ export const routes = [
   {
     name: 'category',
     path: '/category',
-    component: () => import(/* webpackChunkName: "category"*/'views/category/MiCategory')
+    component: () => import(/* webpackChunkName: "category"*/'views/category/MiCategory'),
+    meta: { title: '分类', showHeader: true }
+  },
+  {
+    name: 'shopCart',
+    path: '/shopCart',
+    component: () => import(/* webpackChunkName: "category"*/'views/shopCart/MiShopCart'),
+    meta: { title: '购物车', showHeader: true }
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import(/* webpackChunkName: "category"*/'views/search/MiSearch'),
+    meta: { title: '搜索' }
   },
   {
     name: 'login',
     path: '/login',
-    component: () => import(/* webpackChunkName: "login"*/'views/login/MiLogin')
+    component: () => import(/* webpackChunkName: "login"*/'views/login/MiLogin'),
+    meta: { title: '登录' }
   },
 ];
 export default new Router({ routes });
