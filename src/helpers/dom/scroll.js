@@ -36,7 +36,7 @@ const scrollToMiddle = (element, operateChild) => {
       element.scrollLeft = maxScrollLeft;
       return clearTimer();
     }
-    if (Math.abs(perTick) < rate) {
+    if (Math.abs(perTick) < 1) {
       clearTimer();
       element.scrollLeft = to;
       return;
