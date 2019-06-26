@@ -43,9 +43,9 @@
             <div class="all">全部</div>
             <ul>
               <li
-                v-for="nav in headerNav"
+                v-for="(nav,i) in headerNav"
                 :key="nav.key"
-                @click="onClickTag(nav.path)"
+                @click="onClickTag(nav.path,i)"
               >
                 <span :class="activeTab(nav.path)">{{nav.title}}</span>
               </li>
@@ -112,9 +112,10 @@
           fontSize: '20px'
         };
       },
-      onClickTag (path) {
+      onClickTag (path, i) {
         this.visible = false;
         this.$router.push(path);
+        this.onClickHeaderNav(i);
       },
       onClickHeaderNav (i) {
         const element = this.$refs.navWrapper;

@@ -77,15 +77,14 @@ module.exports = {
     }
   },
   configureWebpack: {
-    plugins: [
-      new HardSourceWebpackPlugin()
-    ],
     optimization: { // 移除打包后的console.log
       minimizer: [
         new UglifyJsPlugin({
           uglifyOptions: {
+            // @see https://github.com/mishoo/UglifyJS2/issues/3394
+            // https://stackoverflow.com/questions/55989693/warnings-is-not-a-supported-option-error-from-uglifyjs/55998303#55998303
+            warnings: false,
             compress: {
-              warnings: false,
               drop_console: isPro, //console
               drop_debugger: false // pure_funcs: ['console.log']移除
             }
@@ -93,5 +92,8 @@ module.exports = {
         })
       ]
     },
+    plugins: [
+      new HardSourceWebpackPlugin()
+    ]
   }
 };
