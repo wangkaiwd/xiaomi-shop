@@ -73,7 +73,7 @@
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav, headerNav } from '@/config/navConfig';
-  import scrollTo from 'helpers/dom/scroll';
+  import scrollToMiddle from 'helpers/dom/scroll';
 
   export default {
     name: 'MiHome',
@@ -118,15 +118,7 @@
       },
       onClickHeaderNav (i) {
         const element = this.$refs.navWrapper;
-        let sum = 0;
-        for (let j = 0; j < element.children.length; j++) {
-          sum += element.children[j].offsetWidth;
-        }
-        const maxScrollLeft = sum - element.offsetWidth;
-        const { left, width } = element.children[i].getBoundingClientRect();
-        const distance = left - element.offsetWidth / 2 + width / 2;
-        const to = distance + element.scrollLeft;
-        scrollTo(to, element, maxScrollLeft, element.children[i]);
+        scrollToMiddle(element, element.children[i]);
       }
     },
   };
