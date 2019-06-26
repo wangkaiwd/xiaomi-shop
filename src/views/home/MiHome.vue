@@ -10,15 +10,16 @@
         <mi-icon class="mine-icon" @click="$router.push('/login')" name="mine"></mi-icon>
       </div>
       <div class="header-nav">
-        <ul class="nav-wrapper">
+        <ul class="nav-wrapper" ref="navWrapper">
           <li
-            v-for="nav in headerNav"
+            v-for="(nav,i) in headerNav"
             :key="nav.key"
           >
             <router-link
               :to="nav.path"
               :exact="nav.exact"
               :active-class="nav.activeClass || 'active'"
+              @click.native="onClickHeaderNav(i)"
             >
               {{nav.title}}
             </router-link>
@@ -72,6 +73,7 @@
   import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav, headerNav } from '@/config/navConfig';
+  import scrollTo from 'helpers/dom/scroll';
 
   export default {
     name: 'MiHome',
@@ -113,6 +115,12 @@
       onClickTag (path) {
         this.visible = false;
         this.$router.push(path);
+      },
+      onClickHeaderNav (i) {
+        const element = this.$refs.navWrapper;
+        const { left, width } = element.children[i].getBoundingClientRect();
+        const to = left - element.offsetWidth / 2 + width / 2 + element.scrollLeft;
+        scrollTo(to, element);
       }
     },
   };

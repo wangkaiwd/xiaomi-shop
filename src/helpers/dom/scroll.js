@@ -20,5 +20,7 @@ const scrollTo = (to, element) => {
       return;
     }
     element.scrollLeft = element.scrollLeft + perTick;
-  }, 20);
+  }, 10);
 };
+
+export default scrollTo;
