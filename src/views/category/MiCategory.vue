@@ -15,7 +15,12 @@
         </ul>
       </mui-aside>
       <mui-content class="content">
-        content
+        <category-item
+          v-for="item in categoryItem"
+          :key="item.id"
+          :subItems="item.subItem"
+        >
+        </category-item>
       </mui-content>
     </mui-layout>
     <mui-footer>
@@ -30,10 +35,11 @@
   import { footerNav } from '@/config/navConfig';
   import MuiIcon from 'components/icon/MuiIcon';
   import { fetchCategoryList } from 'api/index';
+  import CategoryItem from './CategoryItem';
 
   export default {
     name: 'MiCategory',
-    components: { MuiLayout, MuiFooter, MuiContent, MuiAside, MuiHeader, FooterNav, MuiIcon },
+    components: { MuiLayout, MuiFooter, MuiContent, MuiAside, MuiHeader, FooterNav, MuiIcon, CategoryItem },
     data () {
       return {
         footerNav,

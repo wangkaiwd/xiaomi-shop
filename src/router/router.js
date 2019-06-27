@@ -77,6 +77,12 @@ export const routes = [
     meta: { title: '搜索' }
   },
   {
+    name: 'mine',
+    path: '/mine',
+    component: () => import(/* webpackChunkName: "category"*/'views/mine/MiMine'),
+    meta: { title: '我的' }
+  },
+  {
     name: 'login',
     path: '/login',
     component: () => import(/* webpackChunkName: "login"*/'views/login/MiLogin'),
