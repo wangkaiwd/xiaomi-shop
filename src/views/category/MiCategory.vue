@@ -10,7 +10,7 @@
             :key="item.id"
             :class="{active: activeIndex === i}"
           >
-            {{item.title}}
+            <span>{{item.title}}</span>
           </li>
         </ul>
       </mui-aside>
@@ -86,14 +86,20 @@
       border-right: 1px solid #efefef;
       ul li {
         line-height: 45px;
-        width: 70px;
+        min-width: 78px;
         text-align: center;
         font-size: $font-md;
+        padding: 0 $space-sm;
         color: $dark-text;
-        transition: font-size 250ms;
+        span {
+          display: inline-block;
+          transition: transform 250ms;
+        }
         &.active {
           color: $main-color;
-          font-size: $space-lg;
+          span {
+            transform: scale(1.2);
+          }
         }
       }
     }
