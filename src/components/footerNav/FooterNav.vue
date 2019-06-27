@@ -40,6 +40,7 @@
     height: 52px;
     color: $text-color;
     box-shadow: 0 3px 14px 2px rgba(0, 0, 0, .12);
+    background-color: $white;
     li {
       height: 100%;
       display: flex;

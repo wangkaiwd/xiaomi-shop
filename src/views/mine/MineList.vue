@@ -1,6 +1,6 @@
 <template>
   <div class="mine-list">
-    <div class="list-item" v-for="(item,i) in list" :key="item.id">
+    <div class="list-item" v-for="(item,i) in list" :key="i">
       <span class="list-icon" :style="{color: item.iconColor}">
         <mui-icon :name="item.iconName"></mui-icon>
       </span>

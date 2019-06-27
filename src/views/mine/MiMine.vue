@@ -1,8 +1,8 @@
 <template>
   <mui-layout class="mi-mine">
-    <mui-content>
+    <mui-content class="mi-mine-content">
       <header>
-        <img src="~img/avatar.png" alt="">
+        <img src="https://m.mi.com/static/img/avatar.76a75b8f17.png" alt="">
         <div class="login-and-register">
           <span>登录</span>/<span>注册</span>
         </div>
@@ -52,30 +52,31 @@
   import MuiIcon from 'components/icon/MuiIcon';
   import MineList from 'views/mine/MineList';
 
+  const payList = [
+    {
+      id: 1,
+      list: [
+        { id: 1, iconName: 'vip', iconColor: '#fdbf2d', title: '会员中心' },
+        { id: 2, iconName: 'pay', iconColor: '#50bce0', title: '我的优惠' },
+      ]
+    },
+    {
+      id: 2,
+      list: [
+        { id: 1, iconName: 'service', iconColor: '#fa6b5e', title: '服务中心' },
+        { id: 2, iconName: 'home', iconColor: '#fe8b43', title: '小米之家' },
+      ]
+    },
+    { id: 3, list: [{ id: 3, iconName: 'f', iconColor: '#ffb300', title: 'F码通道' }] },
+    { id: 4, list: [{ id: 4, iconName: 'settings', iconColor: '#818c99', title: '设置' }] },
+  ];
   export default {
     name: 'MiMine',
     components: { MuiLayout, MuiHeader, MuiFooter, MuiContent, FooterNav, MuiIcon, MineList },
     data () {
       return {
         footerNav,
-        payList: [
-          {
-            id: 1,
-            list: [
-              { id: 1, iconName: 'vip', iconColor: '#fdbf2d', title: '会员中心' },
-              { id: 2, iconName: 'pay', iconColor: '#50bce0', title: '我的优惠' },
-            ]
-          },
-          {
-            id: 2,
-            list: [
-              { id: 1, iconName: 'service', iconColor: '#fa6b5e', title: '服务中心' },
-              { id: 2, iconName: 'home', iconColor: '#fe8b43', title: '小米之家' },
-            ]
-          },
-          { id: 3, list: [{ id: 3, iconName: 'f', iconColor: '#ffb300', title: 'F码通道' }] },
-          { id: 4, list: [{ id: 4, iconName: 'settings', iconColor: '#818c99', title: '设置' }] },
-        ]
+        payList
       };
     }
   };
@@ -83,17 +84,24 @@
 
 <style lang="scss" scoped>
   .mi-mine {
+    &-content {
+      overflow: auto;
+    }
     header {
       display: flex;
       align-items: center;
       padding: $space-lg;
+      background-image: url("https://m.mi.com/static/img/bg.63c8e19851.png");
+      background-color: #f37d0f;
+      background-repeat: no-repeat;
+      background-size: 100% 100%;
       img {
         width: 44px;
         height: 44px;
         border-radius: 50%;
         margin-right: $space-sm;
+        border: 3px solid hsla(0, 0%, 100%, .4);
       }
-      background-color: $main-color;
       color: $white;
       font-size: $font-sm;
     }
