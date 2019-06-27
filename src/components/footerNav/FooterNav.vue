@@ -48,9 +48,7 @@
       flex: 1;
       align-items: center;
       justify-content: center;
-      &.active {
-        color: $main-color;
-      }
+      &.active {color: $main-color;}
     }
     &-icon {
       font-size: 20px;

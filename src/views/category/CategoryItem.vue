@@ -4,8 +4,8 @@
       <div class="title">
         <span>{{subItem.categoryName}}</span>
       </div>
-      <div class="item-content" v-for="list in list.list" :key="list.id">
-        <div class="item">
+      <div class="item-content">
+        <div class="item" v-for="list in subItem.list" :key="subItem.id">
           <img :src="list.imgUrl"
                alt="">
           <span class="item-text">
@@ -57,8 +57,10 @@
     .item-content {
       display: flex;
       flex-wrap: wrap;
+      margin-top: -$space-md;
     }
     .item {
+      margin-top: $space-md;
       display: flex;
       flex-direction: column;
       width: 33%;
