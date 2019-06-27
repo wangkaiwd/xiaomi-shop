@@ -32,6 +32,12 @@
           </ul>
         </div>
       </div>
+      <mine-list
+        v-for="lists in payList"
+        :key="lists.id"
+        :list="lists.list"
+      >
+      </mine-list>
     </mui-content>
     <mui-footer>
       <footer-nav :footer-nav="footerNav"></footer-nav>
@@ -44,13 +50,32 @@
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav } from '@/config/navConfig';
   import MuiIcon from 'components/icon/MuiIcon';
-  // [id:1,list:[{iconName:'',iconColor:'',title: '',link:''}]]
+  import MineList from 'views/mine/MineList';
+
   export default {
     name: 'MiMine',
-    components: { MuiLayout, MuiHeader, MuiFooter, MuiContent, FooterNav, MuiIcon },
+    components: { MuiLayout, MuiHeader, MuiFooter, MuiContent, FooterNav, MuiIcon, MineList },
     data () {
       return {
-        footerNav
+        footerNav,
+        payList: [
+          {
+            id: 1,
+            list: [
+              { id: 1, iconName: 'vip', iconColor: '#fdbf2d', title: '会员中心' },
+              { id: 2, iconName: 'pay', iconColor: '#50bce0', title: '我的优惠' },
+            ]
+          },
+          {
+            id: 2,
+            list: [
+              { id: 1, iconName: 'service', iconColor: '#fa6b5e', title: '服务中心' },
+              { id: 2, iconName: 'home', iconColor: '#fe8b43', title: '小米之家' },
+            ]
+          },
+          { id: 3, list: [{ id: 3, iconName: 'f', iconColor: '#ffb300', title: 'F码通道' }] },
+          { id: 4, list: [{ id: 4, iconName: 'settings', iconColor: '#818c99', title: '设置' }] },
+        ]
       };
     }
   };
