@@ -27,7 +27,6 @@
         return this.$route.meta.showHeader;
       },
       title () {
-        console.log('route', this.$route.meta);
         return this.$route.meta.title;
       }
     },
