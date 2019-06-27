@@ -31,7 +31,7 @@
 
 <style lang="scss" scoped>
   .category-item {
-    padding: $space-md;
+    padding: 0 $space-md;
     .title {
       margin-top: $space-sm;
       height: 66px;

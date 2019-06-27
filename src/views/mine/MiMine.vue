@@ -116,7 +116,7 @@
         height: 42px;
         border-bottom: 1px solid $border-color;
       }
-      .all-order-text {font-size: $space-xs;}
+      .all-order-text {font-size: $font-sm;}
       .right-icon {
         color: $text-color;
       }

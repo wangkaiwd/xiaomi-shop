@@ -106,6 +106,7 @@
     .content {
       height: 100%;
       overflow: auto;
+      margin-top: -$space-sm;
     }
   }
 
