@@ -4,6 +4,7 @@
     <mui-content>
       <transition-group name="list" tag="div">
         <mi-cart-item
+          class="list-item"
           v-for="goods in shopData"
           :shopData.sync="shopData"
           :key="goods.id"
@@ -42,15 +43,19 @@
 </script>
 
 <style lang="scss" scoped>
-  .list-enter-active, .list-leave-active {
-    transition: all 1s;
+  .mi-shop-cart {
+    .list-item {
+      overflow: hidden;
+      transition: all 0.8s;
+    }
+    .list-enter, .list-leave-to {
+      opacity: 0;
+      transform: translateX(80%);
+    }
+    .list-leave-active {
+      position: absolute;
+    }
   }
-  .list-enter, .list-leave-to {
-    opacity: 0;
-    transform: translateX(30px);
-  }
-  .list-move {
-    transition: all 1s;
-  }
+
 
 </style>
