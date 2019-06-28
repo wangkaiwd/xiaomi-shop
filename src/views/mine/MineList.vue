@@ -15,11 +15,9 @@
 </template>
 
 <script>
-  import MuiIcon from 'components/icon/MuiIcon';
 
   export default {
     name: 'MineList',
-    components: { MuiIcon },
     props: {
       list: {
         type: Array,

@@ -69,15 +69,13 @@
 </template>
 
 <script>
-  import MuiIcon from 'components/icon/MuiIcon';
-  import { MuiLayout, MuiAside, MuiContent, MuiFooter, MuiHeader } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav, headerNav } from '@/config/navConfig';
   import scrollToMiddle from 'helpers/dom/scroll';
 
   export default {
     name: 'MiHome',
-    components: { MuiIcon, MuiLayout, MuiContent, MuiHeader, MuiFooter, MuiAside, FooterNav },
+    components: { FooterNav },
     data () {
       return {
         headerNav,

@@ -9,11 +9,8 @@
 </template>
 
 <script>
-  import { MuiLayout, MuiHeader, MuiFooter, MuiContent } from 'components/layout';
-
   export default {
     name: 'MuiSkeleton',
-    components: { MuiLayout, MuiHeader, MuiFooter, MuiContent },
     mounted () {
     }
   };

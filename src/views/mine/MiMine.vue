@@ -46,10 +46,8 @@
 </template>
 
 <script>
-  import { MuiLayout, MuiHeader, MuiFooter, MuiContent } from 'components/layout';
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav } from '@/config/navConfig';
-  import MuiIcon from 'components/icon/MuiIcon';
   import MineList from 'views/mine/MineList';
 
   const payList = [
@@ -72,7 +70,7 @@
   ];
   export default {
     name: 'MiMine',
-    components: { MuiLayout, MuiHeader, MuiFooter, MuiContent, FooterNav, MuiIcon, MineList },
+    components: { FooterNav, MineList },
     data () {
       return {
         footerNav,

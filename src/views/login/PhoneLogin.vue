@@ -42,7 +42,6 @@
 </template>
 
 <script>
-  import MuiIcon from 'components/icon/MuiIcon';
   import validator, { noError } from 'helpers/validator';
 
   const constraints = [
@@ -52,7 +51,6 @@
   ];
   export default {
     name: 'PhoneLogin',
-    components: { MuiIcon },
     props: {},
     data () {
       return {

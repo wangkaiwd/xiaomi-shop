@@ -3,7 +3,9 @@ import Vue from 'vue';
 
 Vue.use(Vuex);
 const store = new Vuex.Store({
-  state: {},
+  state: {
+    loading: false
+  },
   mutations: {},
   actions: {}
 });

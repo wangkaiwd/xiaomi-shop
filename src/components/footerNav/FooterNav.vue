@@ -14,7 +14,6 @@
 </template>
 
 <script>
-  import MuiIcon from 'components/icon/MuiIcon';
 
   const footerNav = [
     { key: '/index', title: '首页', icon: 'home' },
@@ -24,7 +23,6 @@
   ];
   export default {
     name: 'FooterNav',
-    components: { MuiIcon },
     props: {
       footerNav: {
         type: Array,

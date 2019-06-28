@@ -2,7 +2,7 @@
   <div id="app">
     <top-header></top-header>
     <router-view/>
-    <mui-skeleton></mui-skeleton>
+<!--    <mui-skeleton></mui-skeleton>-->
   </div>
 </template>
 <script>

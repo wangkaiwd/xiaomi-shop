@@ -39,13 +39,12 @@
   *   2. 要通过各种并不会犯错的小技巧来进行降低工作量
   *   3. 其实这里的手机登录和密码登录应该进行拆分组件
   * */
-  import MuiIcon from 'components/icon/MuiIcon';
   import PhoneLogin from './PhoneLogin';
   import PasswordLogin from './PasswordLogin';
 
   export default {
     name: 'MiLogin',
-    components: { MuiIcon, PhoneLogin, PasswordLogin },
+    components: {  PhoneLogin, PasswordLogin },
     data () {
       return {
         isPhoneLogin: true,
