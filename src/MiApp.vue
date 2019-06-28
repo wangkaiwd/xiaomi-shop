@@ -2,21 +2,24 @@
   <div id="app">
     <top-header></top-header>
     <router-view/>
-<!--    <mui-skeleton></mui-skeleton>-->
+    <mui-skeleton></mui-skeleton>
+    <footer-nav :footer-nav="footerNav"></footer-nav>
   </div>
 </template>
 <script>
 
   import MiHome from 'views/home/MiHome';
-  import MiIcon from 'components/icon/MuiIcon';
   import TopHeader from 'components/topHeader/TopHeader';
-  import MuiSkeleton from 'components/skeleton/MuiSkeleton';
+  import FooterNav from 'components/footerNav/FooterNav';
+  import { footerNav } from '@/config/navConfig';
 
   export default {
     name: 'MiApp',
-    components: { MiHome, MiIcon, TopHeader, MuiSkeleton },
+    components: { MiHome, TopHeader, FooterNav },
     data () {
-      return {};
+      return {
+        footerNav
+      };
     },
   };
 </script>

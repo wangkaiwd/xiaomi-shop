@@ -24,6 +24,17 @@ a {
   }
 }
 
+
+.header-placeholder {
+  position: relative;
+  line-height: 50px;
+  height: 50px;
+}
+.footer-placeholder {
+  position: relative;
+  line-height: 52px;
+  height: 52px;
+}
 // 滚动条样式处理
 ::-webkit-scrollbar {
   -webkit-appearance: none;

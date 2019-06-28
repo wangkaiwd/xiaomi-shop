@@ -30,17 +30,6 @@
         return this.$route.meta.title;
       }
     },
-    // watch: {
-    //   '$route.path' (newVal) {
-    //     if (newVal === '/category' || newVal === '/shopCart') {
-    //       this.$emit('update:visible', true);
-    //       this.title = this.$route.meta.title;
-    //     } else {
-    //       this.$emit('update:visible', false);
-    //       this.title = '';
-    //     }
-    //   }
-    // },
     mounted () {
       document.body.appendChild(this.$el);
     },

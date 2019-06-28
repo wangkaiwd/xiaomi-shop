@@ -1,16 +1,18 @@
 <template>
-  <ul class="footer-nav">
-    <router-link
-      v-for="nav in footerNav"
-      :key="nav.key"
-      tag="li"
-      active-class="active"
-      :to="nav.key"
-    >
-      <mui-icon class="footer-nav-icon" :name="nav.icon"></mui-icon>
-      <span>{{nav.title}}</span>
-    </router-link>
-  </ul>
+  <transition name="slide">
+    <ul class="footer-nav" v-if="visible">
+      <router-link
+        v-for="nav in footerNav"
+        :key="nav.key"
+        tag="li"
+        active-class="active"
+        :to="nav.key"
+      >
+        <mui-icon class="footer-nav-icon" :name="nav.icon"></mui-icon>
+        <span>{{nav.title}}</span>
+      </router-link>
+    </ul>
+  </transition>
 </template>
 
 <script>
@@ -28,12 +30,21 @@
         type: Array,
         default: () => footerNav
       }
+    },
+    computed: {
+      visible () {
+        return this.$route.meta.showFooter;
+      },
     }
   };
 </script>
 
 <style lang="scss" scoped>
   .footer-nav {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     display: flex;
     height: 52px;
     color: $text-color;
@@ -51,6 +62,14 @@
     &-icon {
       font-size: 20px;
       margin-bottom: $space-xs;
+    }
+    &.slide-enter,
+    &.slide-leave-to {
+      transform: translateY(100%);
+    }
+    &.slide-enter-active,
+    &.slide-leave-active {
+      transition: transform 250ms;
     }
   }
 </style>

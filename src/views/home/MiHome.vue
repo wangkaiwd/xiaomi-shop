@@ -62,8 +62,7 @@
         <div class="mask" @click="visible=false" v-if="visible"></div>
       </transition>
     </mui-content>
-    <mui-footer class="mi-footer">
-      <footer-nav :footer-nav="footerNav"></footer-nav>
+    <mui-footer class="footer-placeholder">
     </mui-footer>
   </mui-layout>
 </template>

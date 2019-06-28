@@ -39,8 +39,7 @@
       >
       </mine-list>
     </mui-content>
-    <mui-footer>
-      <footer-nav :footer-nav="footerNav"></footer-nav>
+    <mui-footer class="footer-placeholder">
     </mui-footer>
   </mui-layout>
 </template>

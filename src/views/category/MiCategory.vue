@@ -23,8 +23,7 @@
         </category-item>
       </mui-content>
     </mui-layout>
-    <mui-footer>
-      <footer-nav :footer-nav="footerNav"></footer-nav>
+    <mui-footer class="footer-placeholder">
     </mui-footer>
   </mui-layout>
 </template>
@@ -70,11 +69,6 @@
 <style lang="scss" scoped>
   .mi-category {
     background-color: $white;
-    .header-placeholder {
-      position: relative;
-      line-height: 50px;
-      height: 50px;
-    }
     .category-content {
       height: calc(100vh - 50px - 52px);
     }

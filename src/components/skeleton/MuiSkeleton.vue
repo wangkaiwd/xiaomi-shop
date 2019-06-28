@@ -1,5 +1,5 @@
 <template>
-  <mui-layout class="mui-skeleton" style="z-index: 500;">
+  <mui-layout class="mui-skeleton" style="z-index: 500;" v-if="loading">
     <mui-header class="mui-skeleton-header"></mui-header>
     <mui-content>
       <img src="~img/loading.png" alt="">
@@ -9,10 +9,15 @@
 </template>
 
 <script>
+  import { mapState } from 'vuex';
+
   export default {
     name: 'MuiSkeleton',
+    computed: {
+      ...mapState(['loading'])
+    },
     mounted () {
-    }
+    },
   };
 </script>
 
