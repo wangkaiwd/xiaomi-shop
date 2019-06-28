@@ -5,8 +5,13 @@
         <span>{{subItem.categoryName}}</span>
       </div>
       <div class="item-content">
-        <div class="item" v-for="list in subItem.list" :key="subItem.id">
-          <img :src="list.imgUrl"
+        <div
+          class="item"
+          @click="$router.push(`/detail/${subItem.id}`)"
+          v-for="list in subItem.list"
+          :key="subItem.id"
+        >
+          <img v-lazy="list.imgUrl"
                alt="">
           <span class="item-text">
             {{list.title}}

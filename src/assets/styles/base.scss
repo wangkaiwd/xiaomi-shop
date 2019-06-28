@@ -29,10 +29,12 @@ a {
   position: relative;
   line-height: 50px;
   height: 50px;
+  flex-shrink: 0;
 }
 .footer-placeholder {
   position: relative;
   line-height: 52px;
+  flex-shrink: 0;
   height: 52px;
 }
 // 滚动条样式处理

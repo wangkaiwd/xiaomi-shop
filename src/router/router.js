@@ -85,6 +85,12 @@ export const routes = [
     meta: { title: '我的', showFooter: true }
   },
   {
+    name: 'detail',
+    path: '/detail/:id',
+    component: () => import(/* webpackChunkName: "category"*/'views/detail/MiDetail'),
+    meta: { title: '详情' }
+  },
+  {
     name: 'login',
     path: '/login',
     component: () => import(/* webpackChunkName: "login"*/'views/login/MiLogin'),

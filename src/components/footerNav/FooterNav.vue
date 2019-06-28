@@ -41,7 +41,7 @@
 
 <style lang="scss" scoped>
   .footer-nav {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;

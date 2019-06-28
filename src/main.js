@@ -5,6 +5,9 @@ import router from './router/router';
 import store from './store/store';
 import 'styles/base.scss';
 import 'helpers/autoRegister';
+import VueLazyload from 'vue-lazyload';
+
+Vue.use(VueLazyload);
 
 if (process.env.NODE_ENV === 'development') {
   const VConsole = require('vconsole');
