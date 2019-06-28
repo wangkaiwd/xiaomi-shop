@@ -22,7 +22,6 @@
 </script>
 <style lang="scss" scoped>
   #app {
-    position: relative;
     height: 100vh;
     overflow: auto;
   }
