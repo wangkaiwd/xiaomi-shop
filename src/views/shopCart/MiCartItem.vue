@@ -19,10 +19,10 @@
         </span>
       </div>
     </div>
-    <span class="check">
+    <span class="check" @click="onClickCheck" :class="{checked}">
       <mui-icon name="check"></mui-icon>
     </span>
-    <span class="delete">
+    <span class="delete" @click="onClickDelete(goods.id)">
       <mui-icon name="delete"></mui-icon>
     </span>
   </div>
@@ -35,10 +35,17 @@
       goods: {
         type: Object,
         default: () => {}
-      }
+      },
+      shopData: {
+        type: Array,
+        default: () => []
+      },
     },
     data () {
-      return { number: 0 };
+      return {
+        number: 0,
+        checked: false
+      };
     },
     computed: {
       disabled () {
@@ -51,6 +58,15 @@
       },
       onAdd () {
         this.number++;
+      },
+      onClickDelete (id) {
+        const shopDataCopy = JSON.parse(JSON.stringify(this.shopData));
+        const i = shopDataCopy.findIndex(data => data.id === id);
+        shopDataCopy.splice(i, 1);
+        this.$emit('update:shopData', shopDataCopy);
+      },
+      onClickCheck () {
+        this.checked = !this.checked;
       }
     }
   };
@@ -117,6 +133,9 @@
       left: 6px;
       font-size: 22px;
       color: lighten($light-text, 30%);
+      &.checked {
+        color: $main-color;
+      }
     }
     .delete {
       position: absolute;

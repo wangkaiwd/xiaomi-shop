@@ -2,7 +2,13 @@
   <mui-layout class="mi-shop-cart">
     <mui-header class="header-placeholder"></mui-header>
     <mui-content>
-      <mi-cart-item v-for="goods in shopData" :key="goods.id" :goods="goods"></mi-cart-item>
+      <mi-cart-item
+        v-for="(goods,i) in shopData"
+        :shopData.sync="shopData"
+        :key="goods.id"
+        :goods="goods"
+      >
+      </mi-cart-item>
     </mui-content>
   </mui-layout>
 </template>
