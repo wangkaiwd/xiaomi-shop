@@ -2,13 +2,15 @@
   <mui-layout class="mi-shop-cart">
     <mui-header class="header-placeholder"></mui-header>
     <mui-content>
-      <mi-cart-item
-        v-for="(goods,i) in shopData"
-        :shopData.sync="shopData"
-        :key="goods.id"
-        :goods="goods"
-      >
-      </mi-cart-item>
+      <transition-group name="list" tag="div">
+        <mi-cart-item
+          v-for="goods in shopData"
+          :shopData.sync="shopData"
+          :key="goods.id"
+          :goods="goods"
+        >
+        </mi-cart-item>
+      </transition-group>
     </mui-content>
   </mui-layout>
 </template>
@@ -39,6 +41,16 @@
   };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .list-enter-active, .list-leave-active {
+    transition: all 1s;
+  }
+  .list-enter, .list-leave-to {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  .list-move {
+    transition: all 1s;
+  }
 
 </style>
