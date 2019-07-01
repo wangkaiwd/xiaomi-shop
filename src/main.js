@@ -6,8 +6,13 @@ import store from './store/store';
 import 'styles/base.scss';
 import 'helpers/autoRegister';
 import VueLazyload from 'vue-lazyload';
+import loadingImg from 'assets/img/mi-img-loading.gif';
 
-Vue.use(VueLazyload);
+Vue.use(VueLazyload, {
+  preLoad: 1.3,
+  loading: loadingImg,
+  attempt: 1
+});
 
 if (process.env.NODE_ENV === 'development') {
   const VConsole = require('vconsole');

@@ -1,6 +1,6 @@
 <template>
   <div class="selector-list-item" @click="$emit('click')">
-    <div class="selector-list-item-tag">
+    <div class="selector-list-item-tag" v-if="hasTag">
       <slot name="tag"></slot>
     </div>
     <div class="selector-list-item-content">
@@ -14,7 +14,12 @@
 
 <script>
   export default {
-    name: 'SelectorListItem'
+    name: 'SelectorListItem',
+    computed: {
+      hasTag () {
+        return this.$slots.tag;
+      }
+    }
   };
 </script>
 
