@@ -1,15 +1,23 @@
 <template>
   <div class="mi-detail">
-    <swiper :options="swiperOption" ref="mySwiper">
-      <!-- slides -->
-      <swiper-slide v-for="(swiper,i) in swiperData" :key="i">
-        <img :data-src="swiper.img_url" class="swiper-lazy" alt="">
-      </swiper-slide>
-      <!-- Optional controls -->
-      <template #pagination>
-        <div class="swiper-pagination"></div>
-      </template>
-    </swiper>
+    <div class="mi-detail-swiper">
+      <swiper :options="swiperOption" ref="mySwiper">
+        <!-- slides -->
+        <swiper-slide v-for="(swiper,i) in swiperData" :key="i">
+          <img :data-src="swiper.img_url" class="swiper-lazy" alt="">
+        </swiper-slide>
+        <!-- Optional controls -->
+        <template #pagination>
+          <div class="swiper-pagination"></div>
+        </template>
+      </swiper>
+      <span class="back" @click="$router.go(-1)">
+        <mui-icon name="left"></mui-icon>
+      </span>
+      <span class="share">
+        <mui-icon name="share"></mui-icon>
+      </span>
+    </div>
     <div class="desc">
       <h3 class="desc-name">Redmi K20 Pro </h3>
       <div class="desc-text">
@@ -442,6 +450,29 @@
   .mi-detail {
     background-color: $white;
     overflow: auto;
+    &-swiper {
+      position: relative;
+    }
+    .back, .share {
+      position: absolute;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      top: $space-md;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background-color: rgba(0, 0, 0, .6);
+      font-size: $font-lg;
+      z-index: 1;
+      color: $white;
+    }
+    .back {
+      left: $space-md;
+    }
+    .share {
+      right: $space-md;
+    }
     .swiper-container {
       width: 100%;
       height: 412px;

@@ -11,7 +11,7 @@ import loadingImg from 'assets/img/mi-img-loading.gif';
 Vue.use(VueLazyload, {
   preLoad: 1.3,
   loading: loadingImg,
-  attempt: 1
+  attempt: 5
 });
 
 if (process.env.NODE_ENV === 'development') {
