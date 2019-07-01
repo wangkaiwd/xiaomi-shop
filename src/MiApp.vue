@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <top-header></top-header>
-    <router-view/>
+    <router-view class="mi-router-content"/>
     <mui-skeleton></mui-skeleton>
     <footer-nav :footer-nav="footerNav"></footer-nav>
   </div>
@@ -27,5 +27,8 @@
   #app {
     height: 100vh;
     overflow: auto;
+    .mi-router-content {
+      height: 100%;
+    }
   }
 </style>

@@ -7,9 +7,9 @@
       <div class="item-content">
         <div
           class="item"
-          @click="$router.push(`/detail/${subItem.id}`)"
+          @click="$router.push(`/detail/${list.id}`)"
           v-for="list in subItem.list"
-          :key="subItem.id"
+          :key="list.id"
         >
           <img v-lazy="list.imgUrl"
                alt="">
