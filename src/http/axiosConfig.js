@@ -4,16 +4,15 @@
 
 import axios from 'axios';
 import store from 'store/store';
+import vm from '@/main';
 
 const http = axios.create({
   baseURL: 'https://easy-mock.com/mock/5d142f6686ff3d05898bef38/xiaomi',
   timeout: 10000,
   headers: { 'X-Requested-With': 'XMLHttpRequest' }
 });
-
 http.interceptors.request.use(
   (config) => {
-    store.commit('changeLoading', true);
     return config;
   },
   error => Promise.reject(error)
@@ -22,7 +21,6 @@ http.interceptors.request.use(
 http.interceptors.response.use(
   (response) => {
     const { status, data } = response;
-    store.commit('changeLoading', false);
     if (status === 200) {
       if (data.code === 0) {
         return response.data;
@@ -32,7 +30,6 @@ http.interceptors.response.use(
     return Promise.reject(response);
   },
   error => {
-    store.commit('changeLoading', false);
     return Promise.reject(error);
   }
 );

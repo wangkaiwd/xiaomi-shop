@@ -5,25 +5,14 @@ import router from './router/router';
 import store from './store/store';
 import 'styles/base.scss';
 import 'helpers/autoRegister';
-import VueLazyload from 'vue-lazyload';
-import loadingImg from 'assets/img/mi-img-loading.gif';
-
-Vue.use(VueLazyload, {
-  preLoad: 1.3,
-  loading: loadingImg,
-  attempt: 5
-});
-
-if (process.env.NODE_ENV === 'development') {
-  const VConsole = require('vconsole');
-  const vConsole = new VConsole();
-}
+import 'helpers/globalPlugin';
 
 Vue.config.productionTip = false;
 
-new Vue({
+const vm = new Vue({
   router,
   store,
   // h 是 createElement的一个简写，这里通过createElement来创建一个组件，并在页面中渲染
   render: h => h(App)
 }).$mount('#app');
+export default vm;
