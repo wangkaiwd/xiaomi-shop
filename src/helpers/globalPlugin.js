@@ -7,9 +7,8 @@ import loadingImg from 'assets/img/mi-img-loading.gif';
 import './routeNavigation';
 
 Vue.use(VueLazyload, {
-  preLoad: 1.3,
   loading: loadingImg,
-  attempt: 8
+  attempt: 12
 });
 
 if (process.env.NODE_ENV === 'development') {

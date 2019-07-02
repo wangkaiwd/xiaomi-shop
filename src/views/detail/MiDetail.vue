@@ -5,6 +5,7 @@
         <!-- slides -->
         <swiper-slide v-for="(swiper,i) in swiperData" :key="i">
           <img :data-src="swiper.img_url" class="swiper-lazy" alt="">
+          <div class="swiper-lazy-preloader"></div>
         </swiper-slide>
         <!-- Optional controls -->
         <template #pagination>
@@ -87,6 +88,7 @@
     <div class="relative-recommend">
 
     </div>
+    <guess-love :header="header" :items="recommendList"></guess-love>
   </div>
 </template>
 
@@ -97,11 +99,12 @@
   import SelectorList from 'views/detail/SelectorList';
   import SelectorListItem from 'views/detail/SelectorListItem';
 
-  import { fetchDetail } from 'api/index';
+  import { fetchDetail, fetchGuessLove } from 'api/index';
+  import GuessLove from 'components/guessLove/GuessLove';
 
   export default {
     name: 'MiDetail',
-    components: { swiper, swiperSlide, SelectorList, SelectorListItem },
+    components: { swiper, swiperSlide, SelectorList, SelectorListItem, GuessLove },
     data () {
       return {
         swiperOption: {
@@ -119,7 +122,9 @@
         swiperData: [],
         parameters: [],
         images: [],
-        productInfo: {}
+        productInfo: {},
+        header: {},
+        recommendList: []
       };
     },
     computed: {
@@ -128,25 +133,17 @@
       }
     },
     beforeRouteEnter (to, from, next) {
-      fetchDetail().then(
-        res => next(vm => vm.setDetailInfo(res))
+      Promise.all([fetchDetail(), fetchGuessLove()]).then(
+        res => {
+          const [detailInfo, guessLove] = res;
+          next(vm => {
+            vm.setDetailInfo(detailInfo);
+            vm.setGuessLove(guessLove);
+          });
+        }
       );
     },
     mounted () {
-      // fetchDetail().then(
-      //   res => {
-      //     const {
-      //       gallery_view: swiperData,
-      //       productInfo,
-      //       class_parameters: classParameters,
-      //       introduce_image: images
-      //     } = res.data;
-      //     this.swiperData = swiperData;
-      //     this.parameters = classParameters.list.filter(item => item.top_title);
-      //     this.images = images;
-      //     this.productInfo = productInfo;
-      //   }
-      // );
     },
     methods: {
       setDetailInfo (res) {
@@ -160,6 +157,10 @@
         this.parameters = classParameters.list.filter(item => item.top_title);
         this.images = images;
         this.productInfo = productInfo;
+      },
+      setGuessLove (res) {
+        this.header = res.data.header;
+        this.recommendList = res.data.recommend_list;
       }
     }
   };
