@@ -41,6 +41,10 @@
 
 <style lang="scss" scoped>
   .guess-love {
+    &-header {
+      width: 100%;
+      height: 63px;
+    }
     span {
       display: inline-block;
       vertical-align: top;

@@ -67,14 +67,13 @@
   .mi-shop-cart {
     .list-item {
       overflow: hidden;
-      transition: all 0.8s;
     }
     .list-enter, .list-leave-to {
       opacity: 0;
-      transform: translateX(80%);
+      transform: translateX(50%);
     }
     .list-leave-active {
-      position: absolute;
+      transition: all 250ms;
     }
   }
 
