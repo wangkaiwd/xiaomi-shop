@@ -24,7 +24,7 @@ a {
   }
 }
 
-
+// 头部底部占位div
 .header-placeholder {
   position: relative;
   line-height: 50px;
@@ -36,6 +36,10 @@ a {
   line-height: 52px;
   flex-shrink: 0;
   height: 52px;
+}
+// 进度条样式
+#nprogress .bar {
+  background-color: rgb(255, 202, 43);
 }
 // 滚动条样式处理
 ::-webkit-scrollbar {

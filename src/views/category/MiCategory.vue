@@ -46,18 +46,19 @@
         categoryItem: []
       };
     },
+    beforeRouteEnter (to, from, next) {
+      fetchCategoryList().then(res => next(vm => vm.setCategoryList(res)));
+    },
     mounted () {
-      fetchCategoryList().then(
-        res => {
-          this.leftMenu = res.data.leftMenu;
-          this.categoryItem = res.data.categoryItem;
-        }
-      );
       this.visible = true;
     },
     methods: {
       onClickItem (i) {
         this.activeIndex = i;
+      },
+      setCategoryList (res) {
+        this.leftMenu = res.data.leftMenu;
+        this.categoryItem = res.data.categoryItem;
       }
     },
     beforeDestroy () {
