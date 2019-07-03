@@ -99,7 +99,7 @@ export const routes = [
   {
     name: 'example',
     path: '/example',
-    component: () => import(/* webpackChunkName: "category"*/'views/example/MuiExample'),
+    component: () => import(/* webpackChunkName: "category"*/'views/example/MuiPopupExample'),
     meta: { title: '组件demo' }
   },
 ];

@@ -18,6 +18,8 @@
 
 ## 项目创建
 ## 适配方案
+### 安装依赖
+### 踩坑指南
 ## 接口请求封装
 ## 数据`Mock`
 项目中的接口数据是通过`easy-mock`来进行模拟，它的语法是根据`mockjs`来进行随机生成数据，可以通过[示例](http://mockjs.com/examples.html)来快速学习。  
@@ -35,28 +37,63 @@
 ### 商品详情
 
 ## 通用组件设计
-* `icon`组件(`MuiIcon`)
-* sku选择组件(`MuiSku`)
+对于通用组件，由于在全局很多地方会进行引入，所以为了使用方便，我们通过`webpack`中的`require.context`方法来自动全局注册，这要之后再添加全局组件也不用在进行注册了。  
+```js
+// autoRegister.js
+import Vue from 'vue';
+
+const requireComponent = require.context('components', true, /Mui[A-Z]\w+\.vue$/);
+requireComponent.keys().forEach(filename => {
+  const componentConfig = requireComponent(filename);
+  const start = filename.lastIndexOf('/') + 1;
+  const end = filename.lastIndexOf('.');
+  const componentName = filename.slice(start, end);
+  // 全局注册组件
+  Vue.component(
+    componentName,
+    // 如果这个组件选项是通过 `export default` 导出的，
+    // 那么就会优先使用 `.default`，
+    // 否则回退到使用模块的根。
+    componentConfig.default || componentConfig
+  );
+});
+```
+当然这里有需要我们定义好命名规范：**组件名必须要以`Mui`开头，并且遵循驼峰命名的规则**
+
+根据项目需要，我们大概会实现以下通用组件：
+* `layout`布局组件(`MuiLayout,MuiHeder,MuiFooter,MuiAside,MuiContent`)
+* `icon`字体图标组件(`MuiIcon`)
+* `popup`弹出框组件(`MuiPopup`)
+* `dialog`对话框组件(`MuiDialog`)
 * 选择城市(`MuiAddressSelect`)
-* 模态框(`MuiDialog`)
-* 全局提示(`MuiToast`)
+* `toast`全局提示(`MuiToast`)
 
 ### `icon`组件
 `icon`图标在项目中使用的特别频繁，我很有必要进行一个统一封装，方便使用
+
+### `layout`组件
+
 
 ### `popup`组件
 在项目的商品详情页面中，频繁的遇到了底部弹出层的交互效果，如商品`sku`选择、服务说明、关键参数等。为了处理这种类似的需求，我们需要封装一个`popup`组件。
 
 首先我们先对详情页的分析以及相应需求的扩展，我们大概要实现如下`api`:  
 * `visible`: 控制弹出框的显示和隐藏
-* `title`: 是否显示莫泰框的标题
+* `title`: 莫泰框的标题,不传或者传入空会隐藏标题
 * `content<slot>`: 通过插槽插入用户自定义的内容
 * `position`: 控制弹出层的位置
+* `onMaskClosable`: 是否可以点击模态框关闭
 * `getContainer`: 通过一个方法返回想要挂载的父节点(有时候需要我们将弹出层放到`body`中，防止页面滚动或者`oveflow:hidden`造成影响)
 
 
 ## 第三方插件
+项目中我们也用到了一些社区内优秀的第三方插件：  
+* [`vue-awesome-swiper`](https://github.com/surmon-china/vue-awesome-swiper): `vue`版的`swiper`插件，支持所有`swiper`中的`api`
+* [`vue-lazyload`](https://github.com/hilongjw/vue-lazyload): `vue`图片懒加载插件
 
+业界内有一句很著名的话：不要重复造轮子。尤其是在工作中，开发比较注重效率，使用一些优秀的第三方插件以及第三方组件库可以更好的辅助我们的工作，我们更应该在原有的组件上进行二次封装提升开发效率。
+
+但是如果是学习的话，手撸各种轮子还是能提升我们的个人实力的。虽然我们不反对不要重复造轮子，但是并不代表我们没有造轮子的能力。
 ## `todo`
 1. 通过路由的钩子函数来提前加载数据
 2. 全局使用NProgress来进行加载优化
@@ -75,7 +112,11 @@
 ### `CSS`
 * `sass`中可以直接通过计算来设置属性  
   ![calc-scss](./screenshots/calc-scss.png)
-
+* 文字特殊符号居中问题
+* `MiApp`组件`z-index`问题
+* 单行溢出隐藏问题
+### `vue`
+* 使用`dart-sass`实现深度作用
 ## 结语
 开源不易，希望大家能给个`start`给与鼓励，让社区中乐于分享的开发者创造出更好的作品。
 
