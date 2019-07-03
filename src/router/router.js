@@ -96,5 +96,11 @@ export const routes = [
     component: () => import(/* webpackChunkName: "login"*/'views/login/MiLogin'),
     meta: { title: '登录' }
   },
+  {
+    name: 'example',
+    path: '/example',
+    component: () => import(/* webpackChunkName: "category"*/'views/example/MuiExample'),
+    meta: { title: '组件demo' }
+  },
 ];
 export default new Router({ routes });
