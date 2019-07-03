@@ -86,7 +86,7 @@
       /*子元素过渡技巧：https://github.com/vuejs/vue/issues/3477*/
       .mui-popup-content,
       .mui-popup-mask {
-        transition: all 250ms;
+        transition: opacity 250ms, transform 250ms, max-height 250ms;
       }
     }
     &.slide-enter,
