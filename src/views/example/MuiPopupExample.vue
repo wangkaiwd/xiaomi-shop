@@ -1,7 +1,7 @@
 <template>
   <div class="mui-example">
     <button @click="visible=true">click me</button>
-    <mui-popup v-model="visible" title="服务说明" position="right">
+    <mui-popup get-container="body" v-model="visible" title="服务说明" position="right">
       <ul>
         <li>内容1</li>
         <li>内容2</li>

@@ -46,6 +46,12 @@
       maskClosable: {
         type: Boolean,
         default: false
+      },
+      getContainer: { type: String }
+    },
+    mounted () {
+      if (this.getContainer) {
+        document.querySelector(this.getContainer).appendChild(this.$el);
       }
     },
     methods: {
@@ -68,6 +74,7 @@
     left: 0;
     right: 0;
     bottom: 0;
+    z-index: 90;
     &-mask {
       position: absolute;
       width: 100%;
@@ -93,9 +100,9 @@
     &-content {
       display: flex;
       flex-direction: column;
-      padding: 0 $space-lg;
       position: absolute;
       background-color: $white;
+      padding: 0 $space-lg;
       color: $dark-text;
       &.position-bottom,
       &.position-top {
@@ -118,7 +125,7 @@
     &-title {
       padding: $space-lg $space-xxl;
       text-align: center;
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid $light-border;
       font-size: $font-lg;
     }
     &-close {
@@ -131,7 +138,6 @@
     }
     &-content-item {
       flex: 1;
-      padding: $space-lg 0;
       overflow: auto;
     }
   }

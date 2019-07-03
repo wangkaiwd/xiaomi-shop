@@ -26,9 +26,9 @@
         <span>￥</span>2999
       </div>
     </div>
-    <div class="parameter">
+    <div class="parameter" @click="showPopup('KeyParams')">
       <ul>
-        <li v-for="parameter in parameters">
+        <li v-for="parameter in parametersList">
           <img :src="parameter.icon" alt="">
           <span class="top-title">
             {{parameter.top_title}}
@@ -51,13 +51,7 @@
         </selector-list-item>
       </selector-list>
       <selector-list class="goods-select">
-        <selector-list-item>
-          <template #tag>
-            促销
-          </template>
-          <div>赠小米移动电源</div>
-        </selector-list-item>
-        <selector-list-item>
+        <selector-list-item @click="showPopup('SelectSku')">
           <template #tag>
             已选
           </template>
@@ -104,22 +98,44 @@
         </div>
       </div>
     </transition>
+    <mui-popup
+      get-container="body"
+      v-model="popupInfo.visible"
+      :title="popupInfo.title"
+    >
+      <component
+        :is="popupInfo.componentName"
+        :items="popupInfo.items"
+        @on-ok="onOk"
+      >
+      </component>
+    </mui-popup>
   </div>
 </template>
 
 <script>
   import 'swiper/dist/css/swiper.css';
-
   import { swiper, swiperSlide } from 'vue-awesome-swiper';
   import SelectorList from 'views/detail/SelectorList';
   import SelectorListItem from 'views/detail/SelectorListItem';
-
   import { fetchDetail, fetchGuessLove } from 'api/index';
   import GuessLove from 'components/guessLove/GuessLove';
+  import ServiceIntroduce from './ServiceIntroduce';
+  import KeyParams from './KeyParams';
+  import SelectSku from './SelectSku';
 
   export default {
     name: 'MiDetail',
-    components: { swiper, swiperSlide, SelectorList, SelectorListItem, GuessLove },
+    components: {
+      swiper,
+      swiperSlide,
+      SelectorList,
+      SelectorListItem,
+      GuessLove,
+      KeyParams,
+      SelectSku,
+      ServiceIntroduce
+    },
     data () {
       return {
         swiperOption: {
@@ -135,17 +151,30 @@
           },
         },
         swiperData: [],
-        parameters: [],
+        parameters: {},
         images: [],
         productInfo: {},
         header: {},
         recommendList: [],
-        visible: false
+        visible: false,
+        popupInfo: {
+          visible: false,
+          componentName: '',
+          title: '',
+          items: []
+        },
       };
     },
+
     computed: {
       swiper () {
         return this.$refs.mySwiper.swiper;
+      },
+      parametersList () {
+        if (this.parameters.list) {
+          return this.parameters.list.filter(item => item.top_title);
+        }
+        return [];
       }
     },
     beforeRouteEnter (to, from, next) {
@@ -171,13 +200,25 @@
           introduce_image: images
         } = res.data;
         this.swiperData = swiperData;
-        this.parameters = classParameters.list.filter(item => item.top_title);
+        this.parameters = classParameters;
         this.images = images;
         this.productInfo = productInfo;
       },
       setGuessLove (res) {
         this.header = res.data.header;
         this.recommendList = res.data.recommend_list;
+      },
+      showPopup (componentName) {
+        const dataMap = {
+          'KeyParams': this.parameters
+        };
+        this.popupInfo.componentName = componentName;
+        this.popupInfo.visible = true;
+        this.popupInfo.title = dataMap[componentName].name;
+        this.popupInfo.items = dataMap[componentName].list;
+      },
+      onOk () {
+        this.popupInfo.visible = false;
       }
     }
   };
