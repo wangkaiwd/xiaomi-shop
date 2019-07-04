@@ -3,7 +3,7 @@
  */
 import Vue from 'vue';
 import VueLazyload from 'vue-lazyload';
-import loadingImg from 'assets/img/mi-img-loading.gif';
+import loadingImg from 'assets/img/lazyLoading.gif';
 import './routeNavigation';
 
 Vue.use(VueLazyload, {
