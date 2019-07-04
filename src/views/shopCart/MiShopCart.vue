@@ -67,8 +67,6 @@
   .mi-shop-cart {
     .list-item {
       overflow: hidden;
-      // 为了动画，这里随便填一个比较大的数字
-      max-height: 8000px;
     }
     .list-enter-active,
     .list-leave-active,
@@ -93,9 +91,8 @@
 
     .list-leave-to {
       opacity: 0;
-      /*transform: scaleY(0);*/
-      /*transform-origin: center top;*/
-      max-height: 0;
+      transform: scaleY(0);
+      transform-origin: center top;
     }
   }
 
