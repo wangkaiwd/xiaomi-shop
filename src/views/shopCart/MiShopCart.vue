@@ -11,8 +11,8 @@
           :goods="goods"
         >
         </mi-cart-item>
+        <guess-love key="guess-love" :header="header" :items="recommendList"></guess-love>
       </transition-group>
-      <guess-love :header="header" :items="recommendList"></guess-love>
     </mui-content>
   </mui-layout>
 </template>
@@ -67,13 +67,35 @@
   .mi-shop-cart {
     .list-item {
       overflow: hidden;
+      // 为了动画，这里随便填一个比较大的数字
+      max-height: 8000px;
     }
-    .list-enter, .list-leave-to {
+    .list-enter-active,
+    .list-leave-active,
+    .list-move {
+      transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+      transition-property: all;
+    }
+
+    .list-enter {
       opacity: 0;
-      transform: translateX(50%);
+      transform: translateX(50px) scaleY(0.5);
     }
+
+    .list-enter-to {
+      opacity: 1;
+      transform: translateX(0) scaleY(1);
+    }
+
     .list-leave-active {
-      transition: all 250ms;
+      position: absolute;
+    }
+
+    .list-leave-to {
+      opacity: 0;
+      /*transform: scaleY(0);*/
+      /*transform-origin: center top;*/
+      max-height: 0;
     }
   }
 
