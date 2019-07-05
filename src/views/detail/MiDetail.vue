@@ -110,6 +110,16 @@
       >
       </component>
     </mui-popup>
+    <mui-popup
+      get-container="body"
+      v-model="buyOptionsVisible"
+    >
+      <select-sku
+        :buy-options="buyOptions"
+      >
+
+      </select-sku>
+    </mui-popup>
   </div>
 </template>
 
@@ -156,6 +166,7 @@
         productInfo: {},
         header: {},
         recommendList: [],
+        buyOptions: [],
         visible: false,
         popupInfo: {
           visible: false,
@@ -163,6 +174,7 @@
           title: '',
           items: []
         },
+        buyOptionsVisible: false
       };
     },
 
@@ -197,12 +209,14 @@
           gallery_view: swiperData,
           productInfo,
           class_parameters: classParameters,
-          introduce_image: images
+          introduce_image: images,
+          buy_options
         } = res.data;
         this.swiperData = swiperData;
         this.parameters = classParameters;
         this.images = images;
         this.productInfo = productInfo;
+        this.buyOptions = buy_options;
       },
       setGuessLove (res) {
         this.header = res.data.header;
