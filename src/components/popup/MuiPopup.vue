@@ -107,20 +107,34 @@
       &.position-bottom,
       &.position-top {
         width: 100%;
-        min-height: 128px;
-        max-height: 516px;
+        height: 516px;
       }
-      &.position-bottom {bottom: 0;}
-      &.position-top {top: 0;}
+      &.position-bottom {
+        bottom: 0;
+        border-top-left-radius: $border-radius-md;
+        border-top-right-radius: $border-radius-md;
+      }
+      &.position-top {
+        top: 0;
+        border-bottom-left-radius: $border-radius-md;
+        border-bottom-right-radius: $border-radius-md;
+      }
       &.position-left,
       &.position-right {
         top: 0;
         height: 100%;
-        min-width: 40%;
-        max-width: 80%;
+        width: 80%;
       }
-      &.position-left { left: 0;}
-      &.position-right {right: 0;}
+      &.position-left {
+        left: 0;
+        border-top-right-radius: $border-radius-md;
+        border-bottom-right-radius: $border-radius-md;
+      }
+      &.position-right {
+        right: 0;
+        border-top-left-radius: $border-radius-md;
+        border-bottom-left-radius: $border-radius-md;
+      }
     }
     &-title {
       padding: $space-lg $space-xxl;

@@ -51,7 +51,7 @@
         </selector-list-item>
       </selector-list>
       <selector-list class="goods-select">
-        <selector-list-item @click="showPopup('SelectSku')">
+        <selector-list-item @click="showSkuPopup('SelectSku')">
           <template #tag>
             已选
           </template>
@@ -230,6 +230,9 @@
         this.popupInfo.visible = true;
         this.popupInfo.title = dataMap[componentName].name;
         this.popupInfo.items = dataMap[componentName].list;
+      },
+      showSkuPopup () {
+        this.buyOptionsVisible = true;
       },
       onOk () {
         this.popupInfo.visible = false;
