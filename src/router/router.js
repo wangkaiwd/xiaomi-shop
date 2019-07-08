@@ -69,25 +69,25 @@ export const routes = [
   {
     name: 'shopCart',
     path: '/shopCart',
-    component: () => import(/* webpackChunkName: "category"*/'views/shopCart/MiShopCart'),
+    component: () => import(/* webpackChunkName: "shopCart"*/'views/shopCart/MiShopCart'),
     meta: { title: '购物车', showHeader: true }
   },
   {
     name: 'search',
     path: '/search',
-    component: () => import(/* webpackChunkName: "category"*/'views/search/MiSearch'),
+    component: () => import(/* webpackChunkName: "search"*/'views/search/MiSearch'),
     meta: { title: '搜索' }
   },
   {
     name: 'mine',
     path: '/mine',
-    component: () => import(/* webpackChunkName: "category"*/'views/mine/MiMine'),
+    component: () => import(/* webpackChunkName: "mine"*/'views/mine/MiMine'),
     meta: { title: '我的', showFooter: true }
   },
   {
     name: 'detail',
     path: '/detail/:id',
-    component: () => import(/* webpackChunkName: "category"*/'views/detail/MiDetail'),
+    component: () => import(/* webpackChunkName: "detail"*/'views/detail/MiDetail'),
     meta: { title: '详情' }
   },
   {
@@ -99,7 +99,7 @@ export const routes = [
   {
     name: 'example',
     path: '/example',
-    component: () => import(/* webpackChunkName: "category"*/'views/example/MuiPopupExample'),
+    component: () => import(/* webpackChunkName: "demo"*/'views/example/MuiPopupExample'),
     meta: { title: '组件demo' }
   },
 ];
