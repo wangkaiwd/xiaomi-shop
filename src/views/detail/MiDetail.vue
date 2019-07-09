@@ -93,7 +93,7 @@
           <span><mui-icon name="shopCart"></mui-icon></span>
           <span><router-link to="/shopCart">购物车</router-link></span>
         </div>
-        <div class="join-cart">
+        <div class="join-cart" @click="showSkuPopup">
           加入购物车
         </div>
       </div>
