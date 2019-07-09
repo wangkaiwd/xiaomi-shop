@@ -9,15 +9,13 @@
         <span>售价：</span>
         <span>{{goods.price}}</span>
       </div>
-      <div class="shop-tool">
-        <span class="minus" @click="onMinus">
-          <mui-icon name="minus"></mui-icon>
-        </span>
-        <span class="number">{{number}}</span>
-        <span class="add" @click="onAdd" :class="{disabled}">
-          <mui-icon name="plus"></mui-icon>
-        </span>
-      </div>
+      <mui-number
+        :number="number"
+        :max-number="10"
+        @on-minus="onMinus"
+        @on-add="onAdd"
+      >
+      </mui-number>
     </div>
     <span class="check" @click="onClickCheck" :class="{checked}">
       <mui-icon name="check"></mui-icon>

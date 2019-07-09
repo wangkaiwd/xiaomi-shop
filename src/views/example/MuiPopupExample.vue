@@ -12,6 +12,7 @@
         <li>内容7</li>
       </ul>
     </mui-popup>
+    <button @click="shoToast">toast1</button>
   </div>
 </template>
 
@@ -22,6 +23,20 @@
       return {
         visible: false
       };
+    },
+    mounted () {
+    },
+    methods: {
+      shoToast () {
+        const closeToast = this.$toast({
+          message: '加载中...',
+          type: 'loading',
+          mask: true
+        });
+        // setTimeout(() => {
+        //   closeToast();
+        // }, 4000);
+      }
     }
   };
 </script>

@@ -2,7 +2,7 @@
   <mui-layout class="mi-shop-cart">
     <mui-header class="header-placeholder"></mui-header>
     <mui-content>
-      <transition-group name="list" tag="div">
+      <transition-group name="list" class="list-item-wrapper" tag="div">
         <mi-cart-item
           class="list-item"
           v-for="goods in shopData"
@@ -65,14 +65,15 @@
 
 <style lang="scss" scoped>
   .mi-shop-cart {
-    .list-item {
-      overflow: hidden;
+    .list-item-wrapper {
+      position: relative;
     }
     .list-enter-active,
     .list-leave-active,
     .list-move {
-      transition: 500ms cubic-bezier(0.59, 0.12, 0.34, 0.95);
+      transition: 1.2s cubic-bezier(0.59, 0.12, 0.34, 0.95);
       transition-property: all;
+      overflow: hidden;
     }
 
     .list-enter {
@@ -92,7 +93,7 @@
     .list-leave-to {
       opacity: 0;
       transform: scaleY(0);
-      transform-origin: center top;
+      transform-origin: top center;
     }
   }
 

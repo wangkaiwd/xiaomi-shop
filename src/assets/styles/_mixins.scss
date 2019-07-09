@@ -3,3 +3,14 @@
   text-overflow: ellipsis;
   overflow: hidden;
 }
+@mixin spin($duration:1) {
+  animation: spinner 1s linear infinite;
+}
+@keyframes spinner {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

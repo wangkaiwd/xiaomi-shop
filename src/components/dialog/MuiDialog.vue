@@ -1,5 +1,7 @@
 <template>
-  <div class="mui-dialog"></div>
+  <div class="mui-dialog">
+
+  </div>
 </template>
 
 <script>
