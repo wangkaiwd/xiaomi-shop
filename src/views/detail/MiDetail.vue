@@ -115,7 +115,8 @@
       v-model="buyOptionsVisible"
     >
       <select-sku
-        :buy-options="buyOptions"
+        :buy-options.sync="buyOptions"
+        @on-sku-ok="onSkuOk"
       >
 
       </select-sku>
@@ -210,13 +211,13 @@
           productInfo,
           class_parameters: classParameters,
           introduce_image: images,
-          buy_options
+          buy_option
         } = res.data;
         this.swiperData = swiperData;
         this.parameters = classParameters;
         this.images = images;
         this.productInfo = productInfo;
-        this.buyOptions = buy_options;
+        this.buyOptions = buy_option;
       },
       setGuessLove (res) {
         this.header = res.data.header;
@@ -236,6 +237,9 @@
       },
       onOk () {
         this.popupInfo.visible = false;
+      },
+      onSkuOk () {
+        this.buyOptionsVisible = false;
       }
     }
   };

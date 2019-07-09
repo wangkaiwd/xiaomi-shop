@@ -2,87 +2,35 @@
   <mui-layout class="select-sku">
     <mui-header class="goods-info">
       <div class="img-box">
-        <img src="//i8.mifile.cn/a1/pms_1558857746.29161362.jpg" alt="">
+        <img :src="currentGoods.imgUrl" alt="">
       </div>
       <div class="text-info">
-        <p class="price">￥2499</p>
-        <p class="name">Redmi K20 Pro 6GB+64GB 火焰红</p>
+        <p class="price">￥{{currentGoods.price}}</p>
+        <p class="name">{{currentGoods.name}} {{currentGoods.color}} {{currentGoods.group}}</p>
       </div>
     </mui-header>
     <mui-content class="sku-item-placeholder">
-      <div class="sku-item">
+      <div class="sku-item" v-for="item in buyOptions" :key="item.id">
         <div class="title">
-          版本
+          {{item.name}}
         </div>
         <div class="sku-sub-item-wrapper">
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-        </div>
-      </div>
-      <div class="sku-item">
-        <div class="title">
-          颜色
-        </div>
-        <div class="sku-sub-item-wrapper">
-          <div class="sku-sub-item">
-            <p>红色</p>
-          </div>
-          <div class="sku-sub-item">
-            <p>蓝色</p>
-          </div>
-          <div class="sku-sub-item">
-            <p>黑色</p>
-          </div>
-        </div>
-      </div>
-      <div class="sku-item">
-        <div class="title">
-          版本
-        </div>
-        <div class="sku-sub-item-wrapper">
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-          <div class="sku-sub-item name">
-            <p>6GB+64GB</p>
-            <p>2499元</p>
-          </div>
-        </div>
-      </div>
-      <div class="sku-item">
-        <div class="title">
-          颜色
-        </div>
-        <div class="sku-sub-item-wrapper">
-          <div class="sku-sub-item">
-            <p>红色</p>
-          </div>
-          <div class="sku-sub-item">
-            <p>蓝色</p>
-          </div>
-          <div class="sku-sub-item">
-            <p>黑色</p>
-          </div>
+          <template v-for="option in item.options">
+            <div
+              class="sku-sub-item"
+              :class="itemClasses(item,option)"
+              :key="option.id"
+              @click="changeSelect(item,option)"
+            >
+              <p>{{option.name}}</p>
+              <p v-if="option.price">{{option.price}}</p>
+            </div>
+          </template>
         </div>
       </div>
     </mui-content>
     <mui-footer class="join-shop-cart">
-      <p>加入购物车</p>
+      <p @click="joinCart">加入购物车</p>
     </mui-footer>
   </mui-layout>
 </template>
@@ -99,6 +47,51 @@
       buyOptions: {
         type: Array
       }
+    },
+    computed: {
+      selectItems () {
+        return this.buyOptions.map(option => option.selectItem);
+      },
+      currentGoods () {
+        const result = {};
+        this.buyOptions.map(option => {
+          if (option.name === '版本') {
+            result.price = option.selectItem.price;
+            result.name = option.selectItem.name;
+          }
+          if (option.name === '颜色') {
+            result.color = option.selectItem.name;
+            result.imgUrl = option.selectItem.img_url;
+          }
+          if (option.name === '套餐') {
+            result.group = option.selectItem.name;
+          }
+        });
+        return result;
+      }
+    },
+    mounted () {
+    },
+    methods: {
+      itemClasses (item, option) {
+        const selectId = item.selectItem.id;
+        return {
+          memory: item.name === '版本',
+          active: option.id === selectId
+        };
+      },
+      joinCart () {
+        // 发起请求
+        console.log(this.selectItems);
+        this.$emit('on-sku-ok');
+      },
+      changeSelect (item, option) {
+        item.selectItem = option;
+        const buyOptionsCopy = JSON.parse(JSON.stringify(this.buyOptions));
+        let target = buyOptionsCopy.find(buyOption => item.id === buyOption.id);
+        target = item;
+        this.$emit('update:buy-options', buyOptionsCopy);
+      }
     }
   };
 </script>
@@ -113,6 +106,7 @@
       width: 100px;
       height: 100px;
       border: 1px solid $light-border;
+      flex-shrink: 0;
     }
     .text-info {
       margin: $space-lg $space-sm;
@@ -149,8 +143,12 @@
         justify-content: space-between;
         border: 1px solid $light-border;
         padding: $space-sm $space-lg;
-        &.name {
+        &.memory {
           width: 100%;
+        }
+        &.active {
+          color: $main-color;
+          border-color: $main-color;
         }
       }
     }
@@ -166,6 +164,7 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        width: 100%;
       }
     }
   }
