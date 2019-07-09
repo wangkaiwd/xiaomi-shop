@@ -23,7 +23,7 @@
       <h3 class="desc-name">{{productInfo.name}} </h3>
       <div class="desc-text" v-html="productInfo.productDesc"></div>
       <div class="desc-price">
-        <span>￥</span>2999
+        <span>￥</span>{{currentGoods.price}}
       </div>
     </div>
     <div class="parameter" @click="showPopup('KeyParams')">
@@ -116,7 +116,10 @@
     >
       <select-sku
         :buy-options.sync="buyOptions"
+        :goods-name="productInfo.name"
         @on-sku-ok="onSkuOk"
+        :current-goods.sync="currentGoods"
+        @get-current-goods="getCurrentGoods"
       >
 
       </select-sku>
@@ -165,6 +168,7 @@
         parameters: {},
         images: [],
         productInfo: {},
+        currentGoods: {},
         header: {},
         recommendList: [],
         buyOptions: [],
@@ -218,6 +222,7 @@
         this.images = images;
         this.productInfo = productInfo;
         this.buyOptions = buy_option;
+        this.getCurrentGoods();
       },
       setGuessLove (res) {
         this.header = res.data.header;
@@ -240,6 +245,27 @@
       },
       onSkuOk () {
         this.buyOptionsVisible = false;
+      },
+      getCurrentGoods () {
+        const result = {};
+        this.buyOptions.map(option => {
+          if (option.name === '版本') {
+            result.price = option.selectItem.price;
+            result.size = option.selectItem.name;
+          }
+          if (option.name === '颜色') {
+            result.color = option.selectItem.name;
+            result.imgUrl = option.selectItem.img_url;
+          }
+          if (option.name === '套餐') {
+            if (option.selectItem.name !== '标配') {
+              result.group = option.selectItem.name;
+            } else {
+              result.group = undefined;
+            }
+          }
+        });
+        this.currentGoods = result;
       }
     }
   };

@@ -6,7 +6,7 @@
       </div>
       <div class="text-info">
         <p class="price">￥{{currentGoods.price}}</p>
-        <p class="name">{{currentGoods.name}} {{currentGoods.color}} {{currentGoods.group}}</p>
+        <p class="name">{{goodsName}} {{currentGoods.size}} {{currentGoods.color}} {{currentGoods.group}}</p>
       </div>
     </mui-header>
     <mui-content class="sku-item-placeholder">
@@ -46,29 +46,18 @@
     props: {
       buyOptions: {
         type: Array
-      }
+      },
+      currentGoods: {
+        type: Object,
+        default: () => {}
+      },
+      goodsName: { type: String }
     },
     computed: {
       selectItems () {
         return this.buyOptions.map(option => option.selectItem);
       },
-      currentGoods () {
-        const result = {};
-        this.buyOptions.map(option => {
-          if (option.name === '版本') {
-            result.price = option.selectItem.price;
-            result.name = option.selectItem.name;
-          }
-          if (option.name === '颜色') {
-            result.color = option.selectItem.name;
-            result.imgUrl = option.selectItem.img_url;
-          }
-          if (option.name === '套餐') {
-            result.group = option.selectItem.name;
-          }
-        });
-        return result;
-      }
+
     },
     mounted () {
     },
@@ -91,7 +80,8 @@
         let target = buyOptionsCopy.find(buyOption => item.id === buyOption.id);
         target = item;
         this.$emit('update:buy-options', buyOptionsCopy);
-      }
+        this.$emit('get-current-goods');
+      },
     }
   };
 </script>
@@ -117,6 +107,7 @@
       .name {
         margin-top: $space-sm;
         color: $dark-text;
+        line-height: 1.4;
       }
     }
     .sku-item-placeholder {
