@@ -1,14 +1,16 @@
 <template>
-  <div class="mui-toast">
-    <div class="mui-toast-content" :class="{hasIcon}">
-      <div class="mui-toast-icon" v-if="hasIcon">
-        <mui-icon class="mui-toast-icon-loading" v-if="isLoading" name="loading"></mui-icon>
-        <mui-icon v-else :name="icon"></mui-icon>
+  <transition name="fade">
+    <div class="mui-toast" v-if="visible">
+      <div class="mui-toast-content" :class="{hasIcon}">
+        <div class="mui-toast-icon" v-if="hasIcon">
+          <mui-icon class="mui-toast-icon-loading" v-if="isLoading" name="loading"></mui-icon>
+          <mui-icon v-else :name="icon"></mui-icon>
+        </div>
+        {{message}}
       </div>
-      {{message}}
+      <div class="mui-toast-mask" v-if="mask"></div>
     </div>
-    <div class="mui-toast-mask" v-if="mask"></div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -35,6 +37,11 @@
         default: 3000
       }
     },
+    data () {
+      return {
+        visible: false
+      };
+    },
     computed: {
       isLoading () {
         return this.type === 'loading';
@@ -44,6 +51,7 @@
       }
     },
     mounted () {
+      this.visible = true;
       this.autoClose();
     },
     methods: {
@@ -94,6 +102,15 @@
     }
     &-icon-loading {
       @include spin;
+    }
+    &.fade-enter-active,
+    &.fade-leave-active {
+      opacity: 1;
+      transition: opacity 500ms;
+    }
+    &.fade-enter,
+    &.fade-leave-to {
+      opacity: 0;
     }
   }
 </style>

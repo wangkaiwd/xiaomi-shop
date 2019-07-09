@@ -11,6 +11,9 @@ export default {
         toastInstance.closeToast();
       }
       const componentClass = Vue.extend(Toast);
+      if (typeof options === 'string') {
+        options = { message: options };
+      }
       toastInstance = new componentClass({
         propsData: options,
       });
