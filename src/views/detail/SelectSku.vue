@@ -28,6 +28,16 @@
           </template>
         </div>
       </div>
+      <div class="sku-item buy-num">
+        <div class="buy-num-text">购买数量</div>
+        <mui-number
+          :min-number="1"
+          :number="number"
+          @on-minus="onMinus"
+          @on-add="onAdd"
+        >
+        </mui-number>
+      </div>
     </mui-content>
     <mui-footer class="join-shop-cart">
       <p @click="joinCart">加入购物车</p>
@@ -57,7 +67,11 @@
       selectItems () {
         return this.buyOptions.map(option => option.selectItem);
       },
-
+    },
+    data () {
+      return {
+        number: 2
+      };
     },
     mounted () {
     },
@@ -68,6 +82,12 @@
           memory: item.name === '版本',
           active: option.id === selectId
         };
+      },
+      onAdd () {
+        this.number++;
+      },
+      onMinus () {
+        this.number--;
       },
       joinCart () {
         // 发起请求
@@ -99,7 +119,7 @@
       flex-shrink: 0;
     }
     .text-info {
-      margin: $space-lg $space-sm;
+      margin: $space-md $space-sm;
       .price {
         font-size: 26px;
         color: $main-color;
@@ -107,7 +127,7 @@
       .name {
         margin-top: $space-sm;
         color: $dark-text;
-        line-height: 1.4;
+        line-height: 1.2;
       }
     }
     .sku-item-placeholder {
@@ -117,6 +137,8 @@
     .sku-item {
       color: $dark-text;
       font-size: $font-sm;
+      padding: $space-xl 0;
+      border-bottom: 1px solid #f4f4f4;
       .title {
         padding: $space-lg 0 $space-sm;
       }
@@ -142,6 +164,15 @@
           border-color: $main-color;
         }
       }
+    }
+    .buy-num {
+      display: flex;
+      justify-content: space-between;
+      align-content: center;
+    }
+    .buy-num-text {
+      display: flex;
+      align-items: center;
     }
     .join-shop-cart {
       height: 54px;
