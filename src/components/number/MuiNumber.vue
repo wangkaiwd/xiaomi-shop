@@ -1,8 +1,8 @@
 <template>
   <div class="mui-number">
-        <span class="mui-number-minus" :class="{disabled: disabledMinus}" @click="onMinus">
-          <mui-icon name="minus"></mui-icon>
-        </span>
+    <span class="mui-number-minus" :class="{disabled: disabledMinus}" @click="onMinus">
+      <mui-icon name="minus"></mui-icon>
+    </span>
     <span class="mui-number-count">{{number}}</span>
     <span class="mui-number-add" @click="onAdd" :class="{disabled:disabledAdd}">
       <mui-icon name="plus"></mui-icon>

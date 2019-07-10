@@ -12,16 +12,28 @@
         <li>内容7</li>
       </ul>
     </mui-popup>
+
+    <button @click="showDialog">show dialog</button>
   </div>
 </template>
 
 <script>
+  import Dialog from 'components/dialog';
+
   export default {
     name: 'MuiExample',
     data () {
       return {
         visible: false
       };
+    },
+    methods: {
+      showDialog () {
+        Dialog.confirm({
+          title: '标题',
+          message: '代码是写出来给人看的，附带能在/n机器上运行'
+        });
+      }
     }
   };
 </script>

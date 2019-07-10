@@ -90,8 +90,6 @@
         this.number--;
       },
       joinCart () {
-        // 发起请求
-        console.log(this.selectItems);
         this.$emit('on-sku-ok');
       },
       changeSelect (item, option) {
