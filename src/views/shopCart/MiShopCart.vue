@@ -18,7 +18,7 @@
 </template>
 
 <script>
-  import MiCartItem from 'views/shopCart/MiCartItem';
+  import MiCartItem from './MiCartItem';
   import MuiLayout from 'components/layout/MuiLayout';
   import GuessLove from 'components/guessLove/GuessLove';
   import { fetchGuessLove } from 'api/index';

@@ -13,10 +13,14 @@
       </ul>
     </mui-popup>
     <button @click="shoToast">toast1</button>
+
+    <button @click="showDialog">show dialog</button>
   </div>
 </template>
 
 <script>
+  import Dialog from 'components/dialog';
+
   export default {
     name: 'MuiExample',
     data () {
@@ -37,6 +41,12 @@
         //   closeToast();
         // }, 4000);
       }
+    },
+    showDialog () {
+      Dialog.confirm({
+        title: '标题',
+        message: '代码是写出来给人看的，附带能在/n机器上运行'
+      });
     }
   };
 </script>
