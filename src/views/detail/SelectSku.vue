@@ -90,7 +90,19 @@
         this.number--;
       },
       joinCart () {
-        this.$emit('on-sku-ok');
+        this.$toast({
+          mask: true,
+          type: 'loading',
+          message: '加载中...'
+        });
+        setTimeout(() => {
+          this.$toast({
+            icon: 'success',
+            message: '加入购物车成功!',
+            duration: 1000
+          });
+          this.$emit('on-sku-ok');
+        }, 2000);
       },
       changeSelect (item, option) {
         item.selectItem = option;
