@@ -40,14 +40,18 @@
         // setTimeout(() => {
         //   closeToast();
         // }, 4000);
+      },
+      showDialog () {
+        Dialog.alert({
+          title: '标题',
+          message: '代码是写出来给人看的，附带能在/n机器上运行'
+        }).then(
+          (ok) => {
+            console.log(ok);
+          }
+        );
       }
     },
-    showDialog () {
-      Dialog.confirm({
-        title: '标题',
-        message: '代码是写出来给人看的，附带能在/n机器上运行'
-      });
-    }
   };
 </script>
 
