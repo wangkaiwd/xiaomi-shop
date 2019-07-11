@@ -3,8 +3,6 @@
  */
 
 import axios from 'axios';
-import store from 'store/store';
-import vm from '@/main';
 
 const http = axios.create({
   baseURL: 'https://easy-mock.com/mock/5d142f6686ff3d05898bef38/xiaomi',
@@ -15,7 +13,9 @@ http.interceptors.request.use(
   (config) => {
     return config;
   },
-  error => Promise.reject(error)
+  error => {
+    return Promise.reject(error);
+  }
 );
 
 http.interceptors.response.use(
