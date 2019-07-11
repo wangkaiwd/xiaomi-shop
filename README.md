@@ -1,4 +1,4 @@
-# 小米商城
+# 仿小米商城 -- `vue`通用组件实战
 > 这是一个仿小米商城的`vue`全家桶项目，[点击预览](https://wangkaiwd.github.io/xiaomi-shop/)
 
 项目环境介绍：  
@@ -7,14 +7,13 @@
 * `Node`: `v12.4.0`
 
 项目会完成的页面和功能：  
-* 登录页面 -> 表单校验的简单封装
+* 登录页面 -> 封装表单校验方法
 * 首页 -> 实现前进后退路由动画
-* 分类页
+* 分类页 -> 使用第三方懒加载组件
 * 详情 -> 封装`popup`组件
 * 购物车 -> `vue`列表动画
-* 我的 -> `dialog`组件
 
-页面截图： 
+项目中有适当加入一些动画来使交互更加丰富
 
 项目涉及到的大概知识：  
 * `vue 3.x`最新脚手架使用
@@ -58,7 +57,7 @@ yarn global upgrade @vue/cli
 8. 通过`HardSourceWebpackPlugin`提升打包速度
 9. 开启`gzip`
 
-这里也有一份社区大佬总结的一份`vue.config.js`的详细配置文件： [传送门](https://github.com/staven630/vue-cli3-config)
+这里也有一份社区总结的一份`vue.config.js`的详细配置文件： [传送门](https://github.com/staven630/vue-cli3-config)
 
 
 ### 安装常用依赖
@@ -129,27 +128,37 @@ module.exports = {
 * 使用伪元素添加`content`属性时命令行会提示`error`
 * 设置的`style`无法转换为`vw`
 
-## 接口请求封装
-## 数据`Mock`
-项目中的接口数据是通过`easy-mock`来进行模拟，它的语法是根据`mockjs`来进行随机生成数据，可以通过[示例](http://mockjs.com/examples.html)来快速学习。  
-
-在项目中我模拟了如下的一些接口，有小伙伴想要用来练习的话可以直接访问,节省数据`mock`时间：  
-```text
-
+这里对于命令行中的伪元素`content`报错我通过在`babel.config.js`中配置了如下代码来进行过滤：  
+```js
+'postcss-viewport-units': {
+  // 过滤在使用伪元素时覆盖插件生成的content而在command line 中产生的warning:https://github.com/didi/cube-ui/issues/296
+  filterRule: rule => rule.nodes.findIndex(i => i.prop === 'content') === -1
+}
 ```
 
+而`style`转换`vw`的问题是简单写了一个`js`方法来帮我们进行转换：  
+```js
+export const vw = (number) => {
+  const htmlWidth = document.documentElement.offsetWidth;
+  return number * (100 / htmlWidth);
+};
+```
+这样我们简单的解决了目前开发遇到的一些小问题。
+
 ## 通用组件设计
-对于通用组件，由于在全局很多地方会进行引入，所以为了使用方便，我们通过`webpack`中的`require.context`方法来自动全局注册，这要之后再添加全局组件也不用在进行注册了。  
+对于通用组件，由于在全局很多地方会进行引入，所以为了使用方便，我们通过`webpack`中的`require.context`方法来自动全局注册，这要之后再添加全局组件也不用在进行注册了。笔者将它放到了一个单独的`js`文件中来执行：  
 ```js
 // autoRegister.js
 import Vue from 'vue';
-
+// 不需要自动注册的组件
+const blackList = ['MuiToast'];
 const requireComponent = require.context('components', true, /Mui[A-Z]\w+\.vue$/);
 requireComponent.keys().forEach(filename => {
   const componentConfig = requireComponent(filename);
   const start = filename.lastIndexOf('/') + 1;
   const end = filename.lastIndexOf('.');
   const componentName = filename.slice(start, end);
+  if (blackList.includes(filename)) {return;}
   // 全局注册组件
   Vue.component(
     componentName,
@@ -162,7 +171,7 @@ requireComponent.keys().forEach(filename => {
 ```
 当然这里有需要我们定义好命名规范：**组件名必须要以`Mui`开头，并且遵循驼峰命名的规则**
 
-根据项目需要，我们大概会实现以下通用组件：
+根据项目需要，我实现了以下通用组件：
 * `layout`布局组件(`MuiLayout,MuiHeder,MuiFooter,MuiAside,MuiContent`)
 * `icon`字体图标组件(`MuiIcon`)
 * `popup`弹出框组件(`MuiPopup`)
@@ -172,31 +181,19 @@ requireComponent.keys().forEach(filename => {
 这里主要讲一下`icon`和`Toast`组件的实现过程，其它组件的实现过程小伙伴可以看源代码。 
   
 ### `icon`组件
-`icon`图标在项目中使用的特别频繁，我很有必要进行一个统一封装，方便使用
+`icon`图标在项目中使用的特别频繁，我很有必要进行一个统一封装，方便使用。
+
+项目中用到的`icon`图标是通过`iconfont`网站进行获取： [传送门](www.iconfont.cn)。这里我们使用的是`symbol`的方式来进行实现，可以支持多色图标，也可以通过`font-size`，`color`来进行样式的调整。
+
+首先我们需要在图标库选好自己的图标，之后我们可以为我们图标所在的项目进行简单设置：  
+![icon-font-prefix](./screenshots/icon-font-prefix.png)
 
 ### `toast`组件
+这里的`toast`和其它组件的使用方式不一样，它是通过使用`Vue.use`来进行全局注册。
 
 
 
 
-## 知识补充
-### `es6`模块化
-这里是一个例子  
-[![Edit patient-sun-to0wc](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/patient-sun-to0wc?fontsize=14)
-
-* `import`命令具有提升效果，会提升到整个模块的头部，首先执行。本质：`import`命令是编译阶段执行的，在代码运行之前。
-* `import`是静态执行的，所以不能使用表达式和变量，这些只有在运行时才能得到结果的语法结构。如果想要使用表达式和变量可以使用`require`语法，但是要注意，此时的静态优化将不再有效
-* `import`语句会执行所加载的模块，如果多次重复执行同一句`import`语句，那么只会执行一次
-* 循环加载： `ES6`模块是动态引用，如果使用`import`从一个模块加载变量，那些变量不会被缓存，而是成为一个指向被加载模块的引用，需要开发者自己保证，真正取值的时候能够取到值
-
-### `CSS`
-* `sass`中可以直接通过计算来设置属性  
-  ![calc-scss](./screenshots/calc-scss.png)
-* 文字特殊符号居中问题
-* `MiApp`组件`z-index`问题
-* 单行溢出隐藏问题
-### `vue`
-* 使用`dart-sass`实现深度作用
 ## 结语
 开源不易，希望大家能给个`start`给与鼓励，让社区中乐于分享的开发者创造出更好的作品。
 

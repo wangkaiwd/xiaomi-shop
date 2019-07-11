@@ -71,7 +71,7 @@
     .list-enter-active,
     .list-leave-active,
     .list-move {
-      transition: 1.2s cubic-bezier(0.59, 0.12, 0.34, 0.95);
+      transition: 0.8s cubic-bezier(0.59, 0.12, 0.34, 0.95);
       transition-property: all;
       overflow: hidden;
     }

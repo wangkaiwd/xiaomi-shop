@@ -56,8 +56,11 @@
     },
     methods: {
       closeToast () {
-        this.$el.remove();
-        this.$destroy();
+        this.visible = false;
+        this.$nextTick(() => {
+          this.$el.remove();
+          this.$destroy();
+        });
       },
       autoClose () {
         if (this.duration === 0 || this.type === 'loading') {return;}
@@ -106,12 +109,17 @@
     }
     &.fade-enter-active,
     &.fade-leave-active {
-      opacity: 1;
       transition: opacity 250ms;
+      .mui-toast-content {
+        transition: opacity 250ms;
+      }
     }
     &.fade-enter,
     &.fade-leave-to {
       opacity: 0;
+      .mui-toast-content {
+        opacity: 0;
+      }
     }
   }
 </style>

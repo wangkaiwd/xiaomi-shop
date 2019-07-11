@@ -41,7 +41,7 @@
     methods: {
       onAdd () {
         if (this.number >= this.maxNumber) {
-          alert('达到最大购买数量');
+          this.$toast('达到最大购买数量');
           return;
         }
         this.$emit('on-add');
@@ -49,7 +49,7 @@
       onMinus () {
         console.log(this.number, this.minNumber);
         if (this.number <= this.minNumber && this.number >= 0) {
-          alert(`最少需购买${this.number}件商品`);
+          this.$toast(`最少需购买${this.number}件商品`);
           return;
         }
         this.$emit('on-minus');
