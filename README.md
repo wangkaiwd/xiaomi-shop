@@ -188,6 +188,124 @@ requireComponent.keys().forEach(filename => {
 首先我们需要在图标库选好自己的图标，之后我们可以为我们图标所在的项目进行简单设置：  
 ![icon-font-prefix](./screenshots/icon-font-prefix.png)
 
+然后我们选择`symbol`类型的图标，并将地址复制到`pubic/index.html`中。
+
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-icon-link.png)
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="icon" href="<%= BASE_URL %>favicon.ico">
+  <title>小米商城</title>
+  <script src="//at.alicdn.com/t/font_1253950_whicd7mh5w.js"></script>
+</head>
+<body>
+<noscript>
+  <strong>We're sorry but vue-cli-demo doesn't work properly without JavaScript enabled. Please enable it to
+    continue.</strong>
+</noscript>
+<div id="app"></div>
+<!-- built files will be auto injected -->
+</body>
+</html>
+```
+
+准备工作完成后，我们建立`MuiIcon`文件，添加如下代码：  
+```vue
+<template>
+  <svg
+    class="mui-icon"
+    aria-hidden="true"
+  >
+    <use xlink:href="#icon-xxx"></use>
+  </svg>
+</template>
+
+<script>
+  export default {
+    name: 'MiIcon',
+  };
+</script>
+
+<style lang="scss" scoped>
+  .mui-icon {
+    display: inline-block;
+    width: 1em; height: 1em;
+    vertical-align: top;
+    fill: currentColor;
+    overflow: hidden;
+  }
+</style>
+```
+> 接下来的内容不再介绍`css`
+
+代码中的`xxx`在使用过程中需要替换为对应`icon`的名字，我们通过为`Icon`组件传入一个`name`属性来动态设置图标名称。由于上边为项目图标设置了统一前缀`mi`，所以这里要进行如下修改：  
+```vue
+<template>
+  <svg
+    class="mui-icon"
+    aria-hidden="true"
+  >
+    <use :xlink:href="`#mi-${name}`"></use>
+  </svg>
+</template>
+
+<script>
+  export default {
+    name: 'MiIcon',
+    props: {
+      name: { type: String, required: true }
+    }
+  };
+</script>
+```
+这样我们就实现了一个最基础的`icon`组件，可以在项目中这样使用：  
+```vue
+<mui-icon name="logo"></mui-icon>
+```
+
+在日常的项目中，我们还会遇到如下需求：  
+* 鼠标移入`icon`图标，图标旋转
+* 点击`icon`进行页面跳转
+
+诸如此类的需求我们不可能一个一个为`icon`组件添加对应的属性和方法，这里我们运用到`vue`中几个不太常用的`api`:  
+* `v-on`和`v-bind`绑定对象： 会将对象的属性分发到当前节点
+* `$attrs`: 可以获取没有在`props`中定义的属性
+* `$listens`：获取父作用域中不含`.native`修饰器的`v-on`事件监听器
+* `inheritAttrs`： 可以让非`props`中添加的属性不再显示到`icon`组件的根节点上
+
+```vue
+<template>
+  <svg
+    class="mui-icon"
+    aria-hidden="true"
+    v-bind="$attrs"
+    v-on="$listeners"
+  >
+    <use :xlink:href="`#mi-${name}`"></use>
+  </svg>
+</template>
+
+<script>
+  export default {
+    name: 'MiIcon',
+    inheritAttrs: false, // 默认值为true,是否在根节点上显示传入的没有通过props接收的属性
+    props: {
+      name: { type: String, required: true }
+    }
+  };
+</script>
+```
+这样书写之后，`icon`组件就可以接受任意的`svg`原生支持的事件和属性。
+
+在`react`中，我们也会碰到类似的需求，并且在`react`中不会帮我们对`class`进行合并。所以在`react`中的思路大概如下:  
+* 单独对`class`进行处理，手动拼接为多类名格式(`Vue`这里已经帮我们做好)
+* 通过`...restProps`将其余的属性扩展到对应的节点上
+
 ### `toast`组件
 这里的`toast`和其它组件的使用方式不一样，它是通过使用`Vue.use`来进行全局注册。
 
