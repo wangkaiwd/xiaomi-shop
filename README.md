@@ -59,6 +59,10 @@ yarn global upgrade @vue/cli
 
 这里也有一份社区总结的一份`vue.config.js`的详细配置文件： [传送门](https://github.com/staven630/vue-cli3-config)
 
+### `webstorm`实用技巧
+我们可以为`webstorm`提供`webpack`配置文件，来让`webstorm`实现对路径别名以及后缀等配置的识别，极大的方便了`webstorm`对我们的路径补全和代码自动引入。
+
+
 
 ### 安装常用依赖
 项目中我们也用到了一些社区内优秀的第三方插件：  
