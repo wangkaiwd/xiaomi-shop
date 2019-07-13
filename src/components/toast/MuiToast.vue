@@ -56,8 +56,11 @@
     },
     methods: {
       closeToast () {
-        this.$el.remove();
-        this.$destroy();
+        this.visible = false;
+        this.$nextTick(() => {
+          this.$el.remove();
+          this.$destroy();
+        });
       },
       autoClose () {
         if (this.duration === 0 || this.type === 'loading') {return;}
@@ -77,16 +80,16 @@
       position: fixed;
       top: 50%;
       left: 50%;
-      z-index: 90;
       max-width: 20em;
       min-width: 4em;
       transform: translate(-50%, -50%);
       line-height: 1.4;
       background-color: rgba(50, 50, 51, 0.88);
-      border-radius: $border-radius-sm;
+      border-radius: $border-radius-md;
       &.hasIcon {
         padding: 1.6em;
       }
+      z-index: 92;
     }
     &-mask {
       position: fixed;
@@ -95,22 +98,28 @@
       bottom: 0;
       right: 0;
       background-color: rgba(0, 0, 0, 0.7);
+      z-index: 91;
     }
     &-icon {
       text-align: center;
-      font-size: 28px;
+      font-size: 30px;
     }
     &-icon-loading {
       @include spin;
     }
     &.fade-enter-active,
     &.fade-leave-active {
-      opacity: 1;
-      transition: opacity 500ms;
+      transition: opacity 250ms;
+      .mui-toast-content {
+        transition: opacity 250ms;
+      }
     }
     &.fade-enter,
     &.fade-leave-to {
       opacity: 0;
+      .mui-toast-content {
+        opacity: 0;
+      }
     }
   }
 </style>

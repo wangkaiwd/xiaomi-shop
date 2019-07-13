@@ -1,18 +1,18 @@
 <template>
-  <transition name="scale" :duration="1000">
+  <transition name="scale">
     <div class="mui-dialog" v-if="visible">
       <div class="mui-dialog-mask">
       </div>
       <div class="mui-dialog-wrapper">
-        <header class="mui-dialog-title">
-          标题
+        <header class="mui-dialog-title" v-if="title">
+          {{title}}
         </header>
         <main class="mui-dialog-content">
           <slot></slot>
         </main>
-        <footer class="mui-dialog-footer">
-          <p @click="onCancel">{{cancelText}}</p>
-          <p>{{okText}}</p>
+        <footer class="mui-dialog-footer" :class="{hasFooterBorder}">
+          <p class="mui-dialog-cancel" @click="onCancel" v-if="showCancelButton">{{cancelText}}</p>
+          <p class="mui-dialog-ok" @click="onOk" v-if="showOkButton">{{okText}}</p>
         </footer>
       </div>
     </div>
@@ -31,6 +31,9 @@
         type: Boolean,
         default: false
       },
+      title: {
+        type: String,
+      },
       message: {
         type: String
       },
@@ -41,11 +44,35 @@
       okText: {
         type: String,
         default: '确认'
+      },
+      showCancelButton: {
+        type: Boolean,
+        default: true
+      },
+      showOkButton: {
+        type: Boolean,
+        default: true
+      }
+    },
+    computed: {
+      hasFooterBorder () {
+        return this.showCancelButton && this.showOkButton;
       }
     },
     methods: {
       onCancel () {
         this.$emit('change', false);
+        this.$emit('on-cancel');
+        if (typeof this.reject === 'function') {
+          this.reject('cancel');
+        }
+      },
+      onOk () {
+        this.$emit('on-ok');
+        this.resolve('on-ok');
+        if (typeof this.reject === 'function') {
+          this.resolve('ok');
+        }
       }
     }
   };
@@ -55,13 +82,16 @@
   .mui-dialog {
     &.scale-enter-active,
     &.scale-leave-active {
-      transition: all 1s;
+      transition: all 250ms;
+      .mui-dialog-wrapper {
+        transition: all 250ms;
+      }
     }
     &.scale-enter,
     &.scale-leave-to {
       opacity: 0;
       .mui-dialog-wrapper {
-        transform: scale(0.5);
+        transform: translate(-50%, -50%) scale(0.6);
       }
     }
     &-wrapper {
@@ -102,10 +132,17 @@
       p {
         text-align: center;
         flex: 1;
+      }
+    }
+    .hasFooterBorder {
+      p {
         &:first-child {
           border-right: 1px solid $light-border;
         }
       }
+    }
+    &-ok {
+      color: $main-color;
     }
   }
 </style>

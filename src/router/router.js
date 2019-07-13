@@ -103,4 +103,4 @@ export const routes = [
     meta: { title: '组件demo' }
   },
 ];
-export default new Router({ routes });
+export default new Router({ mode: 'hash', routes });
