@@ -70,7 +70,7 @@
 <script>
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav, headerNav } from '@/config/navConfig';
-  import scrollToMiddle from 'helpers/dom/scroll';
+  import scrollToMiddle from '@/helpers/dom/scroll';
 
   export default {
     name: 'MiHome',

@@ -31,7 +31,7 @@
 <script>
   import FooterNav from 'components/footerNav/FooterNav';
   import { footerNav } from '@/config/navConfig';
-  import { fetchCategoryList } from 'api/index';
+  import { fetchCategoryList } from '@/api/index';
   import CategoryItem from './CategoryItem';
 
   export default {

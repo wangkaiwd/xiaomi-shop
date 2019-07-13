@@ -21,7 +21,7 @@
   import MiCartItem from './MiCartItem';
   import MuiLayout from 'components/layout/MuiLayout';
   import GuessLove from 'components/guessLove/GuessLove';
-  import { fetchGuessLove } from 'api/index';
+  import { fetchGuessLove } from '@/api/index';
 
   export default {
     name: 'MiShopCart',

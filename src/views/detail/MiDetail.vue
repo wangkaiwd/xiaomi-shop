@@ -132,7 +132,7 @@
   import { swiper, swiperSlide } from 'vue-awesome-swiper';
   import SelectorList from 'views/detail/SelectorList';
   import SelectorListItem from 'views/detail/SelectorListItem';
-  import { fetchDetail, fetchGuessLove } from 'api/index';
+  import { fetchDetail, fetchGuessLove } from '@/api/index';
   import GuessLove from 'components/guessLove/GuessLove';
   import ServiceIntroduce from './ServiceIntroduce';
   import KeyParams from './KeyParams';

@@ -3,9 +3,9 @@ import App from './MiApp.vue';
 import './registerServiceWorker';
 import router from './router/router';
 import store from './store/store';
-import 'helpers/autoRegister';
-import 'helpers/globalPlugin';
-import 'styles/base.scss';
+import '@/helpers/autoRegister';
+import '@/helpers/globalPlugin';
+import 'assets/styles/base.scss';
 
 Vue.config.productionTip = false;
 

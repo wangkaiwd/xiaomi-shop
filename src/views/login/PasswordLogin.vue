@@ -33,7 +33,7 @@
 </template>
 
 <script>
-  import validator, { noError } from 'helpers/validator';
+  import validator, { noError } from '@/helpers/validator';
 
   const constraints = [
     { key: 'username', required: true, message: '请输入账号' },

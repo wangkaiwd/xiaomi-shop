@@ -2,7 +2,7 @@
   <mui-layout class="mui-skeleton" style="z-index: 100;" v-if="loading">
     <mui-header class="mui-skeleton-header"></mui-header>
     <mui-content>
-      <img src="~img/loading.png" alt="">
+      <img src="~assets/img/loading.png" alt="">
     </mui-content>
     <mui-footer class="mui-skeleton-footer"></mui-footer>
   </mui-layout>

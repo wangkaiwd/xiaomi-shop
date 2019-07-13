@@ -45,35 +45,27 @@ module.exports = {
       return args;
     });
     // 这里的具体配置都可以在文档的链接中找到
-    // 配置别名
+    // 配置别名: 这里配置的多了会影响打包性能
     config.resolve
       .alias
       .set('@', resolve(''))
       .set('api', resolve('api'))
       .set('helpers', resolve('helpers'))
-      .set('http', resolve('http'))
       .set('views', resolve('views'))
       .set('components', resolve('components'))
       .set('assets', resolve('assets'))
-      .set('styles', resolve('assets/styles'))
-      .set('img', resolve('assets/img'))
-      .set('filters', resolve('filters'))
-      .set('mixins', resolve('mixins'))
-      .set('store', resolve('store'))
-      .set('layouts', resolve('layouts'))
-      .set('router', resolve('router'))
-      .end()
-      // 扩展名省略
-      .extensions
-      .add('.scss');
+      .end();
+    // // 扩展名省略
+    // .extensions
+    // .add('.scss');
   },
   css: {
     loaderOptions: {
       // 自动引入全局scss
       sass: {
         data: `
-          @import "styles/_mixins.scss";
-          @import "styles/_vars.scss";
+          @import "assets/styles/_mixins.scss";
+          @import "assets/styles/_vars.scss";
         `
       }
     }

@@ -42,7 +42,7 @@
 </template>
 
 <script>
-  import validator, { noError } from 'helpers/validator';
+  import validator, { noError } from '@/helpers/validator';
 
   const constraints = [
     { key: 'phoneNo', required: true, message: '请输入手机号' },

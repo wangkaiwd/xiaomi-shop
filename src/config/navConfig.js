@@ -1,4 +1,4 @@
-import { routes } from 'router/router';
+import { routes } from '@/router/router';
 
 const createHeaderNav = (routes) => {
   const indexRoute = routes.find(route => route.path === '/index');

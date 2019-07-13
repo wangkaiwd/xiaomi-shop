@@ -4,8 +4,8 @@
 
 import NProgress from 'nprogress';
 import 'nprogress/nprogress.css';
-import store from 'store/store';
-import router from 'router/router';
+import store from '@/store/store';
+import router from '@/router/router';
 
 router.beforeEach((to, from, next) => {
   if (!from.name) {
