@@ -5,28 +5,13 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin');
 const webpack = require('webpack');
 const resolve = dir => path.resolve(__dirname, `src/${dir}/`);
 const buildMode = () => {
   const argv = process.argv;
   return argv[argv.indexOf('--project-mode') + 1];
 };
-const importDllFiles = () => {
-  const files = fs.readdirSync(path.resolve(__dirname, 'dll'));
-  return files.map(file => {
-    if (file.includes('dll.js')) {
-      return new AddAssetHtmlPlugin({
-        filepath: path.resolve(__dirname, `./dll/${file}`),
-      });
-    }
-    if (file.includes('manifest.json')) {
-      return new webpack.DllReferencePlugin({
-        manifest: path.resolve(__dirname, `./dll/${file}`)
-      });
-    }
-  });
-};
+
 const isPro = process.env.NODE_ENV === 'production';
 const isAnalysis = process.env.VUE_APP_SELF_MODE === 'analysis';
 module.exports = {
@@ -83,7 +68,6 @@ module.exports = {
   configureWebpack: config => {
     const plugins = [
       new HardSourceWebpackPlugin(),
-      ...importDllFiles()
     ];
     if (isPro) {
       plugins.push(

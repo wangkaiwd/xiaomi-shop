@@ -5,7 +5,6 @@
   "scripts": {
     "start": "vue-cli-service serve",
     "build": "vue-cli-service build",
-    "build:dll": "rm -rf dll && webpack --config webpack.dll.js",
     "build:analysis": "vue-cli-service build --mode analysis",
     "deploy": "sh ./deploy.sh"
   },
@@ -25,7 +24,6 @@
     "@vue/cli-plugin-babel": "^3.8.0",
     "@vue/cli-plugin-pwa": "^3.8.0",
     "@vue/cli-service": "^3.8.0",
-    "add-asset-html-webpack-plugin": "^3.1.3",
     "cssnano": "^4.1.10",
     "cssnano-preset-advanced": "^4.0.7",
     "hard-source-webpack-plugin": "^0.13.1",
@@ -41,7 +39,6 @@
     "uglifyjs-webpack-plugin": "^2.1.3",
     "vconsole": "^3.3.0",
     "vue-template-compiler": "^2.6.10",
-    "webpack-bundle-analyzer": "^3.3.2",
-    "webpack-cli": "^3.3.5"
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }
