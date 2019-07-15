@@ -1,11 +1,10 @@
 const path = require('path');
-const fs = require('fs');
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const CompressionWebpackPlugin = require('compression-webpack-plugin');
 const productionGzipExtensions = /\.(js|css|json|txt|html|ico|svg)(\?.*)?$/i;
-const webpack = require('webpack');
+const AutoDllPlugin = require('autodll-webpack-plugin');
 const resolve = dir => path.resolve(__dirname, `src/${dir}/`);
 const buildMode = () => {
   const argv = process.argv;
@@ -17,7 +16,7 @@ const isAnalysis = process.env.VUE_APP_SELF_MODE === 'analysis';
 module.exports = {
   // 关闭eslint
   lintOnSave: false,
-  publicPath: isPro ? '/xiaomi-shop/' : '/',
+  publicPath: (isPro && !isAnalysis) ? '/xiaomi-shop/' : '/',
   productionSourceMap: false,
   chainWebpack: config => {
     // 这里是对环境的配置，不同环境对应不同的BASE_API，以便axios的请求地址不同。也可以通过vue cli的mode来实现
@@ -68,6 +67,17 @@ module.exports = {
   configureWebpack: config => {
     const plugins = [
       new HardSourceWebpackPlugin(),
+      new AutoDllPlugin({
+        inject: true, // will inject the DLL bundle to index.html
+        debug: true,
+        filename: '[name]_[hash].js',
+        path: './dll',
+        entry: {
+          'vendor_vue': ['vue', 'vuex', 'vue-router'],
+          'vendor_ui': ['vue-lazyload', 'vue-awesome-swiper', 'nprogress'],
+          'vendor_tools': ['register-service-worker', 'axios', 'vconsole', 'core-js']
+        }
+      })
     ];
     if (isPro) {
       plugins.push(
