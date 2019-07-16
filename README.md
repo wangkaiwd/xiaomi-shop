@@ -54,17 +54,48 @@ yarn global upgrade @vue/cli
 5. 自动引入全局`css`
 6. 设置`icon`图标路径
 7. 移除打包后的`console.log`
-8. 通过`HardSourceWebpackPlugin`提升打包速度
+8. 通过`HardSourceWebpackPlugin`缓存打包中间步骤，提升性能
 9. 开启`gzip`
+10. 使用`autodll-webpack-plugin`将第三方模块和一些不经常更改的文件进行提前打包，提升打包速速
 
 这里也有一份社区总结的一份`vue.config.js`的详细配置文件： [传送门](https://github.com/staven630/vue-cli3-config)
 
 ### `webstorm`实用技巧
 我们可以为`webstorm`提供`webpack`配置文件，来让`webstorm`实现对路径别名以及后缀等配置的识别，极大的方便了`webstorm`对我们的路径补全和代码自动引入。
 
+`vue`的`webpack.config.js`在这里，它会动态识别`vue.config.js`中的配置： 
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-webstorm-webpack.png)
+
+如果我们使用的是`react-create-app`进行项目构建，并且不想使用`eject`命令的话，可以通过写一个假的`webpack.config.js`文件来专门供`webstorm`识别：  
+```js
+// 这并不是真的webpack配置文件，只是用来让webpack识别相应的配置
+const path = require('path');
+module.exports = {
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src')
+    }
+  }
+};
+```
+
+项目中我们禁用了`eslint`插件，而是通过`webstorm`来控制我们的代码风格，配置好之后只需要格式化一下就好了：  
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-webstorm-code-style.png)
+
+这里我们`JavaScript`的代码分格采用预设的标准代码风格，并且设置为每行结束都要加分号
+
+在`code style`中也可以对`css,html,sass`等文件设置代码风格，大家可以自己研究一下。
+
+这里再介绍几个个人觉得特别好用的快捷键：
+> 笔者使用的是`mac`
+  
+* `shift+F6`: 可以对变量进行重命名，用到变量的地方也会进行更改，极大的方便了代码重构
+* `ctrl+B`: 当不使用鼠标的时候,可以通过键盘跳转到函数或变量定义处
+* `option+enter`: 弹出代码提示弹窗，在自动导入依赖模块的时候尤其好用
+* `ctrl+[ / ctrl+]`: 可以跳转到我们之前或之后操作代码的位置，使通过`ctrl+B`跳转到定义处然后再回到使用位置的操作异常快捷
 
 
-### 安装常用依赖
+### 安装第三方项目依赖
 项目中我们也用到了一些社区内优秀的第三方插件：  
 * [`vue-awesome-swiper`](https://github.com/surmon-china/vue-awesome-swiper): `vue`版的`swiper`插件，支持所有`swiper`中的`api`
 * [`vue-lazyload`](https://github.com/hilongjw/vue-lazyload): `vue`图片懒加载插件
