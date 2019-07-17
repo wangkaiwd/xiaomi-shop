@@ -1,4 +1,4 @@
-# `vue`仿小米商城 -- 干货分享：组件封装实战、`webpack`优化、`webstorm`使用小技巧
+# `vue`仿小米商城 -- 小作坊实战记录
 > 这是一个仿小米商城的`vue`全家桶项目，[点击预览](https://wangkaiwd.github.io/xiaomi-shop/)
 
 项目环境介绍：  
@@ -628,8 +628,21 @@ export default {
 
 项目`src`目录下新建3个文件： `a.js`,`b.js`,`c.js`，其中`a.js`是入口文件（即最先执行）,每个文件中的代码如下:  
 ```js
-// a.
+// a.js
+console.log('a.js');
+import './b.js'
+
+// b.js
+console.log('b.js');
+import './c.js'
+
+// c.js
+console.log('c.js');
+import './a.js'
 ```
+最后的输出结果是怎样的呢？反正这里是颠覆了笔者的认知
+
+参考资料： [`Module`的加载实现](https://es6.ruanyifeng.com/#docs/module-loader)
 
 ## 结语
 这次的项目书写和总结大概耗费了2个月的时间，笔者将自己看到的和学到的东西都分享了出来，希望对大家有帮助。  
