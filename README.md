@@ -1,4 +1,4 @@
-# 仿小米商城 -- `vue`通用组件实战
+# `vue`仿小米商城 -- 干货分享：组件封装实战、`webpack`优化、`webstorm`使用小技巧
 > 这是一个仿小米商城的`vue`全家桶项目，[点击预览](https://wangkaiwd.github.io/xiaomi-shop/)
 
 项目环境介绍：  
@@ -52,7 +52,7 @@ yarn global upgrade @vue/cli
 3. 配置路径别名
 4. 配置文件扩展项
 5. 自动引入全局`css`
-6. 设置`icon`图标路径
+6. 设置`favicon`图标路径
 7. 移除打包后的`console.log`
 8. 通过`HardSourceWebpackPlugin`缓存打包中间步骤，提升性能
 9. 开启`gzip`
@@ -60,6 +60,8 @@ yarn global upgrade @vue/cli
 
 这里也有一份社区总结的一份`vue.config.js`的详细配置文件： [传送门](https://github.com/staven630/vue-cli3-config)
 
+这里着重说一下`HardSourceWebpackPlugin`和`autodll-webpack-plugin`插件。在项目中使用这俩个插件之后，首次打包速度并不会提升太多，但是第二次打包会节省将近80%的打包时间。如果有小伙伴遇到打包特别慢的情况可以尝试使用(`React`项目中配置也很简单)。
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-build-speed.png)
 ### `webstorm`实用技巧
 我们可以为`webstorm`提供`webpack`配置文件，来让`webstorm`实现对路径别名以及后缀等配置的识别，极大的方便了`webstorm`对我们的路径补全和代码自动引入。
 
@@ -212,6 +214,7 @@ requireComponent.keys().forEach(filename => {
 * `popup`弹出框组件(`MuiPopup`)
 * `dialog`对话框组件(`MuiDialog`)
 * `toast`全局提示(`MuiToast`)
+* `number`商品添加按钮(`MuiNumber`)
 
 这里主要讲一下`icon`和`Toast`组件的实现过程，其它组件的实现过程小伙伴可以看源代码。 
   
@@ -342,12 +345,157 @@ requireComponent.keys().forEach(filename => {
 * 通过`...restProps`将其余的属性扩展到对应的节点上
 
 ### `toast`组件
-这里的`toast`和其它组件的使用方式不一样，它是通过使用`Vue.use`来进行全局注册。
+这里的`toast`和其它组件的使用方式不一样，它是通过使用`Vue.use`来进行全局注册。当我们使用`Vue.use`方式时，我们传入的内容要暴露一个`install`方法，这个方法会传入`vue`实例以及配置项`options`作为参数。  
+```js
+export default {
+  install (Vue,options) {
+    
+  }
+};
+```
+我们简单瞄一眼源码会发现：在执行`Vue.use`的时候，**也会执行上边的`install`方法**。
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-vue.use.png)
+
+`vue`社区中，我们经常会看到通过`vue`实例上的函数来直接调用组件的例子：  
+```js
+this.$toast('这是一个toast');
+this.$toast({ message: '加载中...', type: 'loading', mask: true })
+```
+
+这种调用方式是因为我们在`vue`的原型上绑定了对应的方法，之后便可以在`vue`的实例对象上直接访问，结合我们上面说到的内容，代码大概是这样的：  
+```js
+export default {
+  install (Vue) {
+    Vue.prototype.$toast = (options) => {
+      // doSomeThing
+    };
+  }
+};
+```
+这样我们就可以通过`Vue.use`来为`vue`原型上添加`$toast`方法，方便直接在组件中调用。
+
+到这里，我们大概确定了我们组件的调用方式，调用时的传参我们进行如下设计：  
+* `message`：提示信息
+* `mask`: 是否有遮罩层
+* `type`: 提示类型，当传入`loading`时，可以显示加载状态
+* `icon`: 提示字体图标展示
+* `duration`: 提示信息展示事件，单位毫秒，传入0不会自动关闭
+
+贴上我的实现代码(不包括`css`):  
+```vue
+<template>
+  <transition name="fade">
+    <div class="mui-toast" v-if="visible">
+      <div class="mui-toast-content" :class="{hasIcon}">
+        <div class="mui-toast-icon" v-if="hasIcon">
+          <mui-icon class="mui-toast-icon-loading" v-if="isLoading" name="loading"></mui-icon>
+          <mui-icon v-else :name="icon"></mui-icon>
+        </div>
+        {{message}}
+      </div>
+      <div class="mui-toast-mask" v-if="mask"></div>
+    </div>
+  </transition>
+</template>
+
+<script>
+  export default {
+    name: 'MuiToast',
+    props: {
+      message: {
+        type: String,
+      },
+      mask: {
+        type: Boolean,
+        default: false
+      },
+      type: {
+        type: String,
+        validator (value) {
+          return ['default', 'loading'].includes(value);
+        },
+        default: 'default'
+      },
+      icon: { type: String },
+      duration: {
+        type: Number,
+        default: 3000
+      }
+    },
+    data () {
+      return {
+        visible: false
+      };
+    },
+    computed: {
+      isLoading () {
+        return this.type === 'loading';
+      },
+      hasIcon () {
+        return this.isLoading || this.icon;
+      }
+    },
+    mounted () {
+      this.visible = true;
+      this.autoClose();
+    },
+    methods: {
+      closeToast () {
+        this.visible = false;
+        this.$nextTick(() => {
+          this.$el.remove();
+          this.$destroy();
+        });
+      },
+      autoClose () {
+        if (this.duration === 0 || this.type === 'loading') {return;}
+        setTimeout(() => {
+          this.closeToast();
+        }, this.duration);
+      }
+    }
+  };
+</script>
+```
+动画实现的思路是先在`data`中定义`visible:false`,之后再组件挂载完成后设置`visible:true`，这样结合`transition`组件就可以实现组件出现和销毁时的动画了。
+
+需要注意的是，如果我们分别为`transition`中的**根元素中的子元素指定过渡动画的时候，需要显式的指定过渡时间，否则动画效果不会生效**
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-vue-transition-duration.png)
+
+[文档地址](https://cn.vuejs.org/v2/guide/transitions.html#%E6%98%BE%E6%80%A7%E7%9A%84%E8%BF%87%E6%B8%A1%E6%8C%81%E7%BB%AD%E6%97%B6%E9%97%B4)
+
+在组件创建完成后，我们并不能直接调用，而是要通过`vue`的一些`api`来动态生成组件，并将内容渲染到`body`中：  
+```js
+export default {
+  install (Vue) {
+    Vue.prototype.$toast = (options) => {
+      // 为`Vue.extend`传入`Toast`组件配置项来生成构造函数
+      const componentClass = Vue.extend(Toast);
+      // 通过构造函数动态创建`toastInstance`
+      const toastInstance = new componentClass({
+        // 通过propsData来进行参数传递
+        propsData: options,
+      });
+      // 如果没有为$mount指定渲染节点，可以通过原生DOM API来将组件插入到文档中
+      toastInstance.$mount();
+      document.body.appendChild(toastInstance.$el);
+    };
+  }
+};
+
+```
+关于动态创建`vue`组件并渲染到页面中，可以参考这篇文章： [](https://css-tricks.com/creating-vue-js-component-instances-programmatically/)
+
+到这里，一个基本的`Toast`组件大概就完成了
 
 
-
+经过测试，我又发现了如下问题：  
+* 多次点击重复创建组件
+* 无法在组件外部关闭组件，导致`loading`无法关闭
 
 ## 结语
+这次的项目书写和总结大概耗费了2个月的时间，笔者将自己看到的和学到的东西都分享了出来，希望对大家有帮助。  
+
 开源不易，希望大家能给个`start`给与鼓励，让社区中乐于分享的开发者创造出更好的作品。
 
-源码地址： `https://github.com/wangkaiwd/xiaomi-shop`
+源码地址：[xiaomi-shop](https://github.com/wangkaiwd/xiaomi-shop)

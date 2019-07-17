@@ -27,9 +27,9 @@
       type: {
         type: String,
         validator (value) {
-          return ['custom', 'success', 'loading'].includes(value);
+          return ['default', 'loading'].includes(value);
         },
-        default: 'custom'
+        default: 'default'
       },
       icon: { type: String },
       duration: {

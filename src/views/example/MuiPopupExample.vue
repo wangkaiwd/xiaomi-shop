@@ -37,9 +37,9 @@
           type: 'loading',
           mask: true
         });
-        // setTimeout(() => {
-        //   closeToast();
-        // }, 4000);
+        setTimeout(() => {
+          closeToast();
+        }, 4000);
       },
       showDialog () {
         Dialog.alert({
