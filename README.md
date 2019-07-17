@@ -489,9 +489,49 @@ export default {
 到这里，一个基本的`Toast`组件大概就完成了
 
 
-经过测试，我又发现了如下问题：  
+经过测试，我大概发现了如下问题：  
 * 多次点击重复创建组件
 * 无法在组件外部关闭组件，导致`loading`无法关闭
+* 提供简化调用方式: `this.$toast(message)`,并不用传入复杂的配置项，方便使用
+
+这里我们通过一个外部变量来接收生成的组件实例，并在每次创建时将旧的实例和`DOM`结构从页面中删除。在通过函数创建组件后会返回一个关闭组件函数，我们可以直接调：  
+```js
+import Toast from './MuiToast';
+let toastInstance = null;
+export default {
+  install (Vue) {
+    Vue.prototype.$toast = (options) => {
+      // 组件已经存在的话销毁重新创建
+      if (toastInstance) { // 这里可以通过实例来直接调用组件中的方法
+        toastInstance.closeToast();
+      }
+      const componentClass = Vue.extend(Toast);
+      if (typeof options === 'string') {
+        options = { message: options };
+      }
+      toastInstance = new componentClass({
+        propsData: options,
+      });
+      toastInstance.$mount();
+      document.body.appendChild(toastInstance.$el);
+      // 在组件调用后返回关闭函数
+      return toastInstance.closeToast;
+    };
+  }
+};
+```
+在项目中使用效果如下：  
+![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-toast-demo.gif)
+
+## 知识趣谈
+在项目的书写过程中，关于`es6`中`import`和`export`使用又多了一份心得。
+
+这里想出一道题来考考小伙伴，有兴趣的请在下方留言。
+
+项目`src`目录下新建3个文件： `a.js`,`b.js`,`c.js`，其中`a.js`是入口文件（即最先执行）,每个文件中的代码如下:  
+```js
+// a.
+```
 
 ## 结语
 这次的项目书写和总结大概耗费了2个月的时间，笔者将自己看到的和学到的东西都分享了出来，希望对大家有帮助。  
@@ -499,3 +539,5 @@ export default {
 开源不易，希望大家能给个`start`给与鼓励，让社区中乐于分享的开发者创造出更好的作品。
 
 源码地址：[xiaomi-shop](https://github.com/wangkaiwd/xiaomi-shop)
+
+我的另一个`vue`实战项目：[`vue+element`后台管理系统](https://github.com/wangkaiwd/vue-admin),当`vue`结合`element ui`又会擦出不一样的火花。
