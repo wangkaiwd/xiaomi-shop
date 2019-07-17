@@ -28,6 +28,94 @@
 
 在编写代码的过程中我会注意自己的代码规范以及命名的可读性，我也会在这个过程中边学习边记录。接下来让我们一起开启这一段令人期待的旅程吧！
 
+## 快速启动
+通过如下命令我们可以快速将项目运行，打包和发布：  
+```npm
+git clone git@github.com:wangkaiwd/xiaomi-shop.git
+cd xiaomi-shop
+# 启动项目
+yarn start
+# 打包项目
+yarn build
+# 分析项目打包文件
+yarn build:analysis
+# 部署到github page
+yarn deploy
+```
+项目的目录结构如下：  
+```text
+xiaomi-shop
+├─ .browserslistrc
+├─ .env.analysis                              // vue cli环境变量文件
+├─ .gitignore
+├─ README.md
+├─ babel.config.js
+├─ deploy.sh                                  // 项目部署脚本
+├─ package.json
+├─ postcss.config.js
+├─ public
+│    ├─ favicon.ico
+│    ├─ img
+│    │    └─ icons
+│    ├─ index.html
+│    ├─ manifest.json
+│    └─ robots.txt
+├─ screenshots                                // 项目截图
+│    ├─ calc-scss.png
+│    ├─ icon-font-link.png
+│    └─ icon-font-prefix.png
+├─ src
+│    ├─ MiApp.vue
+│    ├─ api                                   // 接口api
+│    │    └─ index.js
+│    ├─ assets                                // 静态资源
+│    │    ├─ img
+│    │    └─ styles
+│    ├─ components                            // 通用组件
+│    │    ├─ dialog
+│    │    ├─ footerNav
+│    │    ├─ guessLove
+│    │    ├─ icon
+│    │    ├─ layout
+│    │    ├─ number
+│    │    ├─ popup
+│    │    ├─ skeleton
+│    │    ├─ toast
+│    │    └─ topHeader
+│    ├─ config                                // 项目配置项
+│    │    └─ navConfig.js
+│    ├─ helpers                               // 帮助函数
+│    │    ├─ autoRegister.js
+│    │    ├─ dom
+│    │    ├─ globalPlugin.js
+│    │    ├─ pxToVw.js
+│    │    ├─ regConfig.js
+│    │    ├─ routeNavigation.js
+│    │    └─ validator.js
+│    ├─ http                                  // axios相关封装
+│    │    ├─ axiosConfig.js
+│    │    └─ request.js
+│    ├─ main.js                               // 入口文件
+│    ├─ registerServiceWorker.js
+│    ├─ router                                // 路由配置
+│    │    ├─ lazyLoading.js
+│    │    └─ router.js
+│    ├─ store                                 // vuex
+│    │    └─ store.js
+│    └─ views                                 // 项目页面
+│           ├─ category
+│           ├─ detail
+│           ├─ example
+│           ├─ home
+│           ├─ homeCategory
+│           ├─ login
+│           ├─ mine
+│           ├─ search
+│           └─ shopCart
+├─ vue.config.js                              // webpack配置
+└─ yarn.lock
+```
+
 ## 项目创建
 这里我们使用`vue`官方提供的`vue cli`来进行项目初始化：  
 ```npm
@@ -62,6 +150,16 @@ yarn global upgrade @vue/cli
 
 这里着重说一下`HardSourceWebpackPlugin`和`autodll-webpack-plugin`插件。在项目中使用这俩个插件之后，首次打包速度并不会提升太多，但是第二次打包会节省将近80%的打包时间。如果有小伙伴遇到打包特别慢的情况可以尝试使用(`React`项目中配置也很简单)。
 ![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/xiaomi-shop-build-speed.png)
+
+完成之后再`package.json`中添加相应的快捷方式：  
+```json
+"scripts": {
+  "start": "vue-cli-service serve",
+  "build": "vue-cli-service build",
+  "build:analysis": "vue-cli-service build --mode analysis",
+  "deploy": "sh ./deploy.sh"
+},
+```
 ### `webstorm`实用技巧
 我们可以为`webstorm`提供`webpack`配置文件，来让`webstorm`实现对路径别名以及后缀等配置的识别，极大的方便了`webstorm`对我们的路径补全和代码自动引入。
 
