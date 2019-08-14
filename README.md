@@ -321,8 +321,7 @@ requireComponent.keys().forEach(filename => {
 
 项目中用到的`icon`图标是通过`iconfont`网站进行获取： [传送门](www.iconfont.cn)。这里我们使用的是`symbol`的方式来进行实现，可以支持多色图标，也可以通过`font-size`，`color`来进行样式的调整。
 
-首先我们需要在图标库选好自己的图标，之后我们可以为我们图标所在的项目进行简单设置：  
-![icon-font-prefix](./screenshots/icon-font-prefix.png)
+首先我们需要在图标库选好自己的图标，之后我们可以为我们图标所在的项目进行简单设置：  ![](https://raw.githubusercontent.com/wangkaiwd/drawing-bed/master/icon-font-prefix.png)
 
 然后我们选择`symbol`类型的图标，并将地址复制到`pubic/index.html`中。
 
@@ -652,3 +651,5 @@ import './a.js'
 源码地址：[xiaomi-shop](https://github.com/wangkaiwd/xiaomi-shop)
 
 我的另一个`vue`实战项目：[`vue+element`后台管理系统](https://github.com/wangkaiwd/vue-admin),当`vue`结合`element ui`又会擦出不一样的火花。
+
+如果你想自己配置`webpack`可以参考我的这篇文章：[`webpack入门手记`](https://github.com/wangkaiwd/webpack-in-depth)
