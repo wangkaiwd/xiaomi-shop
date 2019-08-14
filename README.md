@@ -2,11 +2,13 @@
 > 这是一个仿小米商城的`vue`全家桶项目，[点击预览](https://wangkaiwd.github.io/xiaomi-shop/)
 
 项目环境介绍：  
+
 * 系统：`macos`
 * 包管理工具： `yarn`
 * `Node`: `v12.4.0`
 
 项目会完成的页面和功能：  
+
 * 登录页面 -> 封装表单校验方法
 * 首页 -> 实现前进后退路由动画
 * 分类页 -> 使用第三方懒加载组件
@@ -16,6 +18,7 @@
 项目中有适当加入一些动画来使交互更加丰富
 
 项目涉及到的大概知识：  
+
 * `vue 3.x`最新脚手架使用
 * `webstorm`使用小技巧
 * `webpack`配置优化
@@ -135,6 +138,7 @@ yarn global upgrade @vue/cli
 接下来我们在`vue.config.js`对`webpack`进行配置，我的配置代码在这里：[传送门](./vue.config.js)
 
 配置文件大概做了下面几件事：  
+
 1. 关闭`eslint`
 2. 设置全局变量，方便实现不同环境的打包
 3. 配置路径别名
@@ -197,6 +201,7 @@ module.exports = {
 
 ### 安装第三方项目依赖
 项目中我们也用到了一些社区内优秀的第三方插件：  
+
 * [`vue-awesome-swiper`](https://github.com/surmon-china/vue-awesome-swiper): `vue`版的`swiper`插件，支持所有`swiper`中的`api`
 * [`vue-lazyload`](https://github.com/hilongjw/vue-lazyload): `vue`图片懒加载插件
 * [`axios`](https://github.com/axios/axios) : 支持以`Promise`的形式来发送`http`请求
@@ -260,6 +265,7 @@ module.exports = {
 
 ### 踩坑指南
 在使用`vw`适配方案的过程中，大概遇到了下面俩个问题：  
+
 * 使用伪元素添加`content`属性时命令行会提示`error`
 * 设置的`style`无法转换为`vw`
 
@@ -307,6 +313,7 @@ requireComponent.keys().forEach(filename => {
 当然这里有需要我们定义好命名规范：**组件名必须要以`Mui`开头，并且遵循驼峰命名的规则**
 
 根据项目需要，我实现了以下通用组件：
+
 * `layout`布局组件(`MuiLayout,MuiHeder,MuiFooter,MuiAside,MuiContent`)
 * `icon`字体图标组件(`MuiIcon`)
 * `popup`弹出框组件(`MuiPopup`)
@@ -404,10 +411,12 @@ requireComponent.keys().forEach(filename => {
 ```
 
 在日常的项目中，我们还会遇到如下需求：  
+
 * 鼠标移入`icon`图标，图标旋转
 * 点击`icon`进行页面跳转
 
 诸如此类的需求我们不可能一个一个为`icon`组件添加对应的属性和方法，这里我们运用到`vue`中几个不太常用的`api`:  
+
 * `v-on`和`v-bind`绑定对象： 会将对象的属性分发到当前节点
 * `$attrs`: 可以获取没有在`props`中定义的属性
 * `$listens`：获取父作用域中不含`.native`修饰器的`v-on`事件监听器
@@ -438,6 +447,7 @@ requireComponent.keys().forEach(filename => {
 这样书写之后，`icon`组件就可以接受任意的`svg`原生支持的事件和属性。
 
 在`react`中，我们也会碰到类似的需求，并且在`react`中不会帮我们对`class`进行合并。所以在`react`中的思路大概如下:  
+
 * 单独对`class`进行处理，手动拼接为多类名格式(`Vue`这里已经帮我们做好)
 * 通过`...restProps`将其余的属性扩展到对应的节点上
 
@@ -472,6 +482,7 @@ export default {
 这样我们就可以通过`Vue.use`来为`vue`原型上添加`$toast`方法，方便直接在组件中调用。
 
 到这里，我们大概确定了我们组件的调用方式，调用时的传参我们进行如下设计：  
+
 * `message`：提示信息
 * `mask`: 是否有遮罩层
 * `type`: 提示类型，当传入`loading`时，可以显示加载状态
@@ -587,6 +598,7 @@ export default {
 
 
 经过测试，我大概发现了如下问题：  
+
 * 多次点击重复创建组件
 * 无法在组件外部关闭组件，导致`loading`无法关闭
 * 提供简化调用方式: `this.$toast(message)`,并不用传入复杂的配置项，方便使用
